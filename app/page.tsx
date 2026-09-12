@@ -22,6 +22,17 @@ export default async function HomePage() {
   ]);
 
   if (songError) {
+    // Log it: without this the page degrades silently and a misconfigured
+    // deploy looks identical to an empty songbook.
+    console.error('[songbook] could not load songs', {
+      message: songError.message,
+      code: songError.code,
+      details: songError.details,
+      hint: songError.hint,
+      supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
+      anonKeyPrefix: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.slice(0, 12),
+    });
+
     return (
       <>
         <Hero title={<>Campfire<br />Song Book</>} lede="The songbook could not be loaded just now." />
