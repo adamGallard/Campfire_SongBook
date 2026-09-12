@@ -1,0 +1,43 @@
+import Link from 'next/link';
+import { requireAdmin } from '@/lib/auth';
+import { createClient } from '@/lib/supabase/server';
+import { signOut } from './actions';
+
+export const metadata = { title: 'Admin · Campfire Song Book' };
+
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+  const admin = await requireAdmin();
+
+  const supabase = await createClient();
+  const { count } = await supabase
+    .from('submissions')
+    .select('id', { count: 'exact', head: true })
+    .eq('status', 'pending');
+
+  const pending = count ?? 0;
+
+  return (
+    <>
+      <div className="admin-bar">
+        <div className="wrap">
+          <strong className="footname">Songbook admin</strong>
+          <nav className="admin-nav">
+            <Link href="/admin">Overview</Link>
+            <Link href="/admin/songs">Songs</Link>
+            <Link href="/admin/submissions">
+              Submissions {pending > 0 ? <span className="badge">{pending}</span> : null}
+            </Link>
+            <Link href="/admin/admins">Admins</Link>
+            <Link href="/">View site</Link>
+            <form action={signOut}>
+              <button type="submit" title={admin.email ?? undefined}>
+                Sign out
+              </button>
+            </form>
+          </nav>
+        </div>
+      </div>
+      {children}
+    </>
+  );
+}

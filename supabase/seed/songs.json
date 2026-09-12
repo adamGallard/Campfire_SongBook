@@ -1,0 +1,591 @@
+[
+  {
+    "num": 1,
+    "title": "Campfires Burning",
+    "tag": "round",
+    "category": "Opener · round",
+    "tune": "Tune: “Frère Jacques” · sing it as a three-part round",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "Campfires burning, campfires burning,\nDraw nearer, draw nearer,\nIn the glowing, in the glowing,\nCome sing and be merry."
+      },
+      {
+        "type": "note",
+        "text": "Split into three groups. The second starts when the first reaches “draw nearer”, the third when the second does."
+      }
+    ]
+  },
+  {
+    "num": 2,
+    "title": "Ging Gang Goolie",
+    "tag": "loud",
+    "category": "Loud",
+    "tune": "Tune: traditional — the oldest Scout campfire chant there is",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "Ging gang gooli gooli gooli gooli watcha,\nGing gang goo, ging gang goo.\nGing gang gooli gooli gooli gooli watcha,\nGing gang goo, ging gang goo."
+      },
+      {
+        "type": "verse",
+        "text": "Heyla, heyla sheyla, heyla sheyla, heyla ho,\nHeyla, heyla sheyla, heyla sheyla, heyla ho."
+      },
+      {
+        "type": "verse",
+        "text": "Shalli-walli, shalli-walli, shalli-walli, shalli-walli,\nOompa, oompa, oompa, oompa."
+      },
+      {
+        "type": "note",
+        "text": "It means nothing at all — that's the point. Once through slowly, then as fast as you can manage."
+      }
+    ]
+  },
+  {
+    "num": 3,
+    "title": "There Ain't No Flies On Us",
+    "tag": "loud",
+    "category": "Loud",
+    "tune": "Tune: “The Girl I Left Behind Me” · point at the other patrol",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "There ain't no flies on us,\nThere ain't no flies on us.\nThere might be flies on some of you guys,\nBut there ain't no flies on us!"
+      },
+      {
+        "type": "note",
+        "text": "Patrol against patrol — swap “you guys” for the other mob's name."
+      }
+    ]
+  },
+  {
+    "num": 4,
+    "title": "Singing In The Rain",
+    "tag": "actions",
+    "category": "Actions",
+    "tune": "Tune: “Singin' in the Rain” · add one action each time through",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "We're singing in the rain, just singing in the rain,\nWhat a glorious feeling, we're happy again.\n_Hang about!_"
+      },
+      {
+        "type": "verse",
+        "text": "Thumbs up! _(everyone echoes)_\nA-root-ta-ta, root-ta-ta, root-ta-ta-TA!"
+      },
+      {
+        "type": "grid",
+        "heading": "Add each in turn, keeping the last",
+        "items": [
+          "Thumbs up",
+          "Arms out",
+          "Elbows in",
+          "Knees bent",
+          "Knees together",
+          "Toes together",
+          "Bottom out",
+          "Chest out",
+          "Head back",
+          "Tongue out"
+        ]
+      },
+      {
+        "type": "note",
+        "text": "By the last verse nobody can sing a word — that's when you stop."
+      }
+    ]
+  },
+  {
+    "num": 5,
+    "title": "Boom Chicka Boom",
+    "tag": "echo",
+    "category": "Echo",
+    "tune": "Spoken, not sung — the leader calls each line, everyone repeats it",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "I said a-boom-chicka-boom,\nI said a-boom-chicka-boom,\nI said a-boom-chicka-rocka-chicka-rocka-chicka-boom.\nUh-huh! Oh yeah!\nOne more time, _(name a)_ style!"
+      },
+      {
+        "type": "box",
+        "heading": "Styles to call",
+        "items": [
+          "**Flower:** I said a bloom chicka bloom, I said a bloom chicka blossom smell those flowers chicka bloom.",
+          "**Race car:** I said a vroom shifta vroom, I said a vroom shifta grind-a shifta grind-a shifta vroom.",
+          "**Astronaut:** I said a moon shoot the moon, I said a moon blast-me shoot-me blast-me shoot-me-to-the-moon.",
+          "**Fire:** I said an OUCH chicka OUCH, I said an OUCH burnt my finger in the fire chicka OUCH."
+        ]
+      },
+      {
+        "type": "note",
+        "text": "Then invent your own: underwater, opera, slow-motion, Cub style."
+      }
+    ]
+  },
+  {
+    "num": 6,
+    "title": "Alice The Camel",
+    "tag": "actions",
+    "category": "Actions",
+    "tune": "Tune: traditional · count down from five, bump hips on every “boom”",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "Alice the camel has five humps,\nAlice the camel has five humps,\nAlice the camel has five humps,\nSo go, Alice, go — boom, boom, boom!"
+      },
+      {
+        "type": "note",
+        "text": "Repeat with four humps, three, two, one…"
+      },
+      {
+        "type": "verse",
+        "text": "Alice the camel has no humps,\nAlice the camel has no humps,\nAlice the camel has no humps,\n'Cos Alice is a horse!"
+      }
+    ]
+  },
+  {
+    "num": 7,
+    "title": "Meat Balls Song",
+    "tag": "loud",
+    "category": "Story song",
+    "tune": "Tune: “On Top of Old Smoky”",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "On top of spaghetti,\nAll covered with cheese,\nI lost my poor meatball,\nWhen somebody sneezed."
+      },
+      {
+        "type": "verse",
+        "text": "It rolled off the table,\nAnd on to the floor,\nAnd then my poor meatball,\nRolled out of the door."
+      },
+      {
+        "type": "verse",
+        "text": "It rolled in the garden,\nAnd under a bush,\nAnd then my poor meatball,\nWas nothing but mush."
+      },
+      {
+        "type": "verse",
+        "text": "The mush was as tasty,\nAs tasty could be,\nAnd then the next summer,\nIt grew into a tree."
+      },
+      {
+        "type": "verse",
+        "text": "The tree was all covered,\nAll covered with moss,\nAnd on it grew meatballs,\nAnd tomato sauce."
+      },
+      {
+        "type": "verse",
+        "text": "So if you eat spaghetti,\nAll covered with cheese,\nHold on to your meatball,\nWhenever you sneeze!"
+      }
+    ]
+  },
+  {
+    "num": 8,
+    "title": "Kum Ba Yah",
+    "tag": "quiet",
+    "category": "Quiet",
+    "tune": "Tune: traditional spiritual · slow, soft, one verse at a time",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "Kum ba yah, my Lord, kum ba yah,\nKum ba yah, my Lord, kum ba yah,\nKum ba yah, my Lord, kum ba yah,\nO Lord, kum ba yah."
+      },
+      {
+        "type": "verse",
+        "text": "Someone's crying, Lord, kum ba yah… _(×3)_\nO Lord, kum ba yah."
+      },
+      {
+        "type": "verse",
+        "text": "Someone's singing, Lord, kum ba yah… _(×3)_\nO Lord, kum ba yah."
+      },
+      {
+        "type": "verse",
+        "text": "Someone's praying, Lord, kum ba yah… _(×3)_\nO Lord, kum ba yah."
+      }
+    ]
+  },
+  {
+    "num": 9,
+    "title": "Grand Old Duke Of York",
+    "tag": "actions",
+    "category": "Actions",
+    "tune": "Tune: traditional marching song · stand on “up”, sit on “down”",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "Oh, the Grand old Duke of York,\nHe had ten thousand men,\nHe marched them up to the top of the hill,\nAnd he marched them down again."
+      },
+      {
+        "type": "verse",
+        "text": "And when they were up, they were up,\nAnd when they were down, they were down,\nAnd when they were only half way up,\nThey were neither up nor down."
+      },
+      {
+        "type": "note",
+        "text": "Faster each time round until everyone collapses."
+      }
+    ]
+  },
+  {
+    "num": 10,
+    "title": "Bingo",
+    "tag": "actions",
+    "category": "Actions",
+    "tune": "Tune: traditional · one more clap replaces one more letter",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "There was a dog in my back yard,\nAnd Bingo was his name-o.\nB—I—N—G—O,\nB—I—N—G—O,\nB—I—N—G—O,\nAnd Bingo was his name-o."
+      },
+      {
+        "type": "box",
+        "heading": "How it builds",
+        "items": [
+          "Round 2 — _clap_ I N G O",
+          "Round 3 — _clap clap_ N G O",
+          "Round 4 — _clap clap clap_ G O",
+          "Right through to five claps and no letters at all."
+        ]
+      }
+    ]
+  },
+  {
+    "num": 11,
+    "title": "A Pizza Hut",
+    "tag": "actions",
+    "category": "Actions",
+    "tune": "Spoken chant · a hand shape for every food",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "A pizza hut, a pizza hut,\nFried chicken and a pizza hut.\nA pizza hut, a pizza hut,\nFried chicken and a pizza hut."
+      },
+      {
+        "type": "verse",
+        "text": "Burger bar, burger bar,\nFried chicken and a pizza hut.\nBurger bar, burger bar,\nFried chicken and a pizza hut."
+      },
+      {
+        "type": "box",
+        "heading": "The hands",
+        "items": [
+          "**Pizza hut** — draw a roof-shaped triangle in the air.",
+          "**Fried chicken** — flap your elbows like wings.",
+          "**Burger bar** — draw a big “M” with both hands."
+        ]
+      }
+    ]
+  },
+  {
+    "num": 12,
+    "title": "Kookaburra Song",
+    "tag": "round",
+    "category": "Round",
+    "tune": "Tune: traditional Australian round · four parts if you're brave",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "Kookaburra sits in the old gum tree,\nMerry, merry king of the bush is he.\nLaugh, Kookaburra, laugh, Kookaburra,\nGay your life must be."
+      },
+      {
+        "type": "verse",
+        "text": "Kookaburra sits on an electric wire,\nJumping up and down with his pants on fire.\nOuch, Kookaburra, ouch, Kookaburra,\nHow your tail must hurt."
+      },
+      {
+        "type": "verse",
+        "text": "Kookaburra sits on a rusty nail,\nGets a boo-boo in his tail.\nCry, Kookaburra, cry, Kookaburra,\nHow life can be cruel."
+      }
+    ]
+  },
+  {
+    "num": 13,
+    "title": "Pirate Song",
+    "tag": "actions",
+    "category": "Actions",
+    "tune": "Tune: traditional · lean with every direction, faster each verse",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "'Twas a **sunny** day when I went to play,\nDown by the sea.\nI climbed aboard a pirate ship,\nAnd the captain said to me:"
+      },
+      {
+        "type": "verse",
+        "text": "“We're going this way, that way,\nForwards, backwards,\nUp and down, up and down,\nOver the deep blue sea.”"
+      },
+      {
+        "type": "pills",
+        "items": [
+          "windy day",
+          "rainy day",
+          "snowy day",
+          "stormy day"
+        ]
+      },
+      {
+        "type": "note",
+        "text": "Finish by singing the captain's lines twice through, as fast as you can."
+      }
+    ]
+  },
+  {
+    "num": 14,
+    "title": "Scout Vespers",
+    "tag": "quiet",
+    "category": "Quiet",
+    "tune": "Tune: “O Tannenbaum” · the last song, sung standing in a circle",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "Softly falls the light of day,\nWhile our campfire fades away.\nSilently each Scout should ask,\n“Have I done my daily task?"
+      },
+      {
+        "type": "verse",
+        "text": "Have I kept my honour bright?\nCan I guiltless sleep tonight?\nHave I done and have I dared\nIn everything to be prepared?”"
+      },
+      {
+        "type": "verse",
+        "text": "Listen, Lord, oh listen, Lord,\nAs I whisper soft and low.\nBless my mum and bless my dad,\nThere is something they should know."
+      },
+      {
+        "type": "verse",
+        "text": "I have kept my honour bright,\nThe Promise and Law have been my guide.\nMum and Dad, this you should know,\nDeep in my heart I love you so."
+      }
+    ]
+  },
+  {
+    "num": 15,
+    "title": "Baby Shark",
+    "tag": "actions",
+    "category": "Actions",
+    "tune": "Tune: traditional camp version · alligator hands, one bite per line",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "Baby shark, dut-do dut-dut-dut-do,\nBaby shark, dut-do dut-dut-dut-do,\nBaby shark, dut-do dut-dut-dut-do,\nBaby shark… **UHHHHH!**"
+      },
+      {
+        "type": "box",
+        "heading": "Repeat with",
+        "items": [
+          "**Mama shark** — alligator with elbows and hands",
+          "**Daddy shark** — alligator with whole arms",
+          "**Grandpa shark** — alligator with fists",
+          "**Hungry shark** — fin on your head, rub your stomach",
+          "**Swimmer** — swim for your life",
+          "**Lost a leg** — hop on one foot",
+          "**Happy shark** — fin on head and a big grin",
+          "**The end** — point at your bottom"
+        ]
+      }
+    ]
+  },
+  {
+    "num": 16,
+    "title": "Goin' On A Bear Hunt",
+    "tag": "echo",
+    "category": "Echo story",
+    "tune": "Spoken · the leader says each line, everyone echoes it back",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "Goin' on a bear hunt,\nI'm not afraid!\nIt's a beautiful day,\nThe sun is shining,\nThe birds are singing,\nThe bees are buzzing."
+      },
+      {
+        "type": "verse",
+        "text": "What's that? **Tall grass!**\n_Sweep your arms, swish-swish-swish._"
+      },
+      {
+        "type": "verse",
+        "text": "What's that? **A tall tree!**\n_Climb all the way up, then back down._"
+      },
+      {
+        "type": "verse",
+        "text": "What's that? **Ohh, it's mud!**\n_March through it — slosh, slosh, slosh._"
+      },
+      {
+        "type": "verse",
+        "text": "What's that? **It's a river!**\nWe're going to have to swim.\n_Swim hard across it._"
+      },
+      {
+        "type": "verse",
+        "text": "What's that? **Ohh, it's a dark cave…**\n_Drop to a whisper here._"
+      },
+      {
+        "type": "verse",
+        "text": "I can't see anything.\nI can feel something.\nI can hear something.\nWe'd better take out our torches.\n_Click it on._"
+      },
+      {
+        "type": "shout",
+        "text": "Oh — it's a bear. RUN!"
+      },
+      {
+        "type": "note",
+        "text": "Chant “I'm not afraid!” between every obstacle. Then back through the cave, the river, the mud, the tree, the grass — in reverse, at top speed."
+      }
+    ]
+  },
+  {
+    "num": 17,
+    "title": "Waltzing Matilda",
+    "tag": "loud",
+    "category": "Anthem",
+    "tune": "Tune: traditional Australian · chorus after every verse",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "Once a jolly swagman camped by a billabong,\nUnder the shade of a coolibah tree,\nAnd he sang as he watched and waited till his billy boiled,\n“You'll come a-waltzing Matilda with me.”"
+      },
+      {
+        "type": "verse",
+        "text": "Waltzing Matilda, Waltzing Matilda,\nYou'll come a-waltzing Matilda with me,\nAnd he sang as he watched and waited till his billy boiled,\n“You'll come a-waltzing Matilda with me.”",
+        "label": "Chorus"
+      },
+      {
+        "type": "verse",
+        "text": "Down came a jumbuck to drink at that billabong,\nUp jumped the swagman and grabbed him with glee,\nAnd he sang as he shoved that jumbuck in his tucker bag,\n“You'll come a-waltzing Matilda with me.”"
+      },
+      {
+        "type": "verse",
+        "text": "Up rode the squatter, mounted on his thoroughbred,\nDown came the troopers, one, two, three,\n“Whose that jolly jumbuck you've got in your tucker bag?\nYou'll come a-waltzing Matilda with me.”"
+      },
+      {
+        "type": "verse",
+        "text": "Up jumped the swagman and sprang into the billabong,\n“You'll never catch me alive,” said he,\nAnd his ghost may be heard as you pass by that billabong,\n“You'll come a-waltzing Matilda with me.”"
+      }
+    ]
+  },
+  {
+    "num": 18,
+    "title": "The Quartermaster's Store",
+    "tag": "loud",
+    "category": "Loud",
+    "tune": "Tune: traditional marching song · chorus after every verse",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "There was cheese, cheese, wobbling in the breeze,\nIn the store, in the store.\nThere was cheese, cheese, wobbling in the breeze,\nIn the Quartermaster's store."
+      },
+      {
+        "type": "verse",
+        "text": "My eyes are dim, I cannot see,\nI have not brought my specs with me,\nI have not brought my specs with me.",
+        "label": "Chorus"
+      },
+      {
+        "type": "grid",
+        "heading": "Then swap the cheese for",
+        "items": [
+          "rats, rats, big as blooming cats",
+          "beans, beans, big as submarines",
+          "bread, bread, with great big lumps of lead",
+          "mice, mice, running through the rice",
+          "eggs, eggs, with little wooden legs",
+          "gravy, gravy, enough to sink the navy"
+        ]
+      }
+    ]
+  },
+  {
+    "num": 19,
+    "title": "Everywhere We Go",
+    "tag": "echo",
+    "category": "Echo",
+    "tune": "Shouted echo · leader calls, everyone answers louder",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "Everywhere we go-o, _(echo)_\nPeople want to know-o, _(echo)_\nWho we a-are, _(echo)_\nSo we tell them! _(echo)_"
+      },
+      {
+        "type": "verse",
+        "text": "We are _(your group)_, _(echo)_\nMighty, mighty _(your group)_! _(echo)_"
+      },
+      {
+        "type": "note",
+        "text": "And if they can't hear you — round again, a little louder."
+      }
+    ]
+  },
+  {
+    "num": 20,
+    "title": "Down By The Bay",
+    "tag": "actions",
+    "category": "Make it up",
+    "tune": "Tune: traditional · everyone takes a turn inventing the last line",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "Down by the bay, where the watermelons grow,\nBack to my home, I dare not go.\nFor if I do, my mother will say:\n“Did you ever see a goose, kissing a moose,\nDown by the bay?”"
+      },
+      {
+        "type": "box",
+        "heading": "Endings to steal",
+        "items": [
+          "a bear, combing his hair",
+          "a llama, wearing pyjamas",
+          "a whale, with a polka-dot tail",
+          "a snake, baking a cake",
+          "a fly, wearing a tie"
+        ]
+      }
+    ]
+  },
+  {
+    "num": 21,
+    "title": "Michael Finnegan",
+    "tag": "loud",
+    "category": "Never ends",
+    "tune": "Tune: traditional · a little faster every single time",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "There was an old man named Michael Finnegan,\nHe grew whiskers on his chinnegan,\nThe wind came out and blew them in again,\nPoor old Michael Finnegan —\n**begin again!**"
+      },
+      {
+        "type": "note",
+        "text": "There is no last verse. Somebody has to be brave enough to stop it."
+      }
+    ]
+  },
+  {
+    "num": 22,
+    "title": "Black Socks",
+    "tag": "round",
+    "category": "Round",
+    "tune": "Tune: traditional · three-part round, one group in every four beats",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "Black socks, they never get dirty,\nThe longer you wear them the stronger they get.\nSometimes I think I should wash them,\nBut something keeps telling me: don't do it yet,\nNot yet, not yet, not yet…"
+      }
+    ]
+  },
+  {
+    "num": 23,
+    "title": "Little Peter Rabbit",
+    "tag": "actions",
+    "category": "Actions",
+    "tune": "Tune: “Frère Jacques” · drop one word for an action each round",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "Little Peter Rabbit had a fly upon his ear,\nLittle Peter Rabbit had a fly upon his ear,\nLittle Peter Rabbit had a fly upon his ear,\nAnd he flicked it till it flew away."
+      },
+      {
+        "type": "note",
+        "text": "Round two: no “rabbit” — two fingers up for ears instead. Round three: no “fly” — buzz your finger. Round four: no “flicked” — flick your ear."
+      }
+    ]
+  },
+  {
+    "num": 24,
+    "title": "Day Is Done",
+    "tag": "quiet",
+    "category": "Last song",
+    "tune": "Tune: “Taps” · almost a whisper, as the coals go orange",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "Day is done, gone the sun,\nFrom the lake, from the hills, from the sky.\nAll is well, safely rest,\nGod is nigh."
+      },
+      {
+        "type": "verse",
+        "text": "Fading light dims the sight,\nAnd a star gems the sky, gleaming bright.\nFrom afar, drawing nigh,\nFalls the night."
+      }
+    ]
+  }
+]
