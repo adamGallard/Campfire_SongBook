@@ -1,80 +1,58 @@
-import Link from 'next/link';
-import { Songbook } from '@/components/Songbook';
-import { ReadingToggles } from '@/components/ReadingPrefs';
+import { Book } from '@/components/Book';
 import { Hero, Footer } from '@/components/SiteChrome';
 import { createPublicClient } from '@/lib/supabase/public';
 import { sanitizeBlocks } from '@/lib/blocks';
-import type { Song, Tag } from '@/lib/types';
+import type { Item, Kind, Tag } from '@/lib/types';
 
-// Songs change rarely; revalidate so an admin edit appears without a redeploy.
+// Content changes rarely; revalidate so an admin edit appears without a deploy.
 export const revalidate = 60;
 
 export default async function HomePage() {
   const supabase = createPublicClient();
 
-  const [{ data: songRows, error: songError }, { data: tagRows }] = await Promise.all([
+  const [{ data: itemRows, error }, { data: kindRows }, { data: tagRows }] = await Promise.all([
     supabase
-      .from('songs')
-      .select('id, slug, title, tag, category_label, tune, blocks, sort_order, published, created_at, updated_at')
+      .from('items')
+      .select('id, slug, title, kind, tag, category_label, tune, blocks, sort_order, published, created_at, updated_at')
       .eq('published', true)
       .order('sort_order'),
-    supabase.from('tags').select('slug, label, sort_order').order('sort_order'),
+    supabase.from('kinds').select('slug, label, singular, lede, sort_order, enabled').order('sort_order'),
+    supabase.from('tags').select('kind, slug, label, sort_order').order('sort_order'),
   ]);
 
-  if (songError) {
+  if (error) {
     // Log it: without this the page degrades silently and a misconfigured
-    // deploy looks identical to an empty songbook.
-    console.error('[songbook] could not load songs', {
-      message: songError.message,
-      code: songError.code,
-      details: songError.details,
-      hint: songError.hint,
+    // deploy looks identical to an empty book.
+    console.error('[songbook] could not load items', {
+      message: error.message,
+      code: error.code,
+      details: error.details,
+      hint: error.hint,
       supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
       anonKeyPrefix: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.slice(0, 12),
     });
 
     return (
       <>
-        <Hero title={<>Campfire<br />Song Book</>} lede="The songbook could not be loaded just now." />
+        <Hero title={<>Campfire<br />Book</>} lede="The book could not be loaded just now." />
         <main className="wrap list">
-          <p className="empty">
-            Something went wrong reaching the songbook. Please try again in a moment.
-          </p>
+          <p className="empty">Something went wrong reaching the book. Please try again in a moment.</p>
         </main>
         <Footer />
       </>
     );
   }
 
-  const songs: Song[] = (songRows ?? []).map((row) => ({
+  const items: Item[] = (itemRows ?? []).map((row) => ({
     ...row,
     blocks: sanitizeBlocks(row.blocks),
-  })) as Song[];
+  })) as Item[];
 
+  // Only show a section that is switched on and actually has something in it.
+  const kinds: Kind[] = (kindRows ?? []).filter(
+    (k: Kind) => k.enabled && items.some((i) => i.kind === k.slug),
+  );
   const tags: Tag[] = tagRows ?? [];
 
-  return (
-    <>
-      <Hero
-        title={
-          <>
-            Campfire
-            <br />
-            Song Book
-          </>
-        }
-        lede={`${songs.length} songs for the fire. Search for one, or scroll from the loud ones at the top to the quiet ones at the end.`}
-        actions={
-          <>
-            <ReadingToggles />
-            <Link href="/submit" className="ghost-btn">
-              Submit a song
-            </Link>
-          </>
-        }
-      />
-      <Songbook songs={songs} tags={tags} />
-      <Footer songCount={songs.length} />
-    </>
-  );
+  return <Book items={items} kinds={kinds} tags={tags} />;
 }

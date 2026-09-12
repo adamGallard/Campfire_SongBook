@@ -23,7 +23,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <strong className="footname">Songbook admin</strong>
           <nav className="admin-nav">
             <Link href="/admin">Overview</Link>
-            <Link href="/admin/songs">Songs</Link>
+            <Link href="/admin/items">Content</Link>
             <Link href="/admin/submissions">
               Submissions {pending > 0 ? <span className="badge">{pending}</span> : null}
             </Link>

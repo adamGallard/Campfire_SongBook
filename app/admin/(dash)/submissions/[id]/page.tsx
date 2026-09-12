@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { SongForm } from '@/components/SongForm';
+import { ItemForm } from '@/components/ItemForm';
 import { ConfirmButton } from '@/components/ConfirmButton';
 import { createClient } from '@/lib/supabase/server';
 import { approveSubmission, rejectSubmission, reopenSubmission } from '../../actions';
-import type { Submission, Tag } from '@/lib/types';
+import type { Kind, Submission, Tag } from '@/lib/types';
 
 export default async function ReviewSubmissionPage({
   params,
@@ -14,14 +14,19 @@ export default async function ReviewSubmissionPage({
   const { id } = await params;
   const supabase = await createClient();
 
-  const [{ data: row }, { data: tagRows }] = await Promise.all([
+  const [{ data: row }, { data: kindRows }, { data: tagRows }] = await Promise.all([
     supabase.from('submissions').select('*').eq('id', id).maybeSingle(),
-    supabase.from('tags').select('slug, label, sort_order').order('sort_order'),
+    supabase
+      .from('kinds')
+      .select('slug, label, singular, lede, sort_order, enabled')
+      .order('sort_order'),
+    supabase.from('tags').select('kind, slug, label, sort_order').order('sort_order'),
   ]);
 
   if (!row) notFound();
 
   const submission = row as Submission;
+  const kinds: Kind[] = kindRows ?? [];
   const tags: Tag[] = tagRows ?? [];
 
   return (
@@ -70,18 +75,20 @@ export default async function ReviewSubmissionPage({
           <div className="card">
             <h3 className="section-title">Tidy it up, then approve</h3>
             <p className="muted-line" style={{ marginBottom: 0 }}>
-              Edit anything below before it joins the songbook. Approving publishes it straight
+              Edit anything below before it joins the book. Approving publishes it straight
               away.
             </p>
           </div>
 
-          <SongForm
+          <ItemForm
             action={approveSubmission}
+            kinds={kinds}
             tags={tags}
             submissionId={submission.id}
             submitLabel="Approve and publish"
             initial={{
               title: submission.title,
+              kind: submission.kind,
               tag: submission.tag ?? '',
               tune: submission.tune ?? '',
               category_label: '',
@@ -129,8 +136,8 @@ export default async function ReviewSubmissionPage({
           </pre>
           <div className="form-actions">
             {submission.published_song_id ? (
-              <Link href={`/admin/songs/${submission.published_song_id}`} className="small-btn">
-                Open the published song
+              <Link href={`/admin/items/${submission.published_song_id}`} className="small-btn">
+                Open the published item
               </Link>
             ) : null}
             <form action={reopenSubmission}>

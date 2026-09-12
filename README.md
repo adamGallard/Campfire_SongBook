@@ -1,11 +1,15 @@
-# Campfire Song Book
+# Campfire Book
 
-A ScoutBase campfire songbook: 24 songs for the fire, with night/daylight
-reading modes, big type for reading round an actual fire, search across every
-lyric, and tag filters.
+A ScoutBase campfire book: 24 songs and 35 skits, with night/daylight reading
+modes, big type for reading round an actual fire, search across every line, and
+filters that change per section.
 
-Songs now live in Postgres rather than in the page, so leaders can edit them and
-the public can send new ones in for review.
+Everything lives in Postgres rather than in the page, so leaders can edit it and
+the public can send new material in for review.
+
+Sections are rows in the `kinds` table — songs, skits, and applause (switched
+off until there is content for it). The whole book ships in one page load, so
+switching section needs no signal.
 
 - **Public songbook** — `/`
 - **Submit a song** — `/submit`
@@ -53,17 +57,20 @@ will refuse to come back.
 A song body is stored as a list of **blocks**, not HTML. This is what keeps a
 public submission from ever becoming markup on the page.
 
-| Block | Renders as |
-| --- | --- |
-| `verse` | A verse. Optional `label` shows as a small heading, e.g. "Chorus" |
-| `note` | A small italic aside |
-| `shout` | A large emphasised line |
-| `box` | A bordered panel with a heading and a list |
-| `grid` | Like `box`, but laid out in columns |
-| `pills` | A row of rounded chips |
+| Block | Written as | Renders as |
+| --- | --- | --- |
+| `verse` | plain text | A verse. `Chorus:` on its own line labels it |
+| `note` | `Note: …` | A small italic aside |
+| `shout` | `Punchline: …` | A large bold line — a skit's payoff |
+| `box` | `Heading:` + `- ` lines | A bordered panel with a list |
+| `grid` | `Heading [columns]:` + `- ` lines | Like `box`, in columns |
+| `pills` | `[chips]:` + `- ` lines | A row of rounded chips |
 
-Inside any line: `**bold**`, `_italic_`, and a newline is a line break. Nothing
-else is interpreted.
+Inside any line: `**bold**` (a speaker name, a cue), `_italic_` (a stage
+direction), and a newline is a line break. Nothing else is interpreted.
+
+Every block type round-trips through the plain-text editor, so editing an item
+in admin never silently flattens its layout.
 
 Admins type songs as plain text and `lib/blocks.ts` parses it:
 

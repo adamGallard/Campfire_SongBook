@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { ConfirmButton } from '@/components/ConfirmButton';
-import { deleteSong, moveSong, togglePublished } from '../actions';
+import { deleteItem, moveItem, togglePublished } from '../actions';
 
 export default async function AdminSongsPage() {
   const supabase = await createClient();
   const { data: songs } = await supabase
-    .from('songs')
+    .from('items')
     .select('id, slug, title, tag, category_label, published, sort_order')
     .order('sort_order');
 
@@ -22,7 +22,7 @@ export default async function AdminSongsPage() {
               The order here is the order they appear round the fire.
             </p>
           </div>
-          <Link href="/admin/songs/new" className="primary-btn" style={{ textDecoration: 'none' }}>
+          <Link href="/admin/items/new" className="primary-btn" style={{ textDecoration: 'none' }}>
             Add a song
           </Link>
         </div>
@@ -43,14 +43,14 @@ export default async function AdminSongsPage() {
                 </div>
               </div>
               <div className="row-actions">
-                <form action={moveSong}>
+                <form action={moveItem}>
                   <input type="hidden" name="id" value={song.id} />
                   <input type="hidden" name="direction" value="up" />
                   <button className="small-btn" type="submit" disabled={i === 0} aria-label={`Move ${song.title} up`}>
                     ↑
                   </button>
                 </form>
-                <form action={moveSong}>
+                <form action={moveItem}>
                   <input type="hidden" name="id" value={song.id} />
                   <input type="hidden" name="direction" value="down" />
                   <button
@@ -69,10 +69,10 @@ export default async function AdminSongsPage() {
                     {song.published ? 'Hide' : 'Show'}
                   </button>
                 </form>
-                <Link href={`/admin/songs/${song.id}`} className="small-btn">
+                <Link href={`/admin/items/${song.id}`} className="small-btn">
                   Edit
                 </Link>
-                <form action={deleteSong}>
+                <form action={deleteItem}>
                   <input type="hidden" name="id" value={song.id} />
                   <ConfirmButton message={`Delete "${song.title}"? This cannot be undone.`}>
                     Delete

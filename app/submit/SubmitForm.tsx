@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Link from 'next/link';
-import type { Tag } from '@/lib/types';
+import type { Kind, Tag } from '@/lib/types';
 
-const PLACEHOLDER = `Campfires burning, campfires burning,
+const PLACEHOLDERS: Record<string, string> = {
+  song: `Campfires burning, campfires burning,
 Draw nearer, draw nearer,
 In the glowing, in the glowing,
 Come sing and be merry.
@@ -12,14 +13,26 @@ Come sing and be merry.
 Chorus:
 The words of the chorus go here.
 
-Note: anything after "Note:" shows as a small aside.
+Note: anything after "Note:" shows as a small aside.`,
+  skit: `**Scout 1:** Hey, you're good with first aid — I need your help.
+**Scout 2:** Sure, what's the problem?
+_(He presses his forehead, then his jaw, then his stomach.)_
 
-- lines starting with a dash
-- become a list of variations`;
+**Scout 2:** You'd better see the doctor.
 
-export function SubmitForm({ tags }: { tags: Tag[] }) {
+Punchline: Scout 1: He says I have a broken finger.`,
+};
+
+export function SubmitForm({ kinds, tags }: { kinds: Kind[]; tags: Tag[] }) {
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent'>('idle');
   const [error, setError] = useState<string | null>(null);
+  const [kind, setKind] = useState(kinds[0]?.slug ?? 'song');
+
+  const kindTags = useMemo(
+    () => tags.filter((t) => t.kind === kind).sort((a, b) => a.sort_order - b.sort_order),
+    [tags, kind],
+  );
+  const active = kinds.find((k) => k.slug === kind);
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -44,7 +57,7 @@ export function SubmitForm({ tags }: { tags: Tag[] }) {
       }
       setStatus('sent');
     } catch {
-      setError('Could not reach the songbook. Check your connection and try again.');
+      setError('Could not reach the book. Check your connection and try again.');
       setStatus('idle');
     }
   }
@@ -54,11 +67,11 @@ export function SubmitForm({ tags }: { tags: Tag[] }) {
       <div className="card">
         <h2>Thanks — that is in the queue</h2>
         <p className="lyrics">
-          A leader will read it over before it joins the songbook. If we need to check a line with
-          you and you left an email, we will be in touch.
+          A leader will read it over before it joins the book. If we need to check a line with you
+          and you left an email, we will be in touch.
         </p>
         <p className="footlinks" style={{ marginTop: 20 }}>
-          <Link href="/">Back to the songbook</Link>
+          <Link href="/">Back to the book</Link>
           <button
             type="button"
             className="linklike"
@@ -67,7 +80,7 @@ export function SubmitForm({ tags }: { tags: Tag[] }) {
               setError(null);
             }}
           >
-            Submit another
+            Send another
           </button>
         </p>
       </div>
@@ -82,17 +95,43 @@ export function SubmitForm({ tags }: { tags: Tag[] }) {
         </p>
       ) : null}
 
-      <label className="field">
-        <span className="field-label">Song title</span>
-        <input name="title" required maxLength={120} className="input" placeholder="Alice The Camel" />
-      </label>
+      <div className="field-row">
+        <label className="field">
+          <span className="field-label">What is it?</span>
+          <select
+            name="kind"
+            className="input"
+            value={kind}
+            onChange={(e) => setKind(e.target.value)}
+          >
+            {kinds.map((k) => (
+              <option key={k.slug} value={k.slug}>
+                {k.label}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label className="field">
+          <span className="field-label">Title</span>
+          <input
+            name="title"
+            required
+            maxLength={120}
+            className="input"
+            placeholder={kind === 'skit' ? 'Sore Finger' : 'Alice The Camel'}
+          />
+        </label>
+      </div>
 
       <div className="field-row">
         <label className="field">
-          <span className="field-label">What kind of song?</span>
+          <span className="field-label">
+            {kind === 'skit' ? 'How many scouts?' : 'What kind of song?'}
+          </span>
           <select name="tag" className="input" defaultValue="">
             <option value="">Not sure</option>
-            {tags.map((t) => (
+            {kindTags.map((t) => (
               <option key={t.slug} value={t.slug}>
                 {t.label}
               </option>
@@ -102,30 +141,42 @@ export function SubmitForm({ tags }: { tags: Tag[] }) {
 
         <label className="field">
           <span className="field-label">
-            Tune or how to sing it <span className="optional">optional</span>
+            {kind === 'skit' ? 'Cast' : 'Tune'} <span className="optional">optional</span>
           </span>
           <input
             name="tune"
             maxLength={200}
             className="input"
-            placeholder="Tune: traditional · faster each verse"
+            placeholder={
+              kind === 'skit' ? '4 scouts — narrator, policeman…' : 'Tune: traditional · faster each verse'
+            }
           />
         </label>
       </div>
 
       <label className="field">
-        <span className="field-label">The words</span>
+        <span className="field-label">{kind === 'skit' ? 'The script' : 'The words'}</span>
         <textarea
           name="body"
           required
           rows={14}
           maxLength={8000}
           className="input textarea"
-          placeholder={PLACEHOLDER}
+          placeholder={PLACEHOLDERS[kind] ?? PLACEHOLDERS.song}
         />
         <span className="hint">
-          Leave a blank line between verses. Start a line with <code>Chorus:</code> to label one, or
-          <code> Note:</code> for an aside.
+          Leave a blank line between blocks.{' '}
+          {kind === 'skit' ? (
+            <>
+              Use <code>**Scout 1:**</code> for a speaker, <code>_(stage direction)_</code> for
+              actions, and <code>Punchline:</code> for the payoff line.
+            </>
+          ) : (
+            <>
+              Start a line with <code>Chorus:</code> to label one, or <code>Note:</code> for an
+              aside.
+            </>
+          )}
         </span>
       </label>
 
@@ -167,7 +218,7 @@ export function SubmitForm({ tags }: { tags: Tag[] }) {
 
       <div className="form-actions">
         <button type="submit" className="primary-btn" disabled={status === 'sending'}>
-          {status === 'sending' ? 'Sending…' : 'Send it in'}
+          {status === 'sending' ? 'Sending…' : `Send the ${active?.singular ?? 'song'} in`}
         </button>
         <Link href="/" className="linklike">
           Cancel

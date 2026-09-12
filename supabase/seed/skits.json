@@ -1,0 +1,641 @@
+[
+  {
+    "num": 1,
+    "title": "One Bright Morning",
+    "tag": "small",
+    "category": "2–3 scouts · Solo · campfire poem",
+    "cast": "Solo storyteller · best told in a scary-story voice",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "I come before you, to stand behind you,\nTo tell you something I know nothing about.\nAdmission is free, so pay at the door;\nPull up a chair and sit on the floor."
+      },
+      {
+        "type": "verse",
+        "text": "Early this morning, late last night,\nTwo dead soldiers began to fight.\nBack to back, they faced each other,\nDrew their swords, and shot each other."
+      },
+      {
+        "type": "verse",
+        "text": "A legless donkey passing by\nKicked both men right in the eye.\nIt knocked them over a ten-foot wall,\nInto a ditch, and drowned them all."
+      },
+      {
+        "type": "verse",
+        "text": "A deaf policeman heard their cries\nAnd came and shot those two dead guys.\nIf you don't believe this story's true,\nAsk the blind man — he saw it too!"
+      }
+    ]
+  },
+  {
+    "num": 2,
+    "title": "Sore Finger",
+    "tag": "small",
+    "category": "2–3 scouts · Two-hander",
+    "cast": "2 scouts",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "**Scout 1:** Hey, you're good with first aid — I need your help.\n**Scout 2:** Sure, what's the problem?\n**Scout 1:** When I touch my forehead with this finger, it really hurts. When I press my jaw, it's painful too. When I push on my stomach, I almost cry. What can it be?\n_(He presses each spot with the same finger. Scout 2 checks his ears, listens to his heart, has him open his mouth.)_"
+      },
+      {
+        "type": "verse",
+        "text": "**Scout 2:** I don't know — you'd better see the doctor right away.\n**Scout 1:** OK, I'll be right back. _(runs off, returns immediately)_\n**Scout 2:** So, what did the doctor say?"
+      },
+      {
+        "type": "shout",
+        "text": "Scout 1: He says I have a broken finger."
+      }
+    ]
+  },
+  {
+    "num": 3,
+    "title": "Fishing",
+    "tag": "small",
+    "category": "2–3 scouts · Mime gag",
+    "cast": "2 scouts · mimed boat and rods",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "**Andrew:** Whew, it's a long way out here.\n**Robert:** Yep. _(shading his eyes)_ Can't see the shore any more. Ready to fish?\n**Andrew:** Looks like a good spot to me.\n_(Both mime rods, hooks and casting — and catch fish immediately, again and again.)_"
+      },
+      {
+        "type": "verse",
+        "text": "**Andrew:** Told you this was a good spot.\n**Robert:** Sure is — boat's full, we've got our limit. Better get back. Did you use a map to get here?\n**Andrew:** Nope.\n**Robert:** Then how are we finding our way back tomorrow?"
+      },
+      {
+        "type": "shout",
+        "text": "Andrew: Easy — I'll mark the spot with a big X, right here on the side of the boat! (Both row away quickly.)"
+      }
+    ]
+  },
+  {
+    "num": 4,
+    "title": "Cannibals",
+    "tag": "small",
+    "category": "2–3 scouts · One-liner",
+    "cast": "2 scouts",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "_(Loud noise overhead.)_\n**Child:** Oh Mummy, what's that?\n**Mum:** It's alright, dear — just an aeroplane. _(looking up)_\n**Child:** What's an aeroplane?"
+      },
+      {
+        "type": "shout",
+        "text": "Mum: It's like a lobster — there's an awful lot you have to throw away, but the insides are delicious."
+      }
+    ]
+  },
+  {
+    "num": 5,
+    "title": "Smoke Signals",
+    "tag": "small",
+    "category": "2–3 scouts · One-liner",
+    "cast": "2 scouts",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "_(Two scouts spot smoke signals in the distance.)_\n**Mike:** Hey George, look — smoke signals.\n**George:** Oh yes — what do they say?"
+      },
+      {
+        "type": "shout",
+        "text": "Mike: Help… my… blanket's… on… fire."
+      }
+    ]
+  },
+  {
+    "num": 6,
+    "title": "Bee Sting",
+    "tag": "small",
+    "category": "2–3 scouts · One-liner",
+    "cast": "2 scouts",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "**Scout 1:** Ooooouch! Ooooh! Ouch!\n**Scout 2:** What's the matter with you?\n**Scout 1:** A bee's stung my thumb.\n**Scout 2:** Try putting some cream on it."
+      },
+      {
+        "type": "shout",
+        "text": "Scout 1: But the bee will be miles away by now!"
+      }
+    ]
+  },
+  {
+    "num": 7,
+    "title": "Rubbish",
+    "tag": "small",
+    "category": "2–3 scouts · One-liner",
+    "cast": "2 scouts",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "_(1st scout walks to centre stage, talking loudly.)_\n**Scout 1:** Empty cornflakes packet, banana skin, old tin can, bottle top, sweet wrappers, broken bottle, mouldy cheese, milk carton…\n**Scout 2:** _(entering)_ Say, what do you think you're doing?"
+      },
+      {
+        "type": "shout",
+        "text": "Scout 1: I'm talking a load of old rubbish."
+      }
+    ]
+  },
+  {
+    "num": 8,
+    "title": "The Nutty Fisherman",
+    "tag": "small",
+    "category": "2–3 scouts · Two-hander",
+    "cast": "2 scouts · billy or bucket",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "_(Centre stage, a scout fishes from a billy or bucket, pulling the rod as if something's on the line. A passer-by walks past, then comes back.)_\n**Passer-by:** What are you doing there, then?\n**Fisher:** Fishing — what does it look like?\n**Passer-by:** Fishing, eh? What are you fishing for?\n**Fisher:** Suckers.\n**Passer-by:** Have you caught any?"
+      },
+      {
+        "type": "shout",
+        "text": "Fisher: Yes — you're the third today."
+      }
+    ]
+  },
+  {
+    "num": 9,
+    "title": "Glass of Water",
+    "tag": "small",
+    "category": "2–3 scouts · Mime gag",
+    "cast": "3 scouts · a glass of water",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "_(A glass of water sits centre stage. First scout crawls across the floor, crying for water — and dies dramatically just short of reaching it. Second scout crawls on, and dies even closer.)_"
+      },
+      {
+        "type": "verse",
+        "text": "_(Third scout crawls on with his very last ounce of strength, hamming up the desperation as much as possible — reaches the glass at last…)_"
+      },
+      {
+        "type": "shout",
+        "text": "…takes out a comb, grooms his hair with the water, sighs with relief, and strolls off."
+      }
+    ]
+  },
+  {
+    "num": 10,
+    "title": "Bicycle Shop",
+    "tag": "small",
+    "category": "2–3 scouts · Volunteer gag",
+    "cast": "3 scouts + 1 volunteer",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "_(Three scouts start on hands and knees in a row — bicycles for sale.)_\n**Shop Owner:** There we are — three brand new bicycles, all set up.\n**Customer:** _(entering)_ Hi, I'd like to buy a bicycle.\n**Shop Owner:** Sure — try them on for size.\n_(Customer sits on the first — it collapses. The second is too big, the third too small.)_\n**Customer:** I liked the first one — let me try it again. _(Sits — it collapses again.)_ I like this one, but it keeps falling down. Not made very well.\n**Shop Owner:** It was only assembled this morning — let me get some help. _(A volunteer is recruited from the audience to hold one 'wheel' upright.)_\n**Customer:** _(sitting)_ That's perfect now. What was the problem?"
+      },
+      {
+        "type": "shout",
+        "text": "Shop Owner: Oh — we just needed a big nut to hold it together!"
+      }
+    ]
+  },
+  {
+    "num": 11,
+    "title": "Bell Ringer",
+    "tag": "small",
+    "category": "2–3 scouts · Chase gag · 3 parts",
+    "cast": "2 scouts, +1 for the twist · a 3-night bit",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "_(Optional: the Hunchback of Notre Dame is retiring, and has advertised for someone to learn the bells. Knock, knock, knock.)_\n**Hunchback:** _(gravelly, going round and round as if descending the tower, bent double)_ Someone must be here about my job. _(opens the door)_ Yeah! What do you want?\n**Applicant:** I'm here about the bell-ringer's job.\n**Hunchback:** Come on up. _(Both go round and round 'up' the tower.)_ First thing to learn — grab the bell here, push it out hard, then step back. It comes back on its own. Think you can do that?\n**Applicant:** Sure! _(Pushes the bell but forgets to step back — it swings back and flattens him.)_\n**Hunchback:** Oh my — he's fallen fifteen storeys! _(goes round and round back down; a crowd gathers, astonished)_\n**Gendarme:** _(entering)_ Hey — do you know this man?"
+      },
+      {
+        "type": "shout",
+        "text": "Hunchback: No — but he's a dead ringer for the guy who was here yesterday!"
+      },
+      {
+        "type": "verse",
+        "text": "**Encore, night two** — repeat the whole thing with the same actors, hamming it up more. When the Applicant arrives, add: Hunchback: \"You look just like the guy who was here yesterday.\" Applicant: \"Oh, that was my twin brother.\" Then carry on exactly as before.\n**Encore, night three** — only once the first two have landed. Two scouts in rain slickers hold a blanket like a jumping net below the tower. A Gendarme asks what they're doing: \"The last two nights some guy's jumped out of that bell tower — we came to catch him!\""
+      }
+    ]
+  },
+  {
+    "num": 12,
+    "title": "Lost Dollar",
+    "tag": "medium",
+    "category": "4–6 scouts · Chain gag",
+    "cast": "4 or more scouts · a torch",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "_(One scout stands still, holding a torch overhead pointing down — he's a lamppost for the whole scene. Scout 1 searches the ground where the light shines.)_\n**Scout 2:** Hey, what are you looking for?\n**Scout 1:** I lost a dollar.\n**Scout 2:** I'll help you find it. _(joins the search)_\n_(Repeat with as many scouts as you like — each asks, each joins in.)_"
+      },
+      {
+        "type": "verse",
+        "text": "**Scout 2:** _(after a while)_ I just don't see it. Are you sure you lost it here?\n**Scout 1:** No, I lost it over there.\n**Scout 2:** Then why are we searching over here?"
+      },
+      {
+        "type": "shout",
+        "text": "Scout 1: Because the light is better over here!"
+      }
+    ]
+  },
+  {
+    "num": 13,
+    "title": "Shut Up and Trouble",
+    "tag": "medium",
+    "category": "4–6 scouts · Wordplay",
+    "cast": "4 scouts — Narrator, Policeman, Shut Up, Trouble",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "**Narrator:** There once were two brothers named Shut Up and Trouble. They liked to go walking together. _(Trouble and Shut Up walk on.)_ One day, walking in the woods, Trouble got lost. _(Trouble walks off. Shut Up looks around, can't find him.)_ So Shut Up went to the police station to report a missing person.\n**Policeman:** Can I help you?\n**Shut Up:** Yes, sir.\n**Policeman:** What's your name?\n**Shut Up:** Shut Up, sir.\n**Policeman:** Hey now, don't be rude. What's your name, boy?\n**Shut Up:** Shut Up, sir.\n**Policeman:** Watch your manners. Last time I'll ask — what's your name?\n**Shut Up:** Shut Up, sir.\n**Policeman:** Young man — are you looking for Trouble?"
+      },
+      {
+        "type": "shout",
+        "text": "Shut Up: Why yes, sir! How did you know he was lost?"
+      }
+    ]
+  },
+  {
+    "num": 14,
+    "title": "Dirty Socks",
+    "tag": "medium",
+    "category": "4–6 scouts · Gross-out",
+    "cast": "4+ scouts · bucket, mugs, a pair of socks",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "_(A bucket of 'water' sits centre stage. Each scout walks up with a mug, dips it in, drinks.)_\n**Scout 1:** Yuck! This camp tea is awful!\n**Scout 2:** Yuck! This camp coffee is terrible!\n**Scout 3:** Yuck! This camp chocolate is disgusting!\n_(As many scouts as you like can repeat the gag.)_\n_(Last scout walks up, reaches into the bucket, and pulls out a pair of socks. Wrings them out.)_"
+      },
+      {
+        "type": "shout",
+        "text": "Last scout: Aaah — they're finally clean!"
+      }
+    ]
+  },
+  {
+    "num": 15,
+    "title": "Toothpaste",
+    "tag": "medium",
+    "category": "4–6 scouts · Prop skit",
+    "cast": "4+ scouts · two cups of water",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "_(Four or more scouts line up facing the audience. The first has a cup of water; the last has an empty cup, with a mouthful of water hidden inside his cheeks. Optional: announcer explains this is a demonstration of brushing teeth during a water shortage.)_\n_(First scout drinks from his cup and 'brushes' his teeth with a finger, then presses his mouth to the next scout's ear — whose cheeks bulge out as the first scout's deflate.)_\n_(That scout brushes his teeth the same way, then passes the water on down the line, ear to ear.)_"
+      },
+      {
+        "type": "shout",
+        "text": "Last scout finishes brushing — then spits the water he's had hidden all along into his cup."
+      }
+    ]
+  },
+  {
+    "num": 16,
+    "title": "Crazy Astronomers",
+    "tag": "medium",
+    "category": "4–6 scouts · Character gag",
+    "cast": "5 scouts — 4 stargazers + narrator",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "**Narrator:** Good evening, folks. The Astronomy badge was popular at camp this year — but the late nights take a toll, and some people are never quite the same. Here's how a few of them are getting on.\n_(To Scout 1, plucking things from the sky.)_ What are you doing?\n**Scout 1:** I'm taking the stars down so they can be nicely cleaned.\n_(To Scout 2, washing things in a bowl.)_ What are you doing?\n**Scout 2:** Washing the pretty stars.\n_(To Scout 3, hanging things in the air.)_ What are you doing?\n**Scout 3:** Putting the stars back up in the sky.\n_(To Scout 4, walking his fingers up and down his own arm.)_ What are you doing?"
+      },
+      {
+        "type": "shout",
+        "text": "Scout 4: Running away from these guys — they're crazy!"
+      }
+    ]
+  },
+  {
+    "num": 17,
+    "title": "Chicken Farmer",
+    "tag": "medium",
+    "category": "4–6 scouts · Story skit",
+    "cast": "6–8 scouts — hatcheryman, farmer, and the loading crew",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "**Hatcheryman:** _(reading a newspaper)_ Price of chicken's up again — I'll be selling lots of chicks. _(A truck 'drives up'. The driver walks over.)_\n**Chicken Farmer:** Howdy — is this Chattanooga Charlie's Chicken Hatchery?\n**Hatcheryman:** Sure is, I'm Charlie. What can I do for ya?\n**Chicken Farmer:** I've been farming beets and spuds for ten years without making a cent. Chicken prices are up, so I'm switching. I need ten dozen chicks.\n**Hatcheryman:** That'll be $100. Have your men load up right here. _(points to imaginary boxes; the men scurry back and forth loading the truck, then drive off)_\n**Hatcheryman:** _(a week later, reading the paper)_ Well, that new Chicken Farmer's back already — what's he want now?\n**Chicken Farmer:** Howdy, Charlie. Another ten dozen chicks.\n**Hatcheryman:** You got into this business at the right time — that'll be $120. _(Farmer pays, men load up, drive off.)_\n**Hatcheryman:** _(again, a week later)_ Looky there — he's back again. Now what?\n**Chicken Farmer:** Howdy, Charlie. Another ten dozen chicks.\n**Hatcheryman:** Man, you must have a pretty good-sized farm going by now."
+      },
+      {
+        "type": "shout",
+        "text": "Chicken Farmer: Well, I'm not too sure yet — I think I'm either planting them too deep, or too close together, 'cause they just aren't growing too fast."
+      }
+    ]
+  },
+  {
+    "num": 18,
+    "title": "Brown Pants",
+    "tag": "medium",
+    "category": "4–6 scouts · Chain gag",
+    "cast": "4–8 scouts — captain, lookout, galley boy, gun crew",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "_(Scouts on a ship at war, cruising the sea, looking for the enemy.)_\n**Lookout:** Ahoy, Cap'n! Enemy ships off the starboard bow.\n**Captain:** How many?\n**Lookout:** Two ships, Cap'n.\n**Captain:** Boy, bring me my red jacket — so the men won't see my blood if I'm wounded! _(puts on an imaginary jacket)_\n**Captain:** Fire the cannons! _(everyone makes cannon noises)_\n**Lookout:** Woo-hoo! We sunk them both! _(jacket handed back)_\n**Lookout:** Ahoy, Cap'n! Enemy ships off the port bow.\n**Captain:** How many?\n**Lookout:** Five ships, Cap'n! _(jacket on, cannons fire, all sunk, jacket returned)_\n**Lookout:** Ahoy, Cap'n! Enemy ships off the port stern.\n**Captain:** How many?\n**Lookout:** Forty ships, Cap'n!"
+      },
+      {
+        "type": "shout",
+        "text": "Captain: Boy — bring me my BROWN PANTS!"
+      }
+    ]
+  },
+  {
+    "num": 19,
+    "title": "Bubblegum",
+    "tag": "medium",
+    "category": "4–6 scouts · Gross-out",
+    "cast": "4–8 scouts + a chair",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "_(A scout walks on, sits, mimes chewing gum. He takes it out, sticks it to the back of the chair, and walks off.)_\n_(Next scout jogs on tired, leans on the chair back, finds the gum on his hand — wipes it off, disgusted, onto the seat.)_\n_(Next scout sits on the chair, feels stuck, peels the gum off, throws it on the ground.)_\n_(Have as many scouts as you like come by and encounter the gum — a dog sniffs it, a car 'drives' over it, an old man's walking stick gets stuck in it…)_\n_(Last scout steps on the gum, peels it off — and, not wanting anyone else to step in it, kindly sticks it to the back of the chair.)_"
+      },
+      {
+        "type": "shout",
+        "text": "First scout returns, sits down, reaches back, finds his gum still there — pops it in his mouth, chewing happily, and walks off."
+      }
+    ]
+  },
+  {
+    "num": 20,
+    "title": "Can't Work in the Dark",
+    "tag": "medium",
+    "category": "4–6 scouts · Wordplay",
+    "cast": "4+ scouts — boss, lightbulb, and the work crew",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "_(All scouts dig, rake and shovel centre stage — except one, who stands still with his arm raised straight up, as if holding a torch.)_\n**Boss:** _(walking on to survey the work)_ I'm paying you to work, not stand around! Why aren't you working?\n**Scout 1:** I'm a lightbulb!\n**Boss:** Get to work — if you're not working when I get back, you're fired! _(leaves; everyone carries on as before)_\n**Boss:** _(returning, sees the scout still not working)_ That's it — you're fired! Get out!\n_(The scout drops his arm and trudges off. As soon as the arm drops, everyone else stops, looks around, and starts leaving too.)_\n**Boss:** Hey — why is everyone leaving? Get back to work!"
+      },
+      {
+        "type": "shout",
+        "text": "Scout 2: How? We can't work in the dark!"
+      }
+    ]
+  },
+  {
+    "num": 21,
+    "title": "Infantry Is Coming",
+    "tag": "medium",
+    "category": "4–6 scouts · Blink and you'll miss it",
+    "cast": "4–8 scouts + a seedling or branch",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "_(Each scout runs across the stage, one after another, yelling:)_"
+      },
+      {
+        "type": "shout",
+        "text": "\"Run away! The Infantry is coming!\""
+      },
+      {
+        "type": "verse",
+        "text": "_(The last scout walks on calmly, carrying a small tree seedling or branch, and says:)_"
+      },
+      {
+        "type": "shout",
+        "text": "\"The Infant Tree has arrived.\""
+      }
+    ]
+  },
+  {
+    "num": 22,
+    "title": "Invisible Bench",
+    "tag": "medium",
+    "category": "4–6 scouts · Mime gag · 3 add-ons",
+    "cast": "4–8 scouts, more for every add-on",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "_(Scout 1 walks on and squats as if sitting on an invisible bench.)_\n**Scout 2:** _(walking up)_ Whatcha doin'?\n**Scout 1:** Just sitting on this invisible bench.\n**Scout 2:** Can I join you?\n**Scout 1:** Sure. _(sits down next to him)_\n_(Scout 3 repeats the same dialogue, then each new scout in turn — building a long line of scouts all 'sitting' on the bench.)_\n**Last scout:** _(walking up to the line)_ What are you guys doing?\n**All:** Just sitting here on this invisible bench."
+      },
+      {
+        "type": "shout",
+        "text": "Last scout: No you aren't — I moved the bench over there. (All the sitting scouts fall down.)"
+      },
+      {
+        "type": "verse",
+        "text": "**Add-on 1** — Last scout: \"No you aren't, I moved the bench over there yesterday.\" Scout 1: \"But I moved it back here this morning!\" Last scout: \"Oh, OK!\" — and sits back down with the rest.\n**Add-on 2** — One more scout arrives: \"What are you guys doing?\" All: \"Sitting on this invisible bench.\" \"Oh no — I just got done painting that bench!\" Everyone leaps up, wiping paint off the seat of their pants.\n**Add-on 3** — Same painting gag — but this time Scout 1 says: \"Oh, that's OK — we all have our invisible paint suits on,\" and everyone calmly unzips an invisible suit and steps out."
+      }
+    ]
+  },
+  {
+    "num": 23,
+    "title": "Short Runway",
+    "tag": "medium",
+    "category": "4–6 scouts · Story skit",
+    "cast": "2+ scouts — more for a fuller cabin",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "_(Scouts line up in a double column as if seated in a small aircraft, pilot and co-pilot up front.)_\n**Pilot:** _(squinting out the window)_ I hate these night flights — since the airline's cutbacks, half our instruments don't work. See the airport yet?\n**Copilot:** Nope, but I'm looking.\n**Pilot:** We're getting low on fuel — better find that runway soon. Wish they'd spring for a radio.\n**Copilot:** _(pointing right and down)_ I think I see it — over to the right!\n_(Pilot steers right — everyone leans.)_\n**Pilot:** Can't see it. Wish they'd install brighter lights! …Aha, there it is — here we go! _(dives; everyone leans forward with sound effects)_\n**Copilot:** We're coming in too fast!\n**Pilot:** Give me twenty degrees of flap!\n**Copilot:** Twenty degrees, sir!\n**Pilot:** More flaps, cut the engines!\n**Copilot:** Forty degrees!\n**Pilot:** It's gonna be tight — full flaps, cut the engines!\n_(Everyone lurches forward as they hit the runway and bounce to a stop.)_\n**Pilot:** Whew — we made it! Man, that was a SHORT runway!"
+      },
+      {
+        "type": "shout",
+        "text": "Copilot: (looking left, then right) Yep — and WIDE too!"
+      }
+    ]
+  },
+  {
+    "num": 24,
+    "title": "Compass",
+    "tag": "medium",
+    "category": "4–6 scouts · Wordplay",
+    "cast": "4–5 scouts · a compass and a map",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "**Scoutmaster:** Now fellows — take a bearing from the map, keeping the compass away from your belt buckle, and walk along it until you reach your destination. John, you try it.\n**John:** _(walks off, re-enters)_\n**Scoutmaster:** In the same way, take a bearing on a distant object to find where you are on the map. Everyone — take a bearing on that big tree on the hilltop.\n_(The other scouts do as instructed, passing the compass around.)_\n**Scoutmaster:** _(after a moment)_ All right, gather round — that wraps up tonight's lesson. Just one more important point: never, ever buy a TATES compass.\n**Tom:** Why not, Scouter?"
+      },
+      {
+        "type": "shout",
+        "text": "Scoutmaster: You know the old saying — \"He who has a TATES is lost!\""
+      }
+    ]
+  },
+  {
+    "num": 25,
+    "title": "Lawnmower",
+    "tag": "medium",
+    "category": "4–6 scouts · Volunteer gag",
+    "cast": "4 scouts + 1 volunteer leader",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "_(One scout is on hands and knees, as the mower.)_\n**Owner:** _(yanking an imaginary rope; the mower sputters)_ This darned mower — I need some help. _(recruits a helper)_ Just give the starting rope a good yank.\n**Helper 1:** Easy! _(yanks; the mower bobs and sputters, but won't start)_ Sorry, I can't do it. Have you checked the fuel?\n**Owner:** Yes. Let's find someone else with a strong arm. _(recruits a second helper — same result)_\n**Owner:** What I need is someone big and strong. _(recruits a leader from the audience — the leader pulls the rope)_\n_(The mower sputters, coughs, vibrates, and finally roars to life.)_"
+      },
+      {
+        "type": "shout",
+        "text": "Owner: There! All it needed was a good jerk."
+      }
+    ]
+  },
+  {
+    "num": 26,
+    "title": "St. Peter",
+    "tag": "medium",
+    "category": "4–6 scouts · Chain gag",
+    "cast": "4 scouts · swap in your own troop's name",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "**Announcer:** Here we see St. Peter, at the Pearly Gates.\n**Ian:** _(walking up)_ Hello, St. Peter — I see I've come to Heaven.\n**St. Peter:** Not in yet — first, tell me how you suffered on Earth.\n**Ian:** I spent a week eating camp food.\n**St. Peter:** Sorry — that's not enough suffering. _(Ian exits, dejected)_\n**Doug:** _(entering)_ Hi, I'm here to get into Heaven.\n**St. Peter:** And how did you suffer?\n**Doug:** I went on a long hike and got blisters all over my feet.\n**St. Peter:** Not enough. _(Doug exits)_\n**Brad:** _(entering)_ Can I get into Heaven?\n**St. Peter:** How did you suffer?\n**Brad:** I'm in _(name your own troop or patrol here)_."
+      },
+      {
+        "type": "shout",
+        "text": "St. Peter: Well — come on in!"
+      }
+    ]
+  },
+  {
+    "num": 27,
+    "title": "Good Soup",
+    "tag": "medium",
+    "category": "4–6 scouts · Gross-out",
+    "cast": "5 scouts · a large pot, spoons, a floor mop",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "_(Several scouts sit round a large pot, tasting the imaginary contents with spoons.)_\n**Scott:** This is sure good soup.\n**Brad:** Yep — real flavour.\n**David:** Even better than my mum makes.\n**Mathew:** Best food I've had at camp all week.\n_(Cook enters, waving a floor mop and shouting.)_"
+      },
+      {
+        "type": "shout",
+        "text": "Cook: Hey, you lot! Get out of my mop water!"
+      }
+    ]
+  },
+  {
+    "num": 28,
+    "title": "Got Any Duck Food",
+    "tag": "medium",
+    "category": "4–6 scouts · Chain gag",
+    "cast": "6 scouts — shopkeeper + 5 customers",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "_(Scout 1 stands behind a chair as the hardware store owner.)_\n**Scout 2:** _(walking in)_ Got any duck food?\n**Owner:** No — this is a hardware store. We don't sell duck food.\n_(Scouts 3 and 4 enter one at a time, ask the same question, get the same answer.)_\n**Scout 5:** Got any duck food?\n**Owner:** No! This is a haaaaardwaaaare store. We do. Not. Sell. Duck. Food. _(Scout 5 leaves)_\n**Owner:** _(to himself)_ I'll nail the next person who asks for duck food to the floor.\n**Last scout:** Got any nails?\n**Owner:** No, sorry — I'm out of nails."
+      },
+      {
+        "type": "shout",
+        "text": "Last scout: Got any duck food?"
+      }
+    ]
+  },
+  {
+    "num": 29,
+    "title": "Dead Body",
+    "tag": "medium",
+    "category": "4–6 scouts · Character gag",
+    "cast": "6 scouts",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "_(One scout lies on the ground, looking dead. The others walk in, see him, and gather round.)_\n_(They check for danger, check response, airway, breathing, circulation — the usual first-aid checks.)_\n**Scout 1:** I think he's dead.\n**Scout 2:** I'll call for help. _(steps aside, mimes a phone call, panicking and gasping)_ Hello, 000 — there's a dead person here… Where am I? I'm at Woolloongabba, Wellington Road… You want me to spell it?! Uh, W-O-L-G-B — no, it's W-O-G-A — _(confused)_ — just a minute!"
+      },
+      {
+        "type": "shout",
+        "text": "Scout 2: (turning back to the others) Can you guys drag him to Ann Street?"
+      }
+    ]
+  },
+  {
+    "num": 30,
+    "title": "Elevator to Bathrooms",
+    "tag": "large",
+    "category": "7+ scouts · Chain gag · big group",
+    "cast": "5–10 scouts — add a floor for every extra scout",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "_(One scout stands centre stage as the lift operator in a five-storey department store. The idea: everyone boarding really needs the bathroom, and by the time the lift arrives, they REALLY need it.)_\n**Operator:** First floor! _(a scout boards)_\n**Scout 1:** Fifth floor, please.\n**Operator:** Yes sir, we'll get there. _(closes the doors; the passenger watches the floor numbers)_\n**Scout 1:** Come on, five. Come on, five.\n**Operator:** Second floor — sporting goods. _(another passenger boards, same request, same wait, everyone squirming a little more)_\n**Operator:** Third floor — kitchen appliances. _(another boards; squirming increases)_\n**Operator:** Fourth floor — children's toys. _(another boards; everyone squirming a lot now)_"
+      },
+      {
+        "type": "shout",
+        "text": "Operator: Fifth floor — ladies' apparel and restrooms! (Everyone bolts out of the lift and off stage.)"
+      },
+      {
+        "type": "verse",
+        "text": "_(Add more floors — and more passengers — for a longer skit.)_"
+      }
+    ]
+  },
+  {
+    "num": 31,
+    "title": "Emergency Alert System",
+    "tag": "large",
+    "category": "7+ scouts · Big group gag",
+    "cast": "6–10 scouts · practise the timing",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "_(All scouts but one stand in a line; the leader stands to one side.)_\n**Leader:** For the next ten seconds, we will conduct a test of the emergency broadcast system.\n_(The line all make a long Beeeeeeeeeeeeep sound, until the leader raises a hand.)_\n**Leader:** Thank you. This concludes the test of the emergency broadcast system. Had this been an actual emergency, you would have heard…"
+      },
+      {
+        "type": "shout",
+        "text": "(The whole line screams in panic and scatters, running around.)"
+      }
+    ]
+  },
+  {
+    "num": 32,
+    "title": "Is It Time Yet",
+    "tag": "large",
+    "category": "7+ scouts · Line game",
+    "cast": "5–8 scouts in a line",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "_(A line of 5–8 scouts stands with left foot crossed over right, right arm crossed over left.)_\n**First scout:** Is it time yet?\n_(Passed one scout at a time down the line to the last.)_\n**Last scout:** No.\n_(The answer is passed back, one scout at a time. After a lonnnng pause, first scout asks again — same answer comes back: No. Another long pause…)_\n**First scout:** Is it time yet?"
+      },
+      {
+        "type": "shout",
+        "text": "Last scout: YES. (As soon as the word reaches the front, everyone switches — right foot over left, left arm over right — and exits, groaning.)"
+      }
+    ]
+  },
+  {
+    "num": 33,
+    "title": "The Ants",
+    "tag": "large",
+    "category": "7+ scouts · Story skit",
+    "cast": "6–8 scouts · paper sacks",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "_(Several scouts stand together in a backyard.)_\n**1st:** There's nothing to do.\n**2nd:** Yeah, I know.\n**3rd:** Let's have a backyard picnic!\n**All:** Yeah!\n**4th:** But it's going to rain.\n**1st:** If it does, we'll eat in the house.\n_(Each scout volunteers what they'll bring — crisps, hot dogs, buns, drinks — except the last, who promises \"something special\". They all walk off, then return carrying sacks.)_\n_(Each scout in turn holds up their sack — crisps, hot dogs, buns, drinks — until it's the last scout's turn.)_\n**Last scout:** _(dropping his sack)_ Oh, no!\n**Others:** What's wrong?"
+      },
+      {
+        "type": "shout",
+        "text": "Last scout: I brought the ants."
+      }
+    ]
+  },
+  {
+    "num": 34,
+    "title": "Change Underwear",
+    "tag": "large",
+    "category": "7+ scouts · Big group gag",
+    "cast": "As big a group as you can march in",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "_(Scouts march in single file, one leading like a drill sergeant.)_\n**Sergeant:** _(halting them, addressing the group)_ I've got some good news, and some bad news. The good news is — you get a change of underwear.\n_(The scouts cheer.)_\n**Sergeant:** The bad news is —"
+      },
+      {
+        "type": "shout",
+        "text": "\"…you have to change underwear with one another.\" (The scouts groan.)"
+      }
+    ]
+  },
+  {
+    "num": 35,
+    "title": "The Lighthouse",
+    "tag": "large",
+    "category": "7+ scouts · Circle piece · closer",
+    "cast": "6+ scouts for the walls, plus a few leaders to be the rocks",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "_(Scouts form a circle, facing outward, feet spread and touching the feet of the scout on each side. A torch is held at eye level and passed slowly around the circle, its beam kept steady.)_\n**Narrator:** Many years ago, the people of a seaside village built a lighthouse to warn approaching ships of a dangerous shoal near their harbour. Its beacon could be seen for miles, even in fog and storm. For many decades it stood firm, giving safe passage to all who sailed by.\n_(But as the years went by, the villagers grew old, and so did the lighthouse — the waves wore away its foundation, and it began to sag.)_\n_(The scouts stoop, heads leaning to the side, knees bending slightly — the torch now travels a zig-zag path around the circle.)_\n**Narrator:** When ships started running aground on the shoals, the old villagers knew they had to call in help — people who were pillars of their own communities, solid as rock.\n_(Recruit a few leaders from the audience. They get down on hands and knees, forming a second inner ring, facing in, straddled by the standing scouts — who once again stand tall and hold a steady light.)_"
+      },
+      {
+        "type": "shout",
+        "text": "Narrator: And so, with these new rocks placed in its foundation, the lighthouse once again shines a steady beacon, standing firm against the pounding of the waves."
+      }
+    ]
+  }
+]

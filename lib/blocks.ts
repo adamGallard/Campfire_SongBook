@@ -34,12 +34,42 @@ export function parseBody(body: string): Block[] {
       continue;
     }
 
-    if (lines.length > 1 && lines.every((l) => /^[-*]\s+/.test(l))) {
-      blocks.push({
-        type: 'box',
-        heading: null,
-        items: lines.map((l) => l.replace(/^[-*]\s+/, '')),
-      });
+    // The payoff line of a skit, set large and bold.
+    const punchMatch = /^punchline:\s*/i.exec(lines[0]);
+    if (punchMatch) {
+      const text = [lines[0].slice(punchMatch[0].length), ...lines.slice(1)]
+        .join('\n')
+        .trim();
+      if (text) blocks.push({ type: 'shout', text });
+      continue;
+    }
+
+    // A list, optionally under a heading. The heading may name a layout so
+    // that grids and chip rows survive a trip through the editor instead of
+    // silently collapsing into a plain box.
+    const listHead = /^(?:(.*?)\s*)?\[(box|columns|chips)\]\s*:?\s*$/i.exec(lines[0]);
+    const bulleted = (ls: string[]) => ls.length > 0 && ls.every((l) => /^[-*]\s+/.test(l));
+    const strip = (ls: string[]) => ls.map((l) => l.replace(/^[-*]\s+/, ''));
+
+    if (listHead && bulleted(lines.slice(1))) {
+      const heading = (listHead[1] ?? '').trim() || null;
+      const layout = listHead[2].toLowerCase();
+      const items = strip(lines.slice(1));
+      if (layout === 'chips') blocks.push({ type: 'pills', items });
+      else if (layout === 'columns') blocks.push({ type: 'grid', heading, items });
+      else blocks.push({ type: 'box', heading, items });
+      continue;
+    }
+
+    // "Heading:" followed by bullets, or bare bullets, is a plain box.
+    const headed = LABEL_RE.exec(lines[0]);
+    if (headed && bulleted(lines.slice(1))) {
+      blocks.push({ type: 'box', heading: headed[1], items: strip(lines.slice(1)) });
+      continue;
+    }
+
+    if (lines.length > 1 && bulleted(lines)) {
+      blocks.push({ type: 'box', heading: null, items: strip(lines) });
       continue;
     }
 
@@ -68,15 +98,20 @@ export function blocksToBody(blocks: Block[]): string {
           return b.label ? `${b.label}:\n${b.text}` : b.text;
         case 'note':
           return `Note: ${b.text}`;
+        // Must round-trip, or editing an item silently demotes its punchline
+        // to an ordinary paragraph.
         case 'shout':
-          return b.text;
+          return `Punchline: ${b.text}`;
+        // The [layout] marker is what makes grids and chip rows survive an
+        // edit; without it they would all come back as plain boxes.
         case 'box':
-        case 'grid':
           return [b.heading ? `${b.heading}:` : null, ...b.items.map((i) => `- ${i}`)]
             .filter(Boolean)
             .join('\n');
+        case 'grid':
+          return [`${b.heading ?? ''} [columns]:`.trim(), ...b.items.map((i) => `- ${i}`)].join('\n');
         case 'pills':
-          return b.items.map((i) => `- ${i}`).join('\n');
+          return ['[chips]:', ...b.items.map((i) => `- ${i}`)].join('\n');
       }
     })
     .join('\n\n');

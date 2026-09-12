@@ -1,11 +1,11 @@
 /**
- * A song body is a list of blocks rather than HTML. Public submissions flow
+ * An item body is a list of blocks rather than HTML. Public submissions flow
  * into the same shape, so nothing a stranger types is ever rendered as markup.
  *
  * Inline markup inside `text`/`items`/`label` is deliberately tiny:
- *   **bold**   a shouted word or a cue
+ *   **bold**   a speaker name, a shouted word, a cue
  *   _italic_   a stage direction
- *   newline    a line break within the verse
+ *   newline    a line break within the block
  */
 export type Block =
   | { type: 'verse'; text: string; label?: string }
@@ -17,18 +17,33 @@ export type Block =
 
 export type BlockType = Block['type'];
 
+/** A section of the book: songs, skits, applause. */
+export interface Kind {
+  slug: string;
+  label: string;
+  singular: string;
+  lede: string | null;
+  sort_order: number;
+  enabled: boolean;
+}
+
+/** Tags are scoped per kind — "Loud" means nothing to a skit. */
 export interface Tag {
+  kind: string;
   slug: string;
   label: string;
   sort_order: number;
 }
 
-export interface Song {
+export interface Item {
   id: string;
   slug: string;
   title: string;
+  kind: string;
   tag: string;
+  /** The small uppercase line above the title. */
   category_label: string | null;
+  /** The italic line under the title: a tune for songs, a cast list for skits. */
   tune: string | null;
   blocks: Block[];
   sort_order: number;
@@ -42,6 +57,7 @@ export type SubmissionStatus = 'pending' | 'approved' | 'rejected';
 export interface Submission {
   id: string;
   title: string;
+  kind: string;
   tag: string | null;
   tune: string | null;
   body: string;

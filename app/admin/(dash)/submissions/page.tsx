@@ -21,7 +21,7 @@ export default async function SubmissionsPage({
   const supabase = await createClient();
   let query = supabase
     .from('submissions')
-    .select('id, title, tag, submitter_name, status, created_at')
+    .select('id, title, kind, tag, submitter_name, status, created_at')
     .order('created_at', { ascending: false });
 
   if (filter !== 'all') query = query.eq('status', filter);
@@ -29,7 +29,7 @@ export default async function SubmissionsPage({
   const { data } = await query;
   const rows = (data ?? []) as Pick<
     Submission,
-    'id' | 'title' | 'tag' | 'submitter_name' | 'status' | 'created_at'
+    'id' | 'title' | 'kind' | 'tag' | 'submitter_name' | 'status' | 'created_at'
   >[];
 
   const tabs = [
@@ -43,7 +43,7 @@ export default async function SubmissionsPage({
     <main className="wrap list">
       <div className="card">
         <h2 className="section-title">Submissions</h2>
-        <p className="muted-line">Songs sent in from the public page.</p>
+        <p className="muted-line">Sent in from the public page.</p>
         <div className="chips">
           {tabs.map((t) => (
             <Link
@@ -71,7 +71,7 @@ export default async function SubmissionsPage({
                 <div className="row-meta">
                   {row.submitter_name ? `From ${row.submitter_name} · ` : ''}
                   {when(row.created_at)}
-                  {row.tag ? ` · ${row.tag}` : ''}
+                  {` · ${row.kind}`}{row.tag ? ` · ${row.tag}` : ''}
                 </div>
               </div>
               <div className="row-actions">

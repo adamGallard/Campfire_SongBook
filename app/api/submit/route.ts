@@ -73,6 +73,7 @@ export async function POST(request: Request) {
     p_email: submitterEmail || null,
     p_note: str(payload.submitter_note, LIMITS.note) || null,
     p_ip_hash: clientIpHash(request),
+    p_kind: str(payload.kind, 40) || 'song',
   });
 
   if (error) {

@@ -1,11 +1,11 @@
 'use client';
 
 import { useActionState } from 'react';
-import { addAdmin, type SongFormResult } from '../actions';
+import { addAdmin, type ItemFormResult } from '../actions';
 import { SubmitButton } from '@/components/ConfirmButton';
 
 export function AddAdminForm() {
-  const [state, formAction] = useActionState<SongFormResult, FormData>(addAdmin, {});
+  const [state, formAction] = useActionState<ItemFormResult, FormData>(addAdmin, {});
 
   return (
     <form className="card form" action={formAction}>

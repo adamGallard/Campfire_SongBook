@@ -8,29 +8,56 @@
 --   20260912005206_add_submit_song_rpc
 --   20260912005745_admins_keyed_by_email
 --   20260912010114_move_is_admin_to_private_schema
+--   20260912_admins_keyed_by_email / add_admin_email_exists_check
+--   20260912_generalise_songs_to_items_with_kinds
+--   20260912_submit_song_accepts_kind
 
--- Tags (the filter chips) --------------------------------------------------
-create table public.tags (
+-- Sections of the book -----------------------------------------------------
+create table public.kinds (
   slug        text primary key,
-  label       text not null,
-  sort_order  integer not null default 0
+  label       text not null,          -- "Songs"
+  singular    text not null,          -- "song"
+  lede        text,                   -- section blurb on the public page
+  sort_order  integer not null default 0,
+  enabled     boolean not null default true
 );
 
-insert into public.tags (slug, label, sort_order) values
-  ('loud',    'Loud',    1),
-  ('actions', 'Actions', 2),
-  ('echo',    'Echo',    3),
-  ('round',   'Rounds',  4),
-  ('quiet',   'Quiet',   5);
+insert into public.kinds (slug, label, singular, lede, sort_order, enabled) values
+  ('song', 'Songs', 'song',
+   'Search for one, or scroll from the loud ones at the top to the quiet ones at the end.', 1, true),
+  ('skit', 'Skits', 'skit',
+   'Filter by how many scouts you have got, or search for one you remember.', 2, true),
+  ('applause', 'Applause', 'applause',
+   'Quick cheers to throw between acts.', 3, false);
 
--- Songs --------------------------------------------------------------------
--- `blocks` holds the song body as structured JSON rather than HTML, so nothing
--- a submitter types is ever rendered as markup. See lib/types.ts for the shape.
-create table public.songs (
+-- Tags (the filter chips), scoped per kind: "Loud" means nothing to a skit.
+create table public.tags (
+  slug        text not null,
+  kind        text not null references public.kinds(slug) on update cascade,
+  label       text not null,
+  sort_order  integer not null default 0,
+  primary key (kind, slug)
+);
+
+insert into public.tags (kind, slug, label, sort_order) values
+  ('song', 'loud',    'Loud',    1),
+  ('song', 'actions', 'Actions', 2),
+  ('song', 'echo',    'Echo',    3),
+  ('song', 'round',   'Rounds',  4),
+  ('song', 'quiet',   'Quiet',   5),
+  ('skit', 'small',  '2–3 scouts', 1),
+  ('skit', 'medium', '4–6 scouts', 2),
+  ('skit', 'large',  '7+ scouts',  3);
+
+-- Items (songs, skits, applause) -------------------------------------------
+-- `blocks` holds the body as structured JSON rather than HTML, so nothing a
+-- submitter types is ever rendered as markup. See lib/types.ts for the shape.
+create table public.items (
   id              uuid primary key default gen_random_uuid(),
   slug            text not null unique,
   title           text not null,
-  tag             text not null references public.tags(slug) on update cascade,
+  kind            text not null default 'song' references public.kinds(slug) on update cascade,
+  tag             text not null,
   category_label  text,
   tune            text,
   blocks          jsonb not null default '[]'::jsonb,
@@ -38,17 +65,20 @@ create table public.songs (
   published       boolean not null default true,
   created_at      timestamptz not null default now(),
   updated_at      timestamptz not null default now(),
-  constraint songs_blocks_is_array check (jsonb_typeof(blocks) = 'array')
+  constraint items_blocks_is_array check (jsonb_typeof(blocks) = 'array'),
+  constraint items_tag_fkey foreign key (kind, tag) references public.tags(kind, slug) on update cascade
 );
 
-create index songs_sort_idx on public.songs (sort_order);
-create index songs_published_idx on public.songs (published) where published;
+create index items_sort_idx on public.items (sort_order);
+create index items_kind_sort_idx on public.items (kind, sort_order);
+create index items_published_idx on public.items (published) where published;
 
 -- Public submissions -------------------------------------------------------
 create table public.submissions (
   id                 uuid primary key default gen_random_uuid(),
   title              text not null,
-  tag                text references public.tags(slug) on update cascade,
+  kind               text not null default 'song' references public.kinds(slug) on update cascade,
+  tag                text,
   tune               text,
   body               text not null,
   submitter_name     text,
@@ -59,7 +89,8 @@ create table public.submissions (
   review_note        text,
   reviewed_by_email  text,
   reviewed_at        timestamptz,
-  published_song_id  uuid references public.songs(id) on delete set null,
+  published_song_id  uuid references public.items(id) on delete set null,
+  constraint submissions_tag_fkey foreign key (kind, tag) references public.tags(kind, slug) on update cascade,
   ip_hash            text,
   created_at         timestamptz not null default now()
 );
@@ -109,12 +140,13 @@ end;
 $$;
 
 create trigger songs_touch_updated_at
-  before update on public.songs
+  before update on public.items
   for each row execute function public.touch_updated_at();
 
 -- Row level security -------------------------------------------------------
 alter table public.tags        enable row level security;
-alter table public.songs       enable row level security;
+alter table public.items       enable row level security;
+alter table public.kinds       enable row level security;
 alter table public.submissions enable row level security;
 alter table public.admins      enable row level security;
 
@@ -123,9 +155,14 @@ create policy tags_public_read on public.tags
 create policy tags_admin_write on public.tags
   for all to authenticated using (private.is_admin()) with check (private.is_admin());
 
-create policy songs_public_read on public.songs
+create policy kinds_public_read on public.kinds
+  for select to anon, authenticated using (true);
+create policy kinds_admin_write on public.kinds
+  for all to authenticated using (private.is_admin()) with check (private.is_admin());
+
+create policy items_public_read on public.items
   for select to anon, authenticated using (published);
-create policy songs_admin_all on public.songs
+create policy items_admin_all on public.items
   for all to authenticated using (private.is_admin()) with check (private.is_admin());
 
 -- No anon policy at all: the public can neither read nor write submissions
@@ -150,7 +187,8 @@ create or replace function public.submit_song(
   p_name     text,
   p_email    text,
   p_note     text,
-  p_ip_hash  text
+  p_ip_hash  text,
+  p_kind     text default 'song'
 ) returns void
 language plpgsql
 security definer
@@ -159,6 +197,7 @@ as $$
 declare
   v_recent integer;
   v_tag    text;
+  v_kind   text;
 begin
   p_title := btrim(coalesce(p_title, ''));
   p_body  := btrim(coalesce(p_body, ''));
@@ -181,13 +220,20 @@ begin
     raise exception 'rate_limited';
   end if;
 
-  -- Only a tag that actually exists is accepted; anything else becomes null.
-  select slug into v_tag from public.tags where slug = p_tag;
+  -- Only a section that exists and is switched on; otherwise fall back to song.
+  select slug into v_kind from public.kinds where slug = p_kind and enabled;
+  if v_kind is null then
+    v_kind := 'song';
+  end if;
+
+  -- Only a tag that belongs to that section; anything else becomes null.
+  select slug into v_tag from public.tags where slug = p_tag and kind = v_kind;
 
   insert into public.submissions
-    (title, tag, tune, body, submitter_name, submitter_email, submitter_note, ip_hash, status)
+    (title, kind, tag, tune, body, submitter_name, submitter_email, submitter_note, ip_hash, status)
   values (
     p_title,
+    v_kind,
     v_tag,
     nullif(btrim(coalesce(p_tune, '')), ''),
     p_body,
@@ -200,8 +246,8 @@ begin
 end;
 $$;
 
-revoke all on function public.submit_song(text, text, text, text, text, text, text, text) from public;
-grant execute on function public.submit_song(text, text, text, text, text, text, text, text) to anon, authenticated;
+revoke all on function public.submit_song(text, text, text, text, text, text, text, text, text) from public;
+grant execute on function public.submit_song(text, text, text, text, text, text, text, text, text) to anon, authenticated;
 
 -- Seed the first administrator (change this address).
 insert into public.admins (email, note) values ('adam@thegallards.co.uk', 'Initial administrator');

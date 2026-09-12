@@ -18,7 +18,7 @@ async function adminClient() {
 
 function refreshPublic() {
   revalidatePath('/');
-  revalidatePath('/admin/songs');
+  revalidatePath('/admin/items');
 }
 
 export async function signOut() {
@@ -27,32 +27,35 @@ export async function signOut() {
   redirect('/admin/login');
 }
 
-export interface SongFormResult {
+export interface ItemFormResult {
   error?: string;
 }
 
-export async function saveSong(
-  _prev: SongFormResult,
+export async function saveItem(
+  _prev: ItemFormResult,
   formData: FormData,
-): Promise<SongFormResult> {
+): Promise<ItemFormResult> {
   const supabase = await adminClient();
 
   const id = String(formData.get('id') ?? '').trim();
   const title = String(formData.get('title') ?? '').trim();
+  const kind = String(formData.get('kind') ?? '').trim();
   const tag = String(formData.get('tag') ?? '').trim();
   const tune = String(formData.get('tune') ?? '').trim();
   const categoryLabel = String(formData.get('category_label') ?? '').trim();
   const body = String(formData.get('body') ?? '');
   const published = formData.get('published') === 'on';
 
-  if (!title) return { error: 'Give the song a title.' };
-  if (!tag) return { error: 'Choose what kind of song it is.' };
+  if (!title) return { error: 'Give it a title.' };
+  if (!kind) return { error: 'Choose a section.' };
+  if (!tag) return { error: 'Choose what kind it is.' };
 
   const blocks = sanitizeBlocks(parseBody(body));
-  if (!blocks.length) return { error: 'The song needs some words.' };
+  if (!blocks.length) return { error: 'It needs some words.' };
 
   const values = {
     title,
+    kind,
     tag,
     tune: tune || null,
     category_label: categoryLabel || null,
@@ -61,22 +64,23 @@ export async function saveSong(
   };
 
   if (id) {
-    const { error } = await supabase.from('songs').update(values).eq('id', id);
+    const { error } = await supabase.from('items').update(values).eq('id', id);
     if (error) return { error: error.message };
   } else {
     // Put a new song at the end of the running order.
     const { data: last } = await supabase
-      .from('songs')
+      .from('items')
       .select('sort_order')
+      .eq('kind', kind)
       .order('sort_order', { ascending: false })
       .limit(1)
       .maybeSingle();
 
     let slug = slugify(title);
-    const { data: clash } = await supabase.from('songs').select('id').eq('slug', slug).maybeSingle();
+    const { data: clash } = await supabase.from('items').select('id').eq('slug', slug).maybeSingle();
     if (clash) slug = `${slug}-${Date.now().toString(36).slice(-4)}`;
 
-    const { error } = await supabase.from('songs').insert({
+    const { error } = await supabase.from('items').insert({
       ...values,
       slug,
       sort_order: (last?.sort_order ?? 0) + 1,
@@ -85,13 +89,13 @@ export async function saveSong(
   }
 
   refreshPublic();
-  redirect('/admin/songs');
+  redirect('/admin/items');
 }
 
-export async function deleteSong(formData: FormData) {
+export async function deleteItem(formData: FormData) {
   const supabase = await adminClient();
   const id = String(formData.get('id') ?? '');
-  if (id) await supabase.from('songs').delete().eq('id', id);
+  if (id) await supabase.from('items').delete().eq('id', id);
   refreshPublic();
 }
 
@@ -99,46 +103,52 @@ export async function togglePublished(formData: FormData) {
   const supabase = await adminClient();
   const id = String(formData.get('id') ?? '');
   const next = formData.get('published') === '1';
-  if (id) await supabase.from('songs').update({ published: next }).eq('id', id);
+  if (id) await supabase.from('items').update({ published: next }).eq('id', id);
   refreshPublic();
 }
 
-/** Swap a song with its neighbour so leaders can set the running order. */
-export async function moveSong(formData: FormData) {
+/** Swap an item with its neighbour so leaders can set the running order. */
+export async function moveItem(formData: FormData) {
   const supabase = await adminClient();
   const id = String(formData.get('id') ?? '');
   const direction = String(formData.get('direction') ?? '');
   if (!id || (direction !== 'up' && direction !== 'down')) return;
 
   const { data: current } = await supabase
-    .from('songs')
-    .select('id, sort_order')
+    .from('items')
+    .select('id, sort_order, kind')
     .eq('id', id)
     .maybeSingle();
   if (!current) return;
 
-  const base = supabase.from('songs').select('id, sort_order').limit(1);
+  // Swap only within the same section, so moving a skit never reshuffles songs.
+  const base = supabase
+    .from('items')
+    .select('id, sort_order')
+    .eq('kind', current.kind)
+    .limit(1);
   const { data: neighbour } =
     direction === 'down'
       ? await base.gt('sort_order', current.sort_order).order('sort_order', { ascending: true }).maybeSingle()
       : await base.lt('sort_order', current.sort_order).order('sort_order', { ascending: false }).maybeSingle();
   if (!neighbour) return;
 
-  await supabase.from('songs').update({ sort_order: neighbour.sort_order }).eq('id', current.id);
-  await supabase.from('songs').update({ sort_order: current.sort_order }).eq('id', neighbour.id);
+  await supabase.from('items').update({ sort_order: neighbour.sort_order }).eq('id', current.id);
+  await supabase.from('items').update({ sort_order: current.sort_order }).eq('id', neighbour.id);
 
   refreshPublic();
 }
 
 export async function approveSubmission(
-  _prev: SongFormResult,
+  _prev: ItemFormResult,
   formData: FormData,
-): Promise<SongFormResult> {
+): Promise<ItemFormResult> {
   const supabase = await adminClient();
   const admin = await requireAdmin();
 
   const id = String(formData.get('id') ?? '');
   const title = String(formData.get('title') ?? '').trim();
+  const kind = String(formData.get('kind') ?? '').trim();
   const tag = String(formData.get('tag') ?? '').trim();
   const tune = String(formData.get('tune') ?? '').trim();
   const categoryLabel = String(formData.get('category_label') ?? '').trim();
@@ -146,28 +156,31 @@ export async function approveSubmission(
   const reviewNote = String(formData.get('review_note') ?? '').trim();
 
   if (!id) return { error: 'Missing submission.' };
-  if (!title) return { error: 'Give the song a title.' };
-  if (!tag) return { error: 'Choose what kind of song it is.' };
+  if (!title) return { error: 'Give it a title.' };
+  if (!kind) return { error: 'Choose a section.' };
+  if (!tag) return { error: 'Choose what kind it is.' };
 
   const blocks = sanitizeBlocks(parseBody(body));
-  if (!blocks.length) return { error: 'The song needs some words.' };
+  if (!blocks.length) return { error: 'It needs some words.' };
 
   const { data: last } = await supabase
-    .from('songs')
+    .from('items')
     .select('sort_order')
+    .eq('kind', kind)
     .order('sort_order', { ascending: false })
     .limit(1)
     .maybeSingle();
 
   let slug = slugify(title);
-  const { data: clash } = await supabase.from('songs').select('id').eq('slug', slug).maybeSingle();
+  const { data: clash } = await supabase.from('items').select('id').eq('slug', slug).maybeSingle();
   if (clash) slug = `${slug}-${Date.now().toString(36).slice(-4)}`;
 
   const { data: song, error: songError } = await supabase
-    .from('songs')
+    .from('items')
     .insert({
       slug,
       title,
+      kind,
       tag,
       tune: tune || null,
       category_label: categoryLabel || null,
@@ -234,7 +247,7 @@ export async function reopenSubmission(formData: FormData) {
 }
 
 /** Add another leader to the admin allowlist. */
-export async function addAdmin(_prev: SongFormResult, formData: FormData): Promise<SongFormResult> {
+export async function addAdmin(_prev: ItemFormResult, formData: FormData): Promise<ItemFormResult> {
   const supabase = await adminClient();
 
   const email = String(formData.get('email') ?? '').trim().toLowerCase();
