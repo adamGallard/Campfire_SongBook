@@ -33,6 +33,21 @@ Environment variables:
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Publishable (anon) key — safe in the browser |
 | `SUBMISSION_SALT` | Any random string; salts the IP hash used for rate limiting |
 
+## Deploying
+
+The Vercel project is linked to this repo, so a push to `main` deploys.
+
+Set all three environment variables in **Vercel → Settings → Environment
+Variables** for the Production environment *before* the first deploy. The home
+page is statically prerendered, which means it reads the database **at build
+time** — a missing `NEXT_PUBLIC_SUPABASE_URL` fails the build outright with
+`supabaseUrl is required` rather than deploying a broken page. That is
+deliberate: a misconfigured songbook should not ship.
+
+Then, in **Supabase → Authentication → URL Configuration**, add the production
+origin plus `/auth/callback` to the redirect allowlist, or admin magic links
+will refuse to come back.
+
 ## The song format
 
 A song body is stored as a list of **blocks**, not HTML. This is what keeps a
