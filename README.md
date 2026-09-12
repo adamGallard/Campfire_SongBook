@@ -112,7 +112,33 @@ reach anything it shouldn't, even if application code has a bug.
   React elements, and `sanitizeBlocks()` drops anything unrecognised before it
   reaches the page.
 
-## Adding an admin
+## Admin access
 
-Sign in at `/admin`, go to **Admins**, and add their email address. They then
-sign in with a one-time link. You cannot remove yourself.
+Sign-in is **email and password** via Supabase Auth. Magic links were dropped
+because the free tier's built-in mail quota is a few messages an hour, which is
+not enough to sign in reliably.
+
+Two tables decide access, and they are separate on purpose:
+
+- **`admins`** — the allowlist. This alone decides who can manage the songbook.
+- **Supabase Auth** — accounts and passwords. Having an account grants nothing.
+
+So an account that is not on the allowlist can sign in and still see only
+"Not an admin".
+
+**Adding an admin**: sign in, go to **Admins**, add their address. They then use
+**First time here?** on the sign-in page to choose their own password — that
+flow refuses any address not already on the allowlist, so strangers cannot
+register. You cannot remove yourself.
+
+**Changing your password**: **Account** in the admin bar. Uses the active
+session, so it sends no email and works even with the mail quota exhausted.
+
+**Forgot password** does send an email, so it is subject to that quota. For
+this to work without email at all, turn **Confirm email** off in
+*Supabase → Authentication → Providers → Email*: the allowlist, not email
+ownership, is what gates access here.
+
+Worth enabling now that passwords are in play: **leaked password protection**
+in *Supabase → Authentication → Policies*, which checks new passwords against
+HaveIBeenPwned.
