@@ -10,11 +10,11 @@ export const metadata = { title: 'Admin sign in · Campfire Song Book' };
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; reason?: string }>;
 }) {
   if (await getAdmin()) redirect('/admin');
 
-  const { error } = await searchParams;
+  const { error, reason } = await searchParams;
 
   // Signed in, but not on the allowlist. Say so plainly rather than bouncing
   // them back to an empty form with no explanation.
@@ -52,9 +52,10 @@ export default async function LoginPage({
       <main className="wrap list">
         <LoginForm
           notice={
-            error === 'link'
+            reason ??
+            (error === 'link'
               ? 'That link has expired. Sign in with your password below.'
-              : undefined
+              : undefined)
           }
         />
       </main>
