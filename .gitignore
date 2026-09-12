@@ -4,3 +4,7 @@ node_modules
 .vercel
 *.tsbuildinfo
 next-env.d.ts
+
+# Claude Design exports — the source of truth lives in the design project
+*.dc.html
+Belmont*.html
