@@ -245,6 +245,18 @@ a {
   color: var(--text-strong);
 }
 
+a.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+}
+
+.chip-count {
+  color: var(--muted);
+  font-weight: 400;
+}
+
 /* Song cards ------------------------------------------------------------ */
 .list {
   display: flex;

@@ -89,7 +89,7 @@ export async function saveItem(
   }
 
   refreshPublic();
-  redirect('/admin/items');
+  redirect(`/admin/items?kind=${encodeURIComponent(kind)}`);
 }
 
 export async function deleteItem(formData: FormData) {

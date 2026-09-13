@@ -214,7 +214,10 @@ export function ItemForm({
 
       <div className="form-actions">
         <SubmitButton>{submitLabel}</SubmitButton>
-        <Link href={submissionId ? '/admin/submissions' : '/admin/items'} className="linklike">
+        <Link
+          href={submissionId ? '/admin/submissions' : `/admin/items?kind=${start.kind}`}
+          className="linklike"
+        >
           Cancel
         </Link>
       </div>
