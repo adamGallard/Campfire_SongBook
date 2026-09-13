@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter, Poppins } from 'next/font/google';
 import { ReadingPrefsProvider } from '@/components/ReadingPrefs';
+import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 
 const inter = Inter({
@@ -61,6 +62,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <ReadingPrefsProvider>{children}</ReadingPrefsProvider>
+        <Analytics />
       </body>
     </html>
   );
