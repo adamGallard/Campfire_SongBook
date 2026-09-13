@@ -881,3 +881,174 @@ a {
   color: var(--muted);
   font-weight: 600;
 }
+
+/* PDF export -------------------------------------------------------------
+   A long checklist with the download button pinned to the bottom of the
+   screen, so it is always one tap away however far down the list you are. */
+.export-page {
+  padding-bottom: 130px;
+}
+
+.card h2.section-title {
+  margin: 0;
+  font: 700 20px/1.2 var(--font-poppins), sans-serif;
+}
+
+fieldset.field {
+  border: none;
+  min-width: 0;
+}
+
+.choice-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 10px;
+}
+
+.choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  border: 1px solid var(--border-strong);
+  background: var(--field);
+  border-radius: 16px;
+  padding: 14px 16px;
+  cursor: pointer;
+}
+
+.choice:has(input:checked) {
+  border-color: var(--accent);
+  background: var(--chip-on-bg);
+}
+
+.choice input,
+.check input,
+.pick-row input {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  accent-color: var(--green);
+}
+
+.choice input {
+  margin-top: 2px;
+}
+
+.choice-title {
+  display: block;
+  font: 700 15px/1.3 var(--font-poppins), sans-serif;
+  color: var(--text-strong);
+}
+
+.choice-desc {
+  display: block;
+  margin-top: 4px;
+  font: 400 13px/1.5 var(--font-inter), sans-serif;
+  color: var(--muted);
+}
+
+.checks {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 40px;
+  font: 500 15px/1.4 var(--font-inter), sans-serif;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.pick .muted-line {
+  margin: 4px 0 14px;
+}
+
+.pick-section {
+  margin-top: 24px;
+}
+
+.pick-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.pick-title {
+  font: 700 17px/1.2 var(--font-poppins), sans-serif;
+  color: var(--text-strong);
+}
+
+.pick-count {
+  font: 600 12px/1 var(--font-inter), sans-serif;
+  color: var(--muted);
+}
+
+.pick-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 6px;
+}
+
+.pick-list {
+  list-style: none;
+}
+
+.pick-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 52px;
+  padding: 8px 2px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+}
+
+.pick-name {
+  display: block;
+  font: 500 15.5px/1.35 var(--font-inter), sans-serif;
+  color: var(--text-strong);
+}
+
+.pick-meta {
+  display: block;
+  font: 400 12.5px/1.4 var(--font-inter), sans-serif;
+  color: var(--muted);
+}
+
+.export-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+  background: var(--bar);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border);
+  padding: 12px 0 calc(12px + env(safe-area-inset-bottom));
+}
+
+.export-bar > .wrap {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.export-bar .form-error {
+  flex-basis: 100%;
+}
+
+.export-count {
+  font: 600 14px/1.4 var(--font-inter), sans-serif;
+  color: var(--text-strong);
+}
+
+.export-bar .primary-btn {
+  margin-left: auto;
+}

@@ -1,4 +1,5 @@
 import { Fragment, type ReactNode } from 'react';
+import { inlineRuns } from '@/lib/blocks';
 import type { Block } from '@/lib/types';
 
 /**
@@ -8,30 +9,20 @@ import type { Block } from '@/lib/types';
  */
 function inline(text: string): ReactNode {
   const nodes: ReactNode[] = [];
-  const pattern = /\*\*([^*]+)\*\*|_([^_]+)_/g;
-  let last = 0;
   let key = 0;
-  let m: RegExpExecArray | null;
 
-  const pushPlain = (chunk: string) => {
-    if (!chunk) return;
-    const lines = chunk.split('\n');
-    lines.forEach((line, i) => {
-      if (i > 0) nodes.push(<br key={`br-${key++}`} />);
-      if (line) nodes.push(<Fragment key={`t-${key++}`}>{line}</Fragment>);
-    });
-  };
-
-  while ((m = pattern.exec(text)) !== null) {
-    pushPlain(text.slice(last, m.index));
-    if (m[1] !== undefined) {
-      nodes.push(<strong key={`b-${key++}`}>{m[1]}</strong>);
+  for (const run of inlineRuns(text)) {
+    if (run.style === 'bold') {
+      nodes.push(<strong key={`b-${key++}`}>{run.text}</strong>);
+    } else if (run.style === 'italic') {
+      nodes.push(<em key={`i-${key++}`}>{run.text}</em>);
     } else {
-      nodes.push(<em key={`i-${key++}`}>{m[2]}</em>);
+      run.text.split('\n').forEach((line, i) => {
+        if (i > 0) nodes.push(<br key={`br-${key++}`} />);
+        if (line) nodes.push(<Fragment key={`t-${key++}`}>{line}</Fragment>);
+      });
     }
-    last = m.index + m[0].length;
   }
-  pushPlain(text.slice(last));
 
   return nodes;
 }

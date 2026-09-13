@@ -170,6 +170,29 @@ export function slugify(title: string): string {
     .slice(0, 80);
 }
 
+export type InlineRun = { style: 'plain' | 'bold' | 'italic'; text: string };
+
+/**
+ * Split a line into the tiny inline vocabulary: **bold**, _italic_, and plain
+ * text (which may still hold newlines). Shared by the page and the PDF so the
+ * two can never disagree about what counts as markup.
+ */
+export function inlineRuns(text: string): InlineRun[] {
+  const runs: InlineRun[] = [];
+  const pattern = /\*\*([^*]+)\*\*|_([^_]+)_/g;
+  let last = 0;
+  let m: RegExpExecArray | null;
+
+  while ((m = pattern.exec(text)) !== null) {
+    if (m.index > last) runs.push({ style: 'plain', text: text.slice(last, m.index) });
+    runs.push(m[1] !== undefined ? { style: 'bold', text: m[1] } : { style: 'italic', text: m[2] });
+    last = m.index + m[0].length;
+  }
+  if (last < text.length) runs.push({ style: 'plain', text: text.slice(last) });
+
+  return runs;
+}
+
 /** Plain text of a song, used for search. */
 export function blocksToPlainText(blocks: Block[]): string {
   return blocks

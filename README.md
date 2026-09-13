@@ -15,6 +15,8 @@ section needs no signal.
 
 - **The book** — `/` (opens straight into the songs; an intro panel explains
   the site to a first-time visitor and collapses once dismissed)
+- **Make a PDF** — `/export` (tick any mix of songs, skits and cheers; download
+  A4 pages or an A5 booklet)
 - **Send one in** — `/submit?kind=song|skit|applause`
 - **Admin** — `/admin` (sign in with a one-time email link)
 
@@ -89,6 +91,32 @@ Note: this becomes a small aside.
 - a line starting with a dash
 - becomes a list
 ```
+
+## PDF export
+
+`/export` lists the whole book as a checklist. The PDF is laid out **in the
+browser** (`@react-pdf/renderer`), so there is no server endpoint doing heavy
+work for anonymous visitors, and the ~600 KB of PDF code is only fetched when
+someone presses Download. The selection and options are remembered per device.
+
+- **A4 pages** — portrait, type a fifth larger than the booklet.
+- **A5 booklet** — half-A4 pages imposed two-up on A4 landscape sheets in
+  saddle-stitch order (`lib/pdf/impose.ts`, using `pdf-lib`). Print
+  double-sided, flip on the short edge, fold the stack and staple. Blank pages
+  needed to reach a multiple of four go just inside the back cover.
+
+Page breaks cannot be known before layout, so `lib/pdf/build.tsx` lays the
+selection out up to three times: once with every item on its own page to learn
+which fit on one page (those are then never split); again in slightly smaller
+type for any that ran over, so a song that is a few lines too long still fits;
+then for real, which also gives the contents page its page numbers.
+
+Items print in book order, numbered through, with a cover, a two-column
+contents page and, on a booklet, a back cover. The PDF uses the same inline
+markup parser as the page (`inlineRuns` in `lib/blocks.ts`).
+
+Fonts are self-hosted in `public/fonts` (Inter and Poppins, SIL OFL — licences
+alongside). Each has a latin-ext fallback so macrons and other accents print.
 
 ## Database
 

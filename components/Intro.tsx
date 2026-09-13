@@ -61,6 +61,10 @@ export function Intro() {
             <strong>Big type</strong> makes it readable at arm's length.
           </li>
           <li>
+            <strong>Make a PDF</strong> of just the ones you want — A4 pages, or a booklet to fold
+            and staple.
+          </li>
+          <li>
             <strong>Know one we are missing?</strong> Send it in — a leader reads everything before
             it appears here.
           </li>

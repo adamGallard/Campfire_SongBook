@@ -107,6 +107,9 @@ export function Book({
 
           <div className="hero-actions">
             <ReadingToggles />
+            <Link href="/export" className="ghost-btn">
+              Make a PDF
+            </Link>
             <Link href={`/submit?kind=${active?.slug ?? 'song'}`} className="ghost-btn">
               Submit a {active?.singular ?? 'song'}
             </Link>
@@ -192,6 +195,7 @@ export function Book({
             <Link href={`/submit?kind=${active?.slug ?? 'song'}`}>
               Submit a {active?.singular ?? 'song'}
             </Link>
+            <Link href="/export">Make a PDF</Link>
             <Link href="/admin">Admin</Link>
           </p>
           <p className="footmeta">
