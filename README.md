@@ -13,8 +13,9 @@ the hero heading, and the noun a leader actually uses ("song", "skit",
 is a row plus its tags. The whole book ships in one page load, so switching
 section needs no signal.
 
-- **Public songbook** — `/`
-- **Submit a song** — `/submit`
+- **The book** — `/` (opens straight into the songs; an intro panel explains
+  the site to a first-time visitor and collapses once dismissed)
+- **Send one in** — `/submit?kind=song|skit|applause`
 - **Admin** — `/admin` (sign in with a one-time email link)
 
 ## Stack

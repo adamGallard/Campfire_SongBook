@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Blocks } from './Blocks';
 import { ReadingToggles } from './ReadingPrefs';
+import { Intro } from './Intro';
 import { blocksToPlainText } from '@/lib/blocks';
 import mark from '@/public/scout-mark.png';
 import type { Item, Kind, Tag } from '@/lib/types';
@@ -106,12 +107,16 @@ export function Book({
 
           <div className="hero-actions">
             <ReadingToggles />
-            <Link href="/submit" className="ghost-btn">
+            <Link href={`/submit?kind=${active?.slug ?? 'song'}`} className="ghost-btn">
               Submit a {active?.singular ?? 'song'}
             </Link>
           </div>
         </div>
       </header>
+
+      <div className="wrap">
+        <Intro />
+      </div>
 
       <div className="searchbar">
         <div className="wrap">
@@ -184,7 +189,9 @@ export function Book({
             fullest.
           </p>
           <p className="footlinks">
-            <Link href="/submit">Submit a {active?.singular ?? 'song'}</Link>
+            <Link href={`/submit?kind=${active?.slug ?? 'song'}`}>
+              Submit a {active?.singular ?? 'song'}
+            </Link>
             <Link href="/admin">Admin</Link>
           </p>
           <p className="footmeta">

@@ -29,10 +29,19 @@ _(He presses his forehead, then his jaw, then his stomach.)_
 Punchline: Scout 1: He says I have a broken finger.`,
 };
 
-export function SubmitForm({ kinds, tags }: { kinds: Kind[]; tags: Tag[] }) {
+export function SubmitForm({
+  kinds,
+  tags,
+  startKind,
+}: {
+  kinds: Kind[];
+  tags: Tag[];
+  startKind?: string;
+}) {
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent'>('idle');
   const [error, setError] = useState<string | null>(null);
-  const [kind, setKind] = useState(kinds[0]?.slug ?? 'song');
+  const [kind, setKind] = useState(startKind ?? kinds[0]?.slug ?? 'song');
+  const [tag, setTag] = useState('');
 
   const kindTags = useMemo(
     () => tags.filter((t) => t.kind === kind).sort((a, b) => a.sort_order - b.sort_order),
@@ -108,7 +117,11 @@ export function SubmitForm({ kinds, tags }: { kinds: Kind[]; tags: Tag[] }) {
             name="kind"
             className="input"
             value={kind}
-            onChange={(e) => setKind(e.target.value)}
+            onChange={(e) => {
+              setKind(e.target.value);
+              // Tags belong to a kind, so a leftover "Loud" would be invalid.
+              setTag('');
+            }}
           >
             {kinds.map((k) => (
               <option key={k.slug} value={k.slug}>
@@ -137,7 +150,12 @@ export function SubmitForm({ kinds, tags }: { kinds: Kind[]; tags: Tag[] }) {
           <span className="field-label">
             {kind === 'skit' ? 'How many scouts?' : kind === 'applause' ? 'What sort of cheer?' : 'What kind of song?'}
           </span>
-          <select name="tag" className="input" defaultValue="">
+          <select
+            name="tag"
+            className="input"
+            value={tag}
+            onChange={(e) => setTag(e.target.value)}
+          >
             <option value="">Not sure</option>
             {kindTags.map((t) => (
               <option key={t.slug} value={t.slug}>

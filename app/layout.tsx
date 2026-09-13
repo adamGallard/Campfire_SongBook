@@ -36,8 +36,11 @@ try {
   var m = localStorage.getItem('songbook:mode');
   document.documentElement.dataset.mode = (m === 'day' || m === 'night') ? m : 'night';
   document.documentElement.dataset.big = localStorage.getItem('songbook:big') === '1' ? '1' : '0';
+  document.documentElement.dataset.intro =
+    localStorage.getItem('songbook:intro') === 'hidden' ? 'hidden' : 'shown';
 } catch (e) {
   document.documentElement.dataset.mode = 'night';
+  document.documentElement.dataset.intro = 'shown';
 }
 `;
 
@@ -49,6 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en-AU"
       data-mode="night"
       data-big="0"
+      data-intro="shown"
       className={`${inter.variable} ${poppins.variable}`}
       suppressHydrationWarning
     >

@@ -797,3 +797,87 @@ a {
 .section-btn[aria-selected='false'] .section-count {
   background: rgba(255, 255, 255, 0.16);
 }
+
+/* Intro panel ------------------------------------------------------------
+   Deliberately not a card: a hairline rule and an inset ground, so it reads
+   as page furniture rather than competing with the songs. Visibility is
+   driven by data-intro on <html>, set before paint. */
+.intro {
+  margin-top: 18px;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  background: var(--inset);
+  border-radius: 16px;
+  padding: 16px 18px;
+}
+
+.intro-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.intro-title {
+  font: 700 16px/1.35 var(--font-poppins), sans-serif;
+  color: var(--text-strong);
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.intro-toggle {
+  flex: none;
+  border: none;
+  background: none;
+  color: var(--muted);
+  font: 600 13px/1 var(--font-inter), sans-serif;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 4px 0;
+  min-height: 32px;
+}
+
+.intro-toggle:hover {
+  color: var(--accent);
+}
+
+.intro-lede {
+  margin: 10px 0 0;
+  font: 400 15px/1.6 var(--font-inter), sans-serif;
+  color: var(--text);
+  max-width: 58ch;
+}
+
+.intro-points {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+  font: 400 14.5px/1.55 var(--font-inter), sans-serif;
+  color: var(--muted);
+  max-width: 62ch;
+}
+
+.intro-points strong {
+  color: var(--text-strong);
+  font-weight: 600;
+}
+
+/* Collapsed: the title becomes the affordance to bring it back. */
+[data-intro='hidden'] .intro-body,
+[data-intro='hidden'] .intro-when-shown,
+[data-intro='shown'] .intro-when-hidden {
+  display: none;
+}
+
+[data-intro='hidden'] .intro {
+  padding: 11px 18px;
+  background: transparent;
+}
+
+[data-intro='hidden'] .intro-title {
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 600;
+}
