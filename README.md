@@ -18,7 +18,7 @@ section needs no signal.
 - **Make a PDF** — `/export` (tick any mix of songs, skits and cheers; download
   A4 pages or an A5 booklet)
 - **Send one in** — `/submit?kind=song|skit|applause`
-- **Admin** — `/admin` (sign in with a one-time email link)
+- **Admin** — `/admin` (sign in with email and password)
 
 ## Stack
 
@@ -53,9 +53,15 @@ time** — a missing `NEXT_PUBLIC_SUPABASE_URL` fails the build outright with
 `supabaseUrl is required` rather than deploying a broken page. That is
 deliberate: a misconfigured songbook should not ship.
 
-Then, in **Supabase → Authentication → URL Configuration**, add the production
-origin plus `/auth/callback` to the redirect allowlist, or admin magic links
-will refuse to come back.
+Then, in **Supabase → Authentication → URL Configuration**, set **Site URL** to
+the production origin — `https://`, not `http://` — and add
+`https://<your-domain>/**` under **Redirect URLs**. Supabase only honours an
+email link's redirect when it matches the Site URL's scheme and host or an
+allowlist pattern, and a pattern with no `**` does not match
+`/auth/callback?next=…`. Anything that fails that check is silently sent to the
+Site URL instead, so a password-reset link just opens the home page.
+(`next.config.mjs` forwards a code that lands there to `/auth/callback` as a
+fallback, but get the settings right.)
 
 ## The song format
 
