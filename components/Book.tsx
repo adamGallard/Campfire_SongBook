@@ -190,7 +190,10 @@ export function Book({
           <p className="footmeta">
             Campfire Book ·{' '}
             {kinds
-              .map((k) => `${items.filter((i) => i.kind === k.slug).length} ${k.label.toLowerCase()}`)
+              .map((k) => {
+                const n = items.filter((i) => i.kind === k.slug).length;
+                return `${n} ${n === 1 ? k.singular : k.plural}`;
+              })
               .join(' · ')}
           </p>
         </div>
