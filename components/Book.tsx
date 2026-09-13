@@ -62,8 +62,6 @@ export function Book({
     window.scrollTo({ top: 0 });
   }
 
-  const title = active?.label === 'Songs' ? 'Song Book' : `${active?.singular ?? ''} Book`;
-
   return (
     <>
       <header className="hero">
@@ -75,15 +73,15 @@ export function Book({
             <span className="kicker">ScoutBase</span>
           </Link>
 
-          <h1 style={{ textTransform: 'capitalize' }}>
+          <h1>
             Campfire
             <br />
-            {title}
+            {active?.heading}
           </h1>
           <div className="rule" />
           <p className="lede">
-            {inKind.length} {inKind.length === 1 ? active?.singular : active?.label.toLowerCase()} for
-            the fire. {active?.lede}
+            {inKind.length} {inKind.length === 1 ? active?.singular : active?.plural} for the
+            fire. {active?.lede}
           </p>
 
           {kinds.length > 1 ? (

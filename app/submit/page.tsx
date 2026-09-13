@@ -14,7 +14,7 @@ export default async function SubmitPage() {
   const [{ data: kindRows }, { data: tagRows }] = await Promise.all([
     supabase
       .from('kinds')
-      .select('slug, label, singular, lede, sort_order, enabled')
+      .select('slug, label, heading, singular, plural, lede, sort_order, enabled')
       .eq('enabled', true)
       .order('sort_order'),
     supabase.from('tags').select('kind, slug, label, sort_order').order('sort_order'),

@@ -1,15 +1,17 @@
 # Campfire Book
 
-A ScoutBase campfire book: 24 songs and 35 skits, with night/daylight reading
-modes, big type for reading round an actual fire, search across every line, and
-filters that change per section.
+A ScoutBase campfire book: 24 songs, 35 skits and 16 applause cheers, with
+night/daylight reading modes, big type for reading round an actual fire, search
+across every line, and filters that change per section.
 
 Everything lives in Postgres rather than in the page, so leaders can edit it and
 the public can send new material in for review.
 
-Sections are rows in the `kinds` table — songs, skits, and applause (switched
-off until there is content for it). The whole book ships in one page load, so
-switching section needs no signal.
+Sections are rows in the `kinds` table, and each one carries its own wording —
+the hero heading, and the noun a leader actually uses ("song", "skit",
+"cheer"), so no copy is derived from the section name. Adding a fourth section
+is a row plus its tags. The whole book ships in one page load, so switching
+section needs no signal.
 
 - **Public songbook** — `/`
 - **Submit a song** — `/submit`

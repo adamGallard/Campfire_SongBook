@@ -1,0 +1,191 @@
+[
+  {
+    "num": 1,
+    "title": "Round of Applause",
+    "tag": "daft",
+    "category": "Daft · three seconds",
+    "cast": "The oldest one in the book — deliver it with a completely straight face",
+    "blocks": [
+      { "type": "verse", "text": "**Leader:** Let's give them a round of applause!" },
+      { "type": "shout", "text": "Everyone claps — while running a small circle on the spot." },
+      { "type": "note", "text": "Works exactly once per camp, on exactly one person. Spend it wisely." }
+    ]
+  },
+  {
+    "num": 2,
+    "title": "Standing Ovation",
+    "tag": "daft",
+    "category": "Daft · three seconds",
+    "cast": "Best straight after Round of Applause, before anyone catches on",
+    "blocks": [
+      { "type": "verse", "text": "**Leader:** That deserves a standing ovation!" },
+      { "type": "shout", "text": "Everyone stands up and makes a big letter O with both arms." },
+      { "type": "note", "text": "A standing O. That is the whole joke, and it lands every time." }
+    ]
+  },
+  {
+    "num": 3,
+    "title": "Big Hand",
+    "tag": "daft",
+    "category": "Daft · three seconds",
+    "cast": "No preparation, no props, no shame",
+    "blocks": [
+      { "type": "verse", "text": "**Leader:** Come on everyone — let's give them a big hand." },
+      { "type": "shout", "text": "Everybody holds up one hand and slowly spreads their fingers as wide as they go." },
+      { "type": "note", "text": "Not a single clap. Hold the silence for a beat longer than feels comfortable." }
+    ]
+  },
+  {
+    "num": 4,
+    "title": "Seal of Approval",
+    "tag": "actions",
+    "category": "Actions · everyone",
+    "cast": "Arms straight, hands flat — flippers, not hands",
+    "blocks": [
+      { "type": "verse", "text": "Straighten both arms in front of you, palms flat and facing each other.\nClap them together from the elbows, like a seal.\n_Three good slaps._" },
+      { "type": "shout", "text": "Arf! Arf! Arf!" },
+      { "type": "note", "text": "Tip the head back on the last one. Balancing an imaginary ball on your nose is optional but encouraged." }
+    ]
+  },
+  {
+    "num": 5,
+    "title": "Watermelon",
+    "tag": "actions",
+    "category": "Actions · everyone",
+    "cast": "Mime the slice big — it is a very large watermelon",
+    "blocks": [
+      { "type": "verse", "text": "Hold up a slice of watermelon in both hands.\n_Take an enormous bite, ear to ear._\n_Chew, and look delighted about it._" },
+      { "type": "shout", "text": "Ptoo! Ptoo! Ptoo!" },
+      { "type": "note", "text": "The seeds go towards the leaders. This is traditional and cannot be changed." }
+    ]
+  },
+  {
+    "num": 6,
+    "title": "Lumberjack",
+    "tag": "actions",
+    "category": "Actions · everyone",
+    "cast": "Needs a bit of room — check nobody is standing too close",
+    "blocks": [
+      { "type": "verse", "text": "Everyone swings an axe at the same tree.\n_Three big chops — hup, hup, hup._" },
+      { "type": "shout", "text": "TIMBERRRR!" },
+      { "type": "note", "text": "Everyone leans slowly sideways and topples over. The slower the fall, the better it looks." }
+    ]
+  },
+  {
+    "num": 7,
+    "title": "Microwave",
+    "tag": "quick",
+    "category": "Quick · three seconds",
+    "cast": "The smallest cheer in the book",
+    "blocks": [
+      { "type": "verse", "text": "Hold up one hand and wiggle your fingers — the tiniest wave you can manage." },
+      { "type": "shout", "text": "Beeeeep." },
+      { "type": "note", "text": "A micro wave. Say nothing else; let them work it out." }
+    ]
+  },
+  {
+    "num": 8,
+    "title": "Pat on the Back",
+    "tag": "quick",
+    "category": "Quick · three seconds",
+    "cast": "Everyone congratulates themselves",
+    "blocks": [
+      { "type": "verse", "text": "Reach over your own shoulder and pat yourself firmly on the back.\n_Twice, with feeling._" },
+      { "type": "shout", "text": "Well done, me!" }
+    ]
+  },
+  {
+    "num": 9,
+    "title": "Cheerio",
+    "tag": "quick",
+    "category": "Quick · three seconds",
+    "cast": "One finger and a thumb, that is it",
+    "blocks": [
+      { "type": "verse", "text": "Make a small circle with your finger and thumb and hold it up to one eye." },
+      { "type": "shout", "text": "Cheeri-oooooo!" }
+    ]
+  },
+  {
+    "num": 10,
+    "title": "Two Thumbs Up",
+    "tag": "quick",
+    "category": "Quick · three seconds",
+    "cast": "For when there is no time for anything longer",
+    "blocks": [
+      { "type": "verse", "text": "Both thumbs up, held high, with the biggest grin you can manage.\n_Hold it for three full seconds without speaking._" },
+      { "type": "note", "text": "The silence is the cheer. Anyone who talks has to do it again on their own." }
+    ]
+  },
+  {
+    "num": 11,
+    "title": "Firecracker",
+    "tag": "build",
+    "category": "Builds up · everyone",
+    "cast": "Starts as a whisper and ends as loudly as you dare",
+    "blocks": [
+      { "type": "verse", "text": "Rub your palms together and start a fizzing sound, very quietly.\n_Louder. Louder still. Up on your toes._" },
+      { "type": "shout", "text": "BANG!" },
+      { "type": "note", "text": "Throw both hands in the air on the bang, then drift them down like falling sparks, fizzing as they go." }
+    ]
+  },
+  {
+    "num": 12,
+    "title": "Rattlesnake",
+    "tag": "build",
+    "category": "Builds up · everyone",
+    "cast": "Hands together, building from nothing",
+    "blocks": [
+      { "type": "verse", "text": "Rub your hands together and hiss, starting almost silently.\n_Build it up — the snake is getting closer._\n_Keep building until it is far too loud._" },
+      { "type": "shout", "text": "SSSSS — CLAP!" },
+      { "type": "note", "text": "One clap, all together, and then complete silence. The silence is the best part." }
+    ]
+  },
+  {
+    "num": 13,
+    "title": "Rocket Launch",
+    "tag": "build",
+    "category": "Builds up · everyone",
+    "cast": "A countdown everyone can join, however late they notice",
+    "blocks": [
+      { "type": "verse", "text": "**Leader:** Rocket ready? Count me down!\n**Everyone:** Five — four — three — two — one —" },
+      { "type": "shout", "text": "WHOOOOOOSH!" },
+      { "type": "note", "text": "Crouch low for the countdown and spring up on the whoosh, hands together over your head." }
+    ]
+  },
+  {
+    "num": 14,
+    "title": "Sizzling Sausage",
+    "tag": "build",
+    "category": "Builds up · everyone",
+    "cast": "One for after a camp cook-off",
+    "blocks": [
+      { "type": "verse", "text": "Lay a sausage in the pan.\n_Sssssss — turn it over._\n_Sssssss — turn it again._" },
+      { "type": "shout", "text": "Ssss — POP! Beauty!" },
+      { "type": "note", "text": "Everyone jumps on the pop. It is the fat spitting, and it always catches somebody out." }
+    ]
+  },
+  {
+    "num": 15,
+    "title": "Kookaburra",
+    "tag": "actions",
+    "category": "Actions · everyone",
+    "cast": "Best after dark, when the real ones answer back",
+    "blocks": [
+      { "type": "verse", "text": "Tuck your hands under your arms for wings.\nStart a low chuckle and let it climb into a full laugh." },
+      { "type": "shout", "text": "Koo-koo-koo-ka-ka-KA-KA-KA!" },
+      { "type": "note", "text": "Let it run one round longer than seems sensible. Round the bay, something usually joins in." }
+    ]
+  },
+  {
+    "num": 16,
+    "title": "Aussie Cheer",
+    "tag": "quick",
+    "category": "Quick · everyone",
+    "cast": "Leader calls, everyone answers — the loudest three seconds of the night",
+    "blocks": [
+      { "type": "verse", "text": "**Leader:** Aussie! Aussie! Aussie!\n**Everyone:** Oi! Oi! Oi!\n**Leader:** Aussie!\n**Everyone:** Oi!\n**Leader:** Aussie!\n**Everyone:** Oi!" },
+      { "type": "shout", "text": "Aussie! Aussie! Aussie! — Oi! Oi! Oi!" },
+      { "type": "note", "text": "Save it for the very end, or nothing after it will sound like much." }
+    ]
+  }
+]

@@ -5,6 +5,12 @@ import Link from 'next/link';
 import type { Kind, Tag } from '@/lib/types';
 
 const PLACEHOLDERS: Record<string, string> = {
+  applause: `Straighten both arms in front of you, palms flat.
+Clap them together from the elbows, like a seal.
+
+Punchline: Arf! Arf! Arf!
+
+Note: tip the head back on the last one.`,
   song: `Campfires burning, campfires burning,
 Draw nearer, draw nearer,
 In the glowing, in the glowing,
@@ -119,7 +125,9 @@ export function SubmitForm({ kinds, tags }: { kinds: Kind[]; tags: Tag[] }) {
             required
             maxLength={120}
             className="input"
-            placeholder={kind === 'skit' ? 'Sore Finger' : 'Alice The Camel'}
+            placeholder={
+              kind === 'skit' ? 'Sore Finger' : kind === 'applause' ? 'Seal of Approval' : 'Alice The Camel'
+            }
           />
         </label>
       </div>
@@ -127,7 +135,7 @@ export function SubmitForm({ kinds, tags }: { kinds: Kind[]; tags: Tag[] }) {
       <div className="field-row">
         <label className="field">
           <span className="field-label">
-            {kind === 'skit' ? 'How many scouts?' : 'What kind of song?'}
+            {kind === 'skit' ? 'How many scouts?' : kind === 'applause' ? 'What sort of cheer?' : 'What kind of song?'}
           </span>
           <select name="tag" className="input" defaultValue="">
             <option value="">Not sure</option>
@@ -141,21 +149,28 @@ export function SubmitForm({ kinds, tags }: { kinds: Kind[]; tags: Tag[] }) {
 
         <label className="field">
           <span className="field-label">
-            {kind === 'skit' ? 'Cast' : 'Tune'} <span className="optional">optional</span>
+            {kind === 'skit' ? 'Cast' : kind === 'applause' ? 'How to lead it' : 'Tune'}{' '}
+            <span className="optional">optional</span>
           </span>
           <input
             name="tune"
             maxLength={200}
             className="input"
             placeholder={
-              kind === 'skit' ? '4 scouts — narrator, policeman…' : 'Tune: traditional · faster each verse'
+              kind === 'skit'
+                ? '4 scouts — narrator, policeman…'
+                : kind === 'applause'
+                  ? 'Arms straight, hands flat — flippers, not hands'
+                  : 'Tune: traditional · faster each verse'
             }
           />
         </label>
       </div>
 
       <label className="field">
-        <span className="field-label">{kind === 'skit' ? 'The script' : 'The words'}</span>
+        <span className="field-label">
+          {kind === 'skit' ? 'The script' : kind === 'applause' ? 'How it goes' : 'The words'}
+        </span>
         <textarea
           name="body"
           required
@@ -166,10 +181,10 @@ export function SubmitForm({ kinds, tags }: { kinds: Kind[]; tags: Tag[] }) {
         />
         <span className="hint">
           Leave a blank line between blocks.{' '}
-          {kind === 'skit' ? (
+          {kind === 'skit' || kind === 'applause' ? (
             <>
-              Use <code>**Scout 1:**</code> for a speaker, <code>_(stage direction)_</code> for
-              actions, and <code>Punchline:</code> for the payoff line.
+              Use <code>**Scout 1:**</code> for a speaker, <code>_(actions)_</code> in italics, and{' '}
+              <code>Punchline:</code> for the line everyone yells.
             </>
           ) : (
             <>

@@ -16,7 +16,7 @@ export default async function HomePage() {
       .select('id, slug, title, kind, tag, category_label, tune, blocks, sort_order, published, created_at, updated_at')
       .eq('published', true)
       .order('sort_order'),
-    supabase.from('kinds').select('slug, label, singular, lede, sort_order, enabled').order('sort_order'),
+    supabase.from('kinds').select('slug, label, heading, singular, plural, lede, sort_order, enabled').order('sort_order'),
     supabase.from('tags').select('kind, slug, label, sort_order').order('sort_order'),
   ]);
 

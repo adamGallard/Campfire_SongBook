@@ -20,8 +20,13 @@ export type BlockType = Block['type'];
 /** A section of the book: songs, skits, applause. */
 export interface Kind {
   slug: string;
+  /** Section name on the switcher: "Songs". */
   label: string;
+  /** Second line of the hero: "Song Book", "Applause". */
+  heading: string;
+  /** The noun a leader uses: "song", "skit", "cheer". */
   singular: string;
+  plural: string;
   lede: string | null;
   sort_order: number;
   enabled: boolean;

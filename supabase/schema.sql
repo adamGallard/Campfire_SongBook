@@ -13,22 +13,26 @@
 --   20260912_submit_song_accepts_kind
 
 -- Sections of the book -----------------------------------------------------
+-- Each kind carries its own wording, because deriving copy off the section
+-- name gives you "16 applause for the fire" and "Submit a applause".
 create table public.kinds (
   slug        text primary key,
-  label       text not null,          -- "Songs"
-  singular    text not null,          -- "song"
+  label       text not null,          -- switcher: "Songs"
+  heading     text not null,          -- hero second line: "Song Book", "Applause"
+  singular    text not null,          -- the noun a leader uses: "song", "cheer"
+  plural      text not null,          -- "songs", "cheers"
   lede        text,                   -- section blurb on the public page
   sort_order  integer not null default 0,
   enabled     boolean not null default true
 );
 
-insert into public.kinds (slug, label, singular, lede, sort_order, enabled) values
-  ('song', 'Songs', 'song',
+insert into public.kinds (slug, label, heading, singular, plural, lede, sort_order, enabled) values
+  ('song', 'Songs', 'Song Book', 'song', 'songs',
    'Search for one, or scroll from the loud ones at the top to the quiet ones at the end.', 1, true),
-  ('skit', 'Skits', 'skit',
+  ('skit', 'Skits', 'Skit Book', 'skit', 'skits',
    'Filter by how many scouts you have got, or search for one you remember.', 2, true),
-  ('applause', 'Applause', 'applause',
-   'Quick cheers to throw between acts.', 3, false);
+  ('applause', 'Applause', 'Applause', 'cheer', 'cheers',
+   'Quick cheers to throw between acts.', 3, true);
 
 -- Tags (the filter chips), scoped per kind: "Loud" means nothing to a skit.
 create table public.tags (
@@ -47,7 +51,11 @@ insert into public.tags (kind, slug, label, sort_order) values
   ('song', 'quiet',   'Quiet',   5),
   ('skit', 'small',  '2–3 scouts', 1),
   ('skit', 'medium', '4–6 scouts', 2),
-  ('skit', 'large',  '7+ scouts',  3);
+  ('skit', 'large',  '7+ scouts',  3),
+  ('applause', 'quick',   'Quick',     1),
+  ('applause', 'actions', 'Actions',   2),
+  ('applause', 'build',   'Builds up', 3),
+  ('applause', 'daft',    'Daft',      4);
 
 -- Items (songs, skits, applause) -------------------------------------------
 -- `blocks` holds the body as structured JSON rather than HTML, so nothing a

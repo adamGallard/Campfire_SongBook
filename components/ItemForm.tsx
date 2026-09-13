@@ -10,6 +10,28 @@ import type { ItemFormResult } from '@/app/admin/(dash)/actions';
 
 type Action = (prev: ItemFormResult, formData: FormData) => Promise<ItemFormResult>;
 
+/** What the second line and the body are actually called, per section. */
+const WORDING: Record<string, { sub: string; subHint: string; body: string; pill: string }> = {
+  song: {
+    sub: 'Tune line',
+    subHint: 'Tune: traditional · faster each verse',
+    body: 'The words',
+    pill: 'Opener · round',
+  },
+  skit: {
+    sub: 'Cast line',
+    subHint: '4 scouts — narrator, policeman…',
+    body: 'The script',
+    pill: '4–6 scouts · Chain gag',
+  },
+  applause: {
+    sub: 'How to lead it',
+    subHint: 'Arms straight, hands flat — flippers, not hands',
+    body: 'How it goes',
+    pill: 'Actions · everyone',
+  },
+};
+
 export function ItemForm({
   action,
   kinds,
@@ -59,8 +81,7 @@ export function ItemForm({
   );
 
   const active = kinds.find((k) => k.slug === kind);
-  const tuneHint =
-    kind === 'skit' ? 'Cast line, e.g. “4 scouts — narrator, policeman…”' : 'Tune: traditional · faster each verse';
+  const words = WORDING[kind] ?? WORDING.song;
 
   return (
     <form className="card form" action={formAction}>
@@ -130,26 +151,26 @@ export function ItemForm({
             maxLength={80}
             className="input"
             defaultValue={start.category_label}
-            placeholder={kind === 'skit' ? '4–6 scouts · Chain gag' : 'Opener · round'}
+            placeholder={words.pill}
           />
         </label>
       </div>
 
       <label className="field">
         <span className="field-label">
-          {kind === 'skit' ? 'Cast line' : 'Tune line'} <span className="optional">optional</span>
+          {words.sub} <span className="optional">optional</span>
         </span>
         <input
           name="tune"
           maxLength={200}
           className="input"
           defaultValue={start.tune}
-          placeholder={tuneHint}
+          placeholder={words.subHint}
         />
       </label>
 
       <label className="field">
-        <span className="field-label">{kind === 'skit' ? 'The script' : 'The words'}</span>
+        <span className="field-label">{words.body}</span>
         <textarea
           name="body"
           required
