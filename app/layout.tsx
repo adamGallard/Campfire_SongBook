@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter, Poppins } from 'next/font/google';
+import { OfflineSupport } from '@/components/OfflineSupport';
 import { ReadingPrefsProvider } from '@/components/ReadingPrefs';
 import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
@@ -61,6 +62,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: noFlash }} />
       </head>
       <body>
+        <OfflineSupport />
         <ReadingPrefsProvider>{children}</ReadingPrefsProvider>
         <Analytics />
       </body>

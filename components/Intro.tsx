@@ -62,6 +62,10 @@ export function Intro() {
             <strong>Big type</strong> makes it readable at arm's length.
           </li>
           <li>
+            <strong>No signal at camp?</strong> Once you have opened the book on your phone it keeps
+            working without a connection. Add it to your home screen to find it easily.
+          </li>
+          <li>
             <strong>Make a PDF</strong> of just the ones you want — A4 pages, or a booklet to fold
             and staple.
           </li>

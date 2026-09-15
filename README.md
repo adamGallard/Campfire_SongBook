@@ -67,6 +67,33 @@ Site URL instead, so a password-reset link just opens the home page.
 (`next.config.mjs` forwards a code that lands there to `/auth/callback` as a
 fallback, but get the settings right.)
 
+## Offline
+
+The book is used round a fire, often with no signal, so it keeps working
+without a connection once it has been opened on a device.
+
+`public/sw.js` is a hand-written service worker, registered by
+`components/OfflineSupport.tsx` in production builds only (development build
+files are not content-hashed, so a cache-first worker would serve stale code).
+
+- **The book (`/`) and the export page (`/export`)** are saved together with
+  every script, stylesheet, web font and image they refer to, found by reading
+  the saved HTML and CSS. A saved page still searches, filters and switches
+  section. With signal, pages come from the network and refresh the saved
+  copy; if the network takes more than four seconds (one bar), the saved copy
+  is shown and the fresh one saved when it arrives.
+- **`/submit`** needs a connection anyway; offline it shows `public/offline.html`.
+- **Admin, sign-in and every non-GET request** are never intercepted or saved.
+- **Make a PDF** works offline if a PDF has been made on that device before:
+  its ~600 KB of code is still only fetched when someone presses Download.
+
+A banner says when the phone reports no connection. Bump `VERSION` in `sw.js`
+when its behaviour changes; activating clears the old caches. Build files no
+saved page refers to are cleared once they are 30 days old.
+
+To test locally: `npx next build`, `npx next start -p 3001`, open the site once,
+then stop the server and reload.
+
 ## Icon
 
 The book's icon is a sibling of ScoutBase's (navy and green on white) and SB
