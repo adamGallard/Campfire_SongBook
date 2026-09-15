@@ -1064,3 +1064,153 @@ fieldset.field {
 .export-bar .primary-btn {
   margin-left: auto;
 }
+
+/* Running order: the ticked items as they will print. Arranged with the arrow
+   buttons, or by dragging a row where there is a mouse to drag with. */
+.order .muted-line {
+  margin: 4px 0 14px;
+}
+
+.order-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  margin-top: 16px;
+}
+
+.order-status .muted-line {
+  flex: 1 1 260px;
+  margin: 0;
+}
+
+.order-list {
+  list-style: none;
+}
+
+.order-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.order-row[data-dragging] {
+  opacity: 0.4;
+}
+
+.order-row[data-drop='before'] {
+  box-shadow: inset 0 3px 0 var(--accent);
+}
+
+.order-row[data-drop='after'] {
+  box-shadow: inset 0 -3px 0 var(--accent);
+}
+
+.order-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  color: var(--text-strong);
+  font: 700 12px/1 var(--font-poppins), sans-serif;
+}
+
+.order-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.order-actions {
+  flex: none;
+  display: flex;
+  gap: 4px;
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.icon-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.icon-btn:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.icon-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.order-grip {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .order-row[draggable='true'] {
+    cursor: grab;
+  }
+
+  .order-row[draggable='true'] .order-grip {
+    display: block;
+    flex: none;
+    width: 8px;
+    height: 16px;
+    margin-right: -4px;
+    color: var(--faint);
+    background-image: radial-gradient(circle, currentColor 1.1px, transparent 1.4px);
+    background-size: 4px 4px;
+  }
+}
+
+/* On a phone the three buttons need the room more than the gaps do. */
+@media (max-width: 420px) {
+  .order-row {
+    gap: 9px;
+  }
+
+  .order-actions {
+    gap: 2px;
+  }
+
+  .icon-btn {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

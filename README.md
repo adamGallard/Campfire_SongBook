@@ -15,8 +15,8 @@ section needs no signal.
 
 - **The book** — `/` (opens straight into the songs; an intro panel explains
   the site to a first-time visitor and collapses once dismissed)
-- **Make a PDF** — `/export` (tick any mix of songs, skits and cheers; download
-  A4 pages or an A5 booklet)
+- **Make a PDF** — `/export` (tick any mix of songs, skits and cheers, put them
+  in a running order; download A4 pages or an A5 booklet)
 - **Send one in** — `/submit?kind=song|skit|applause`
 - **Admin** — `/admin` (sign in with email and password)
 
@@ -117,9 +117,17 @@ which fit on one page (those are then never split); again in slightly smaller
 type for any that ran over, so a song that is a few lines too long still fits;
 then for real, which also gives the contents page its page numbers.
 
-Items print in book order, numbered through, with a cover, a two-column
-contents page and, on a booklet, a back cover. The PDF uses the same inline
-markup parser as the page (`inlineRuns` in `lib/blocks.ts`).
+Items print numbered through, with a cover, a two-column contents page and, on
+a booklet, a back cover. The PDF uses the same inline markup parser as the page
+(`inlineRuns` in `lib/blocks.ts`).
+
+**Running order.** Ticked items start in book order. Moving one (arrow
+buttons, or dragging with a mouse) switches the export to the leader's own
+order, and anything ticked after that goes on the end; **Put back in book
+order** undoes it. While each section stays together the PDF prints a heading
+per section. Once they are mixed it cannot, so each item's label names its
+section instead ("Skit · 2–3 scouts"). The running order is part of the
+selection remembered on the device.
 
 Fonts are self-hosted in `public/fonts` (Inter and Poppins, SIL OFL — licences
 alongside). Each has a latin-ext fallback so macrons and other accents print.

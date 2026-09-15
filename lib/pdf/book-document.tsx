@@ -22,7 +22,7 @@ export interface PdfEntry {
   number: number;
   kind: Kind;
   categoryLabel: string;
-  /** The first entry of its section. */
+  /** The first entry of a run of one section. */
   opensSection: boolean;
 }
 
@@ -273,10 +273,10 @@ type TocRow = { type: 'section'; label: string } | { type: 'entry'; entry: PdfEn
  * fixed height, so this is arithmetic, and react-pdf never has to break a
  * column it cannot balance against its neighbour.
  */
-function tocPages(entries: PdfEntry[], multiSection: boolean, s: Styles): TocRow[][][] {
+function tocPages(entries: PdfEntry[], sectioned: boolean, s: Styles): TocRow[][][] {
   const { contentHeight, tocRow, tocHeader } = s.geometry;
   const rows: TocRow[] = entries.flatMap((entry): TocRow[] =>
-    multiSection && entry.opensSection
+    sectioned && entry.opensSection
       ? [{ type: 'section', label: entry.kind.label }, { type: 'entry', entry }]
       : [{ type: 'entry', entry }],
   );
@@ -435,10 +435,11 @@ export interface BookDocumentProps {
   /** Items set in smaller type to make them fit. */
   compact?: Set<string>;
   /**
-   * Whether the whole export spans sections. Passed in rather than worked out
-   * here, so a measuring pass over a subset lays items out identically.
+   * Whether to print section headings: the export spans sections and keeps
+   * each together. Passed in rather than worked out here, so a measuring pass
+   * over a subset lays items out identically.
    */
-  multiSection: boolean;
+  sectioned: boolean;
   onItemPage: (id: string, edge: 'start' | 'end', page: number) => void;
   /** Contents page lookup; resolved after the items have been paginated. */
   pageOf?: (id: string) => number | undefined;
@@ -452,7 +453,7 @@ export function BookDocument({
   measure = false,
   fits,
   compact,
-  multiSection,
+  sectioned,
   onItemPage,
   pageOf,
 }: BookDocumentProps) {
@@ -485,7 +486,7 @@ export function BookDocument({
       ) : null}
 
       {covers
-        ? tocPages(entries, multiSection, s).map((columns, p) => (
+        ? tocPages(entries, sectioned, s).map((columns, p) => (
             <Page key={`toc-${p}`} size={size} style={s.page}>
               {p === 0 ? (
                 <>
@@ -530,7 +531,7 @@ export function BookDocument({
           const id = e.item.id;
           const whole = fits?.has(id) ?? false;
           const is = compact?.has(id) ? sc : s;
-          const sectionBreak = multiSection && e.opensSection;
+          const sectionBreak = sectioned && e.opensSection;
           // A break on the very first item would leave a blank page.
           const breakBefore = i > 0 && (measure || options.newPage || sectionBreak || !whole);
 

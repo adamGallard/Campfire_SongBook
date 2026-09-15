@@ -1,16 +1,21 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, type DragEvent } from 'react';
 import { blocksToPlainText, slugify } from '@/lib/blocks';
-import { countParts } from '@/lib/kinds';
+import { countParts, inBookOrder, sectionsTogether } from '@/lib/kinds';
 // Type-only: the PDF code itself is loaded on demand, so the page stays light.
 import type { PdfFormat } from '@/lib/pdf/book-document';
 import type { Item, Kind, Tag } from '@/lib/types';
 
 const STORAGE_KEY = 'songbook:export';
 
+/** Book order, or an order the leader has arranged by hand. */
+type Order = 'book' | 'mine';
+
 interface Choices {
+  /** Ticked item ids. In `mine` order, this is also the running order. */
   selected: string[];
+  order: Order;
   format: PdfFormat;
   title: string;
   group: string;
@@ -20,6 +25,7 @@ interface Choices {
 
 const DEFAULTS: Choices = {
   selected: [],
+  order: 'book',
   format: 'a4',
   title: '',
   group: '',
@@ -32,8 +38,13 @@ function restore(raw: string, known: Set<string>): Choices {
   const saved = JSON.parse(raw) as Partial<Record<keyof Choices, unknown>>;
   return {
     selected: Array.isArray(saved.selected)
-      ? saved.selected.filter((id): id is string => typeof id === 'string' && known.has(id))
+      ? [
+          ...new Set(
+            saved.selected.filter((id): id is string => typeof id === 'string' && known.has(id)),
+          ),
+        ]
       : DEFAULTS.selected,
+    order: saved.order === 'mine' ? 'mine' : 'book',
     format: saved.format === 'booklet' ? 'booklet' : 'a4',
     title: typeof saved.title === 'string' ? saved.title : DEFAULTS.title,
     group: typeof saved.group === 'string' ? saved.group : DEFAULTS.group,
@@ -42,27 +53,48 @@ function restore(raw: string, known: Set<string>): Choices {
   };
 }
 
+const capitalise = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
+/** "a, b or c" */
+function either(words: string[]) {
+  return words.length < 2
+    ? (words[0] ?? '')
+    : `${words.slice(0, -1).join(', ')} or ${words[words.length - 1]}`;
+}
+
 /**
- * Pick items and download them as a PDF. The PDF is laid out in the browser,
- * so there is no server endpoint doing heavy work on behalf of anyone who
- * asks, and the selection never leaves the device.
+ * Pick items, put them in order and download them as a PDF. The PDF is laid
+ * out in the browser, so there is no server endpoint doing heavy work on
+ * behalf of anyone who asks, and the selection never leaves the device.
  */
 export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Kind[]; tags: Tag[] }) {
   const [choices, setChoices] = useState<Choices>(DEFAULTS);
   const [query, setQuery] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [announcement, setAnnouncement] = useState('');
+  /** The row being dragged, and the gap it would drop into (0 is the top). */
+  const [drag, setDrag] = useState<{ id: string; gap: number } | null>(null);
+  /** A selector to focus once a move or removal has re-rendered the list. */
+  const focusAfter = useRef<string | null>(null);
+
+  // Only sections the book is showing, even from an older saved selection.
+  const pickable = useMemo(
+    () => items.filter((i) => kinds.some((k) => k.slug === i.kind)),
+    [items, kinds],
+  );
+  const byId = useMemo(() => new Map(pickable.map((i) => [i.id, i])), [pickable]);
 
   // Bring back the last selection, so a leader can close the tab and return.
   // Storage throws in some privacy modes; the page works without it.
   useEffect(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) setChoices(restore(raw, new Set(items.map((i) => i.id))));
+      if (raw) setChoices(restore(raw, new Set(pickable.map((i) => i.id))));
     } catch {
       /* nothing saved */
     }
-  }, [items]);
+  }, [pickable]);
 
   // Saved from the handlers rather than an effect, which would race the
   // restore above and overwrite it with the defaults.
@@ -77,7 +109,26 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
   }
 
   const selected = useMemo(() => new Set(choices.selected), [choices.selected]);
-  const chosen = useMemo(() => items.filter((i) => selected.has(i.id)), [items, selected]);
+
+  /** The ticked items, in the order they will print. */
+  const chosen = useMemo(
+    () =>
+      choices.order === 'book'
+        ? inBookOrder(
+            pickable.filter((i) => selected.has(i.id)),
+            kinds,
+          )
+        : choices.selected.flatMap((id) => byId.get(id) ?? []),
+    [choices.order, choices.selected, pickable, selected, byId, kinds],
+  );
+
+  // A row that React moves is taken out of the page and put back, which drops
+  // focus in some browsers, so put it back on the control that was in use.
+  useEffect(() => {
+    if (!focusAfter.current) return;
+    document.querySelector<HTMLElement>(focusAfter.current)?.focus({ preventScroll: true });
+    focusAfter.current = null;
+  }, [chosen]);
 
   const haystacks = useMemo(
     () =>
@@ -113,9 +164,66 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
 
   function setMany(list: Item[], on: boolean) {
     const ids = new Set(list.map((i) => i.id));
-    const rest = choices.selected.filter((id) => !ids.has(id));
-    update({ selected: on ? [...rest, ...ids] : rest });
+    update({
+      selected: on
+        ? // Already-ticked ones keep their place in a running order.
+          [...choices.selected, ...list.filter((i) => !selected.has(i.id)).map((i) => i.id)]
+        : choices.selected.filter((id) => !ids.has(id)),
+    });
   }
+
+  /** Move an item to position `to`, which makes the order the leader's own. */
+  function move(id: string, to: number) {
+    const ids = chosen.map((i) => i.id);
+    const from = ids.indexOf(id);
+    if (from < 0 || to < 0 || to >= ids.length || to === from) return false;
+    ids.splice(from, 1);
+    ids.splice(to, 0, id);
+    update({ selected: ids, order: 'mine' });
+    setAnnouncement(`${byId.get(id)?.title} moved to number ${to + 1} of ${ids.length}.`);
+    return true;
+  }
+
+  function step(id: string, by: -1 | 1) {
+    const to = chosen.findIndex((i) => i.id === id) + by;
+    if (!move(id, to)) return;
+    // At either end the button just pressed is disabled, so use its partner.
+    const atEnd = to === 0 || to === chosen.length - 1;
+    focusAfter.current = `[data-row="${id}"] [data-move="${atEnd ? -by : by}"]`;
+  }
+
+  function remove(id: string) {
+    const index = chosen.findIndex((i) => i.id === id);
+    const next = chosen[index + 1] ?? chosen[index - 1];
+    focusAfter.current = next ? `[data-row="${next.id}"] [data-remove]` : '#export-pick';
+    update({ selected: choices.selected.filter((s) => s !== id) });
+    setAnnouncement(`${byId.get(id)?.title} taken out.`);
+  }
+
+  function dragOver(e: DragEvent<HTMLLIElement>, index: number) {
+    if (!drag) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    const box = e.currentTarget.getBoundingClientRect();
+    const gap = e.clientY < box.top + box.height / 2 ? index : index + 1;
+    if (gap !== drag.gap) setDrag({ ...drag, gap });
+  }
+
+  function drop(e: DragEvent<HTMLLIElement>) {
+    if (!drag) return;
+    e.preventDefault();
+    const from = chosen.findIndex((i) => i.id === drag.id);
+    // The gap is counted with the row still in the list.
+    move(drag.id, drag.gap > from ? drag.gap - 1 : drag.gap);
+    setDrag(null);
+  }
+
+  /** The gap a drag would drop into, unless dropping there changes nothing. */
+  const dropGap = (() => {
+    if (!drag) return null;
+    const from = chosen.findIndex((i) => i.id === drag.id);
+    return drag.gap === from || drag.gap === from + 1 ? null : drag.gap;
+  })();
 
   function tagLabel(item: Item) {
     return (
@@ -123,6 +231,18 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
       tags.find((t) => t.kind === item.kind && t.slug === item.tag)?.label ??
       item.tag
     );
+  }
+
+  /** How the list is ordered now. Shown under the list, where it can change length freely. */
+  function orderStatus() {
+    if (choices.order === 'book') {
+      return chosenKinds.length > 1
+        ? `In book order: ${chosenKinds.map((k) => k.plural).join(', then ')}.`
+        : 'In book order.';
+    }
+    return sectionsTogether(chosen)
+      ? 'In your own order. Anything else you tick goes on the end.'
+      : `In your own order. Anything else you tick goes on the end. With sections mixed, each one prints marked as a ${either(chosenKinds.map((k) => k.singular))} instead of under a heading.`;
   }
 
   async function download() {
@@ -255,12 +375,12 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
       </section>
 
       <section className="card pick" aria-labelledby="export-pick">
-        <h2 className="section-title" id="export-pick">
+        <h2 className="section-title" id="export-pick" tabIndex={-1}>
           What goes in
         </h2>
         <p className="muted-line">
-          Tick as many as you like. They print in book order, and anything that fits on one page is
-          kept on one page.
+          Tick as many as you like, then set the order underneath. Anything that fits on one page
+          is kept on one page.
         </p>
 
         <input
@@ -332,6 +452,124 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
         )}
       </section>
 
+      {/* Below the checklist on purpose: a list that grows above the row being
+          ticked would shove that row down the screen with every tap. */}
+      {chosen.length > 0 ? (
+        <section className="card order" id="running-order" aria-labelledby="export-order">
+          <h2 className="section-title" id="export-order">
+            Running order
+          </h2>
+          <p className="muted-line">
+            {chosen.length === 1
+              ? 'Tick another and you can put them in any order.'
+              : 'This is the order they print in. Use the arrows to move one.'}
+          </p>
+
+          <ol className="order-list">
+            {chosen.map((item, index) => {
+              const kind = kinds.find((k) => k.slug === item.kind);
+              return (
+                <li
+                  key={item.id}
+                  className="order-row"
+                  data-row={item.id}
+                  data-dragging={drag?.id === item.id || undefined}
+                  data-drop={
+                    dropGap === index
+                      ? 'before'
+                      : dropGap === index + 1 && index === chosen.length - 1
+                        ? 'after'
+                        : undefined
+                  }
+                  draggable={chosen.length > 1}
+                  onDragStart={(e) => {
+                    e.dataTransfer.effectAllowed = 'move';
+                    // Firefox will not start a drag that carries no data.
+                    e.dataTransfer.setData('text/plain', item.title);
+                    setDrag({ id: item.id, gap: index });
+                  }}
+                  onDragOver={(e) => dragOver(e, index)}
+                  onDrop={drop}
+                  onDragEnd={() => setDrag(null)}
+                >
+                  <span className="order-grip" aria-hidden="true" />
+                  <span className="order-num">{index + 1}</span>
+                  <span className="order-text">
+                    <span className="pick-name">{item.title}</span>
+                    <span className="pick-meta">
+                      {kind ? `${capitalise(kind.singular)} · ` : null}
+                      {tagLabel(item)}
+                    </span>
+                  </span>
+                  <span className="order-actions">
+                    <button
+                      type="button"
+                      className="icon-btn"
+                      data-move="-1"
+                      disabled={index === 0}
+                      onClick={() => step(item.id, -1)}
+                      aria-label={`Move ${item.title} up`}
+                    >
+                      <svg viewBox="0 0 16 16" aria-hidden="true">
+                        <path d="M3.5 10 8 5.5l4.5 4.5" />
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      className="icon-btn"
+                      data-move="1"
+                      disabled={index === chosen.length - 1}
+                      onClick={() => step(item.id, 1)}
+                      aria-label={`Move ${item.title} down`}
+                    >
+                      <svg viewBox="0 0 16 16" aria-hidden="true">
+                        <path d="M3.5 6 8 10.5 12.5 6" />
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      className="icon-btn"
+                      data-remove
+                      onClick={() => remove(item.id)}
+                      aria-label={`Take ${item.title} out`}
+                    >
+                      <svg viewBox="0 0 16 16" aria-hidden="true">
+                        <path d="m4.5 4.5 7 7m0-7-7 7" />
+                      </svg>
+                    </button>
+                  </span>
+                </li>
+              );
+            })}
+          </ol>
+
+          {/* Under the list rather than above it: when this grows, the rows
+              must not move out from under a finger pressing an arrow. */}
+          {chosen.length > 1 ? (
+            <div className="order-status">
+              <p className="muted-line">{orderStatus()}</p>
+              {choices.order === 'mine' ? (
+                <button
+                  type="button"
+                  className="small-btn"
+                  onClick={() => {
+                    update({ order: 'book' });
+                    setAnnouncement('Back in book order.');
+                  }}
+                >
+                  Put back in book order
+                </button>
+              ) : null}
+            </div>
+          ) : null}
+        </section>
+      ) : null}
+
+      {/* Outside the list, so taking out the last one can still be announced. */}
+      <p className="visually-hidden" aria-live="polite">
+        {announcement}
+      </p>
+
       <div className="export-bar">
         <div className="wrap">
           {error ? (
@@ -342,8 +580,17 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
           <p className="export-count" aria-live="polite">
             {chosen.length === 0 ? 'Nothing ticked yet' : countParts(chosen, kinds).join(' · ')}
           </p>
+          {chosen.length > 1 ? (
+            <a href="#running-order" className="linklike">
+              Order
+            </a>
+          ) : null}
           {chosen.length > 0 ? (
-            <button type="button" className="linklike" onClick={() => update({ selected: [] })}>
+            <button
+              type="button"
+              className="linklike"
+              onClick={() => update({ selected: [], order: 'book' })}
+            >
               Clear
             </button>
           ) : null}

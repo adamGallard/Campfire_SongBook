@@ -2,6 +2,7 @@ import { Font, pdf, type DocumentProps } from '@react-pdf/renderer';
 import type { ReactElement } from 'react';
 import { BookDocument, type PdfAssets, type PdfEntry, type PdfOptions } from './book-document';
 import { imposeBooklet } from './impose';
+import { sectionsTogether } from '../kinds';
 import type { Item, Kind, Tag } from '../types';
 
 export type { PdfAssets, PdfFormat, PdfOptions } from './book-document';
@@ -32,27 +33,38 @@ function registerFonts(base: string) {
   Font.registerHyphenationCallback((word) => [word]);
 }
 
-/** Book order: section by section, each in its own running order. */
-export function planEntries(items: Item[], kinds: Kind[], tags: Tag[]): PdfEntry[] {
-  const entries: PdfEntry[] = [];
+/**
+ * Number the items in the order given. Section headings only make sense when
+ * each section is kept together; a running order that mixes them instead names
+ * the section on every item, so a skit is not mistaken for a song.
+ */
+export function planEntries(
+  items: Item[],
+  kinds: Kind[],
+  tags: Tag[],
+): { entries: PdfEntry[]; sectioned: boolean } {
+  // A section that has since been switched off is not part of the book.
+  const known = items.flatMap((item) => {
+    const kind = kinds.find((k) => k.slug === item.kind);
+    return kind ? [{ item, kind }] : [];
+  });
 
-  for (const kind of kinds) {
-    items
-      .filter((i) => i.kind === kind.slug)
-      .sort((a, b) => a.sort_order - b.sort_order)
-      .forEach((item, i) => {
-        const tag = tags.find((t) => t.kind === item.kind && t.slug === item.tag);
-        entries.push({
-          item,
-          kind,
-          number: entries.length + 1,
-          categoryLabel: item.category_label ?? tag?.label ?? item.tag,
-          opensSection: i === 0,
-        });
-      });
-  }
+  const grouped = sectionsTogether(known.map((e) => e.item));
+  const sectionCount = new Set(known.map((e) => e.kind.slug)).size;
 
-  return entries;
+  const entries = known.map(({ item, kind }, i): PdfEntry => {
+    const tag = tags.find((t) => t.kind === item.kind && t.slug === item.tag);
+    const label = item.category_label ?? tag?.label ?? item.tag;
+    return {
+      item,
+      kind,
+      number: i + 1,
+      categoryLabel: grouped ? label : `${kind.singular} · ${label}`,
+      opensSection: i === 0 || known[i - 1].kind !== kind,
+    };
+  });
+
+  return { entries, sectioned: grouped && sectionCount > 1 };
 }
 
 async function render(doc: ReactElement): Promise<Uint8Array> {
@@ -62,7 +74,7 @@ async function render(doc: ReactElement): Promise<Uint8Array> {
 }
 
 export interface BuildInput {
-  /** Only the items to export. */
+  /** Only the items to export, in the order they print. */
   items: Item[];
   kinds: Kind[];
   tags: Tag[];
@@ -81,15 +93,14 @@ export interface BuildInput {
 export async function buildBookPdf({ items, kinds, tags, options, assets }: BuildInput) {
   registerFonts(assets.fontBase);
 
-  const entries = planEntries(items, kinds, tags);
+  const { entries, sectioned } = planEntries(items, kinds, tags);
   if (entries.length === 0) throw new Error('Nothing is selected.');
 
   const pages = new Map<string, { start?: number; end?: number }>();
   const onItemPage = (id: string, edge: 'start' | 'end', page: number) => {
     pages.set(id, { ...pages.get(id), [edge]: page });
   };
-  const multiSection = new Set(entries.map((e) => e.kind.slug)).size > 1;
-  const common = { kinds, options, assets, multiSection, onItemPage };
+  const common = { kinds, options, assets, sectioned, onItemPage };
 
   /** Lay the entries out one per page and return the ids that fit on one. */
   const measure = async (subset: PdfEntry[], compact?: Set<string>) => {
