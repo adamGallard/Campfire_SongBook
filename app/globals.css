@@ -776,6 +776,14 @@ a.chip {
   font: 700 12px/1 var(--font-inter), sans-serif;
 }
 
+.list-tools {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+
 .row {
   display: flex;
   align-items: flex-start;

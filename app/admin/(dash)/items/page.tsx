@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
-import { ConfirmButton } from '@/components/ConfirmButton';
-import { deleteItem, moveItem, togglePublished } from '../actions';
+import { ItemList } from './ItemList';
 import type { Kind } from '@/lib/types';
 
 export default async function AdminItemsPage({
@@ -17,7 +16,7 @@ export default async function AdminItemsPage({
       .order('sort_order'),
     supabase
       .from('items')
-      .select('id, slug, title, kind, tag, category_label, published, sort_order')
+      .select('id, slug, title, kind, tag, category_label, tune, blocks, published, sort_order')
       .order('sort_order'),
   ]);
 
@@ -68,59 +67,8 @@ export default async function AdminItemsPage({
       </div>
 
       <div className="card">
-        {list.length === 0 ? (
-          <p className="empty">No {plural} yet.</p>
-        ) : (
-          list.map((item, i) => (
-            <div className="row" key={item.id}>
-              <span className="num">{i + 1}</span>
-              <div className="row-main">
-                <div className="row-title">{item.title}</div>
-                <div className="row-meta">
-                  {item.category_label ?? item.tag}
-                  {item.published ? '' : ' · hidden from the public page'}
-                </div>
-              </div>
-              <div className="row-actions">
-                <form action={moveItem}>
-                  <input type="hidden" name="id" value={item.id} />
-                  <input type="hidden" name="direction" value="up" />
-                  <button className="small-btn" type="submit" disabled={i === 0} aria-label={`Move ${item.title} up`}>
-                    ↑
-                  </button>
-                </form>
-                <form action={moveItem}>
-                  <input type="hidden" name="id" value={item.id} />
-                  <input type="hidden" name="direction" value="down" />
-                  <button
-                    className="small-btn"
-                    type="submit"
-                    disabled={i === list.length - 1}
-                    aria-label={`Move ${item.title} down`}
-                  >
-                    ↓
-                  </button>
-                </form>
-                <form action={togglePublished}>
-                  <input type="hidden" name="id" value={item.id} />
-                  <input type="hidden" name="published" value={item.published ? '0' : '1'} />
-                  <button className="small-btn" type="submit">
-                    {item.published ? 'Hide' : 'Show'}
-                  </button>
-                </form>
-                <Link href={`/admin/items/${item.id}`} className="small-btn">
-                  Edit
-                </Link>
-                <form action={deleteItem}>
-                  <input type="hidden" name="id" value={item.id} />
-                  <ConfirmButton message={`Delete "${item.title}"? This cannot be undone.`}>
-                    Delete
-                  </ConfirmButton>
-                </form>
-              </div>
-            </div>
-          ))
-        )}
+        {/* Keyed so a new section starts unfiltered. */}
+        <ItemList key={active?.slug} items={list} singular={singular} plural={plural} />
       </div>
     </main>
   );
