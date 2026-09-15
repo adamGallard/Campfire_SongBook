@@ -5,7 +5,7 @@ import { SubmitForm } from './SubmitForm';
 import type { Kind, Tag } from '@/lib/types';
 
 export const metadata: Metadata = {
-  title: 'Submit · Campfire Book',
+  title: 'Send one in',
   description: 'Send a campfire song, skit, yarn or cheer in for a leader to review.',
 };
 

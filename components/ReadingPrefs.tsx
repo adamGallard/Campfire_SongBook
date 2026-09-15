@@ -78,18 +78,47 @@ export function useReadingPrefs(): Prefs {
   return ctx;
 }
 
-/** The two pill buttons that sit in the hero. */
+/**
+ * Night mode and big type, as two round icon buttons at the top right of every
+ * page. Which icon shows, and whether it looks pressed, follows the attributes
+ * on <html>, which the layout sets before first paint; React state only arrives
+ * after hydration, so a daylight reader would otherwise see a moon flash first.
+ */
 export function ReadingToggles() {
   const { mode, big, toggleMode, toggleBig } = useReadingPrefs();
+  const night = mode === 'night';
 
   return (
-    <>
-      <button type="button" className="ghost-btn" onClick={toggleMode}>
-        {mode === 'night' ? 'Night mode' : 'Daylight mode'}
+    <div className="reading-toggles" role="group" aria-label="Reading">
+      <button
+        type="button"
+        className="toggle-btn toggle-mode"
+        aria-pressed={night}
+        aria-label="Night mode"
+        title={night ? 'Night mode: on' : 'Night mode: off'}
+        onClick={toggleMode}
+      >
+        <svg viewBox="0 0 24 24" className="icon-moon" aria-hidden="true">
+          <path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z" />
+        </svg>
+        <svg viewBox="0 0 24 24" className="icon-sun" aria-hidden="true">
+          <circle cx="12" cy="12" r="4" />
+          <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" />
+        </svg>
       </button>
-      <button type="button" className="ghost-btn" onClick={toggleBig}>
-        Big type · {big ? 'on' : 'off'}
+      <button
+        type="button"
+        className="toggle-btn toggle-big"
+        aria-pressed={big}
+        aria-label="Big type"
+        title={big ? 'Big type: on' : 'Big type: off'}
+        onClick={toggleBig}
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M2.5 19 6 10.5 9.5 19M3.9 15.8h4.2" />
+          <path d="M11 19l5-13 5 13M13 14.2h6" />
+        </svg>
       </button>
-    </>
+    </div>
   );
 }

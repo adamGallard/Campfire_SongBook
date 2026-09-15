@@ -7,8 +7,9 @@ import type { MetadataRoute } from 'next';
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: '/',
-    name: 'Campfire Book',
-    short_name: 'Campfire',
+    name: 'ScoutBase Campfire',
+    // Fits under a home-screen icon, and matches SB Leader.
+    short_name: 'SB Campfire',
     description: 'Songs, skits, yarns and cheers for the campfire, readable round a real fire.',
     start_url: '/',
     scope: '/',

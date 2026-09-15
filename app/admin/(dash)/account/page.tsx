@@ -1,7 +1,7 @@
 import { requireAdmin } from '@/lib/auth';
 import { ChangePasswordForm } from './ChangePasswordForm';
 
-export const metadata = { title: 'Your account · Campfire Song Book' };
+export const metadata = { title: 'Your account' };
 
 export default async function AccountPage() {
   const admin = await requireAdmin();

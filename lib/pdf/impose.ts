@@ -42,8 +42,8 @@ export async function imposeBooklet(
     }
   }
 
-  out.setTitle(src.getTitle() ?? 'Campfire Book');
+  out.setTitle(src.getTitle() ?? 'ScoutBase Campfire');
   if (src.getAuthor()) out.setAuthor(src.getAuthor()!);
-  out.setCreator('Campfire Book');
+  out.setCreator('ScoutBase Campfire');
   return out.save();
 }

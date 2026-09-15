@@ -1,7 +1,30 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
-import mark from '@/public/scout-mark.png';
+import { ReadingToggles } from './ReadingPrefs';
+import icon from '@/public/icons/icon-192.png';
+
+/** The top row of every page: the brand on the left, the reading toggles on the right. */
+export function Masthead() {
+  return (
+    <div className="masthead">
+      <Link href="/" className="brand" style={{ textDecoration: 'none' }}>
+        <Image src={icon} alt="" width={32} height={32} className="brand-icon" />
+        <span className="kicker">ScoutBase Campfire</span>
+      </Link>
+      <ReadingToggles />
+    </div>
+  );
+}
+
+export function FootBrand() {
+  return (
+    <div className="brand">
+      <Image src={icon} alt="" width={28} height={28} className="brand-icon" />
+      <span className="footname">ScoutBase Campfire</span>
+    </div>
+  );
+}
 
 export function Hero({
   title,
@@ -15,12 +38,7 @@ export function Hero({
   return (
     <header className="hero">
       <div className="wrap">
-        <Link href="/" className="brand" style={{ textDecoration: 'none' }}>
-          <span className="brand-mark">
-            <Image src={mark} alt="" width={20} height={20} style={{ objectFit: 'contain' }} />
-          </span>
-          <span className="kicker">ScoutBase</span>
-        </Link>
+        <Masthead />
         <h1>{title}</h1>
         <div className="rule" />
         <p className="lede">{lede}</p>
@@ -30,27 +48,21 @@ export function Hero({
   );
 }
 
-export function Footer({ songCount }: { songCount?: number }) {
+export function Footer() {
   return (
     <footer className="footer">
       <div className="wrap">
-        <div className="brand">
-          <span className="brand-mark">
-            <Image src={mark} alt="" width={18} height={18} style={{ objectFit: 'contain' }} />
-          </span>
-          <span className="footname">ScoutBase</span>
-        </div>
+        <FootBrand />
         <p className="footlede">
           Joeys, Cubs, Scouts, Venturers and Rovers — learning, leading and living life to the
           fullest.
         </p>
         <p className="footlinks">
-          <Link href="/submit">Submit a song</Link>
+          <Link href="/">The book</Link>
+          <Link href="/submit">Send one in</Link>
           <Link href="/admin">Admin</Link>
         </p>
-        <p className="footmeta">
-          Campfire Song Book{songCount === undefined ? '' : ` · ${songCount} songs`}
-        </p>
+        <p className="footmeta">ScoutBase Campfire</p>
       </div>
     </footer>
   );

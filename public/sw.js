@@ -1,5 +1,5 @@
 /*
- * Campfire Book service worker: keeps the book readable with no signal.
+ * ScoutBase Campfire service worker: keeps the book readable with no signal.
  *
  * The book and the export page are saved on the device together with every
  * script, style, font and image they refer to, so a saved page still searches,

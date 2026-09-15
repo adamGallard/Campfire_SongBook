@@ -7,7 +7,7 @@ import { loadBook } from '@/lib/book';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: 'Make a PDF · Campfire Book',
+  title: 'Make a PDF',
   description:
     'Pick the songs, skits, yarns and cheers for your campfire and download them as A4 pages or a folded A5 booklet.',
 };

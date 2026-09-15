@@ -1,13 +1,11 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { Blocks } from './Blocks';
-import { ReadingToggles } from './ReadingPrefs';
 import { Intro } from './Intro';
+import { FootBrand, Masthead } from './SiteChrome';
 import { blocksToPlainText } from '@/lib/blocks';
-import mark from '@/public/scout-mark.png';
 import type { Item, Kind, Tag } from '@/lib/types';
 
 /**
@@ -67,18 +65,10 @@ export function Book({
     <>
       <header className="hero">
         <div className="wrap">
-          <Link href="/" className="brand" style={{ textDecoration: 'none' }}>
-            <span className="brand-mark">
-              <Image src={mark} alt="" width={20} height={20} style={{ objectFit: 'contain' }} />
-            </span>
-            <span className="kicker">ScoutBase</span>
-          </Link>
+          <Masthead />
 
-          <h1>
-            Campfire
-            <br />
-            {active?.heading}
-          </h1>
+          {/* The brand above already says Campfire; the title is the section. */}
+          <h1>{active?.heading}</h1>
           <div className="rule" />
           <p className="lede">
             {inKind.length} {inKind.length === 1 ? active?.singular : active?.plural} for the
@@ -106,7 +96,6 @@ export function Book({
           ) : null}
 
           <div className="hero-actions">
-            <ReadingToggles />
             <Link href="/export" className="ghost-btn">
               Make a PDF
             </Link>
@@ -181,12 +170,7 @@ export function Book({
 
       <footer className="footer">
         <div className="wrap">
-          <div className="brand">
-            <span className="brand-mark">
-              <Image src={mark} alt="" width={18} height={18} style={{ objectFit: 'contain' }} />
-            </span>
-            <span className="footname">ScoutBase</span>
-          </div>
+          <FootBrand />
           <p className="footlede">
             Joeys, Cubs, Scouts, Venturers and Rovers — learning, leading and living life to the
             fullest.
@@ -199,7 +183,7 @@ export function Book({
             <Link href="/admin">Admin</Link>
           </p>
           <p className="footmeta">
-            Campfire Book ·{' '}
+            ScoutBase Campfire ·{' '}
             {kinds
               .map((k) => {
                 const n = items.filter((i) => i.kind === k.slug).length;

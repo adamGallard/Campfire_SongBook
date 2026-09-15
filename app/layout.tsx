@@ -20,9 +20,10 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: 'Campfire Song Book',
+  title: { default: 'ScoutBase Campfire', template: '%s · ScoutBase Campfire' },
   description:
-    'Songs for the fire — search for one, or scroll from the loud ones at the top to the quiet ones at the end.',
+    'Songs, skits, yarns and cheers for the campfire. Search every line, read it round a real fire, and print your own booklet.',
+  applicationName: 'ScoutBase Campfire',
 };
 
 export const viewport: Viewport = {

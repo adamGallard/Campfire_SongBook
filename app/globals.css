@@ -137,16 +137,83 @@ a {
   gap: 9px;
 }
 
-.brand-mark {
-  width: 30px;
-  height: 30px;
-  border-radius: 999px;
-  background: #fff;
+/* The top row of every hero: brand left, reading toggles right. */
+.masthead {
   display: flex;
   align-items: center;
-  justify-content: center;
-  overflow: hidden;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* The app icon is night navy itself, so a faint ring keeps its edge visible. */
+.brand-icon {
   flex: none;
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px rgba(247, 250, 248, 0.22);
+}
+
+.reading-toggles {
+  display: flex;
+  gap: 6px;
+  flex: none;
+}
+
+.toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(247, 250, 248, 0.28);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #f7faf8;
+  cursor: pointer;
+}
+
+.toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.toggle-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Icon and pressed look follow <html>, which is right before hydration. */
+.toggle-mode .icon-sun,
+[data-mode='day'] .toggle-mode .icon-moon {
+  display: none;
+}
+
+[data-mode='day'] .toggle-mode .icon-sun {
+  display: block;
+}
+
+[data-mode='night'] .toggle-mode,
+[data-big='1'] .toggle-big {
+  background: rgba(122, 196, 111, 0.2);
+  border-color: var(--leaf);
+}
+
+/* In the admin bar the toggles sit on the page colours, not the dark hero. */
+.admin-bar .toggle-btn {
+  width: 38px;
+  height: 38px;
+  color: var(--text);
+  border-color: var(--border-strong);
+  background: transparent;
+}
+
+[data-mode='night'] .admin-bar .toggle-mode,
+[data-big='1'] .admin-bar .toggle-big {
+  background: var(--chip-on-bg);
+  border-color: var(--accent);
 }
 
 .kicker {

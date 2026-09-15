@@ -1,9 +1,10 @@
 import Link from 'next/link';
+import { ReadingToggles } from '@/components/ReadingPrefs';
 import { requireAdmin } from '@/lib/auth';
 import { createClient } from '@/lib/supabase/server';
 import { signOut } from './actions';
 
-export const metadata = { title: 'Admin · Campfire Song Book' };
+export const metadata = { title: 'Admin' };
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const admin = await requireAdmin();
@@ -20,7 +21,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     <>
       <div className="admin-bar">
         <div className="wrap">
-          <strong className="footname">Songbook admin</strong>
+          <strong className="footname">Campfire admin</strong>
           <nav className="admin-nav">
             <Link href="/admin">Overview</Link>
             <Link href="/admin/items">Content</Link>
@@ -35,6 +36,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
                 Sign out
               </button>
             </form>
+            <ReadingToggles />
           </nav>
         </div>
       </div>

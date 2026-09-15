@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 import { signOut } from '../(dash)/actions';
 import { LoginForm } from './LoginForm';
 
-export const metadata = { title: 'Admin sign in · Campfire Song Book' };
+export const metadata = { title: 'Admin sign in' };
 
 export default async function LoginPage({
   searchParams,

@@ -22,7 +22,7 @@ export interface Kind {
   slug: string;
   /** Section name on the switcher: "Songs". */
   label: string;
-  /** Second line of the hero: "Song Book", "Applause". */
+  /** The hero title, under the ScoutBase Campfire brand: "Song Book", "Applause". */
   heading: string;
   /** The noun a leader uses: "song", "skit", "cheer". */
   singular: string;

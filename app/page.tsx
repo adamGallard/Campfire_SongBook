@@ -11,7 +11,7 @@ export default async function HomePage() {
   if (!book) {
     return (
       <>
-        <Hero title={<>Campfire<br />Book</>} lede="The book could not be loaded just now." />
+        <Hero title="Not just now" lede="The book could not be loaded just now." />
         <main className="wrap list">
           <p className="empty">Something went wrong reaching the book. Please try again in a moment.</p>
         </main>

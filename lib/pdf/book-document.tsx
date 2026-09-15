@@ -468,7 +468,7 @@ export function BookDocument({
   const counts = countPhrase(entries, kinds);
 
   return (
-    <Document title={options.title} author={options.group || undefined} creator="Campfire Book">
+    <Document title={options.title} author={options.group || undefined} creator="ScoutBase Campfire">
       {covers ? (
         <Page size={size} style={s.coverPage}>
           <Brand name={brandName} logo={assets.logo} s={s} />
@@ -570,7 +570,7 @@ export function BookDocument({
       {covers && options.format === 'booklet' ? (
         <Page size={size} style={s.coverPage}>
           <View style={s.coverMain}>
-            <Brand name="Campfire Book" logo={assets.logo} s={s} />
+            <Brand name="ScoutBase Campfire" logo={assets.logo} s={s} />
             <Text style={s.backName}>{brandName}</Text>
             <View style={[s.rule, s.coverRule]} />
             <Text style={s.coverLede}>{BLURB}</Text>

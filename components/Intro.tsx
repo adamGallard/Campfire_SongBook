@@ -58,8 +58,8 @@ export function Intro() {
             half a remembered line is enough.
           </li>
           <li>
-            <strong>Night mode</strong> keeps the screen dim round a real fire, and{' '}
-            <strong>Big type</strong> makes it readable at arm's length.
+            <strong>Night mode</strong> (the moon, top right) keeps the screen dim round a real
+            fire, and <strong>Big type</strong> (the Aa) makes it readable at arm's length.
           </li>
           <li>
             <strong>No signal at camp?</strong> Once you have opened the book on your phone it keeps

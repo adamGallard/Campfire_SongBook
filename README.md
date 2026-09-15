@@ -1,14 +1,18 @@
-# Campfire Book
+# ScoutBase Campfire
 
-A ScoutBase campfire book of songs, skits, yarns and applause cheers, with
-night/daylight reading modes, big type for reading round an actual fire, search
-across every line, and filters that change per section.
+A campfire book for ScoutBase groups: songs, skits, yarns and applause cheers,
+with night/daylight reading modes and big type for reading round an actual fire
+(the moon and Aa buttons at the top right of every page), search across every
+line, filters that change per section, and a book that keeps working with no
+signal. It sits alongside ScoutBase and SB Leader, and on a home screen it is
+"SB Campfire".
 
 Everything lives in Postgres rather than in the page, so leaders can edit it and
 the public can send new material in for review.
 
 Sections are rows in the `kinds` table, and each one carries its own wording —
-the hero heading, and the noun a leader actually uses ("song", "skit",
+the hero title under the ScoutBase Campfire brand ("Song Book", "Yarns"), and
+the noun a leader actually uses ("song", "skit",
 "yarn", "cheer"), so no copy is derived from the section name. Adding a section
 is a row plus its tags, and an entry in the `WORDING` tables of the submission
 and admin forms (what the tune line and the body are called — a skit has a

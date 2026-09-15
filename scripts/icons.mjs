@@ -1,4 +1,4 @@
-// Draws the Campfire Book icon and writes every size the site needs.
+// Draws the ScoutBase Campfire icon and writes every size the site needs.
 //
 //   node scripts/icons.mjs
 //
