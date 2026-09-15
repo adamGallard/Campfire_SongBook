@@ -1,6 +1,6 @@
 # ScoutBase Campfire
 
-A campfire book for ScoutBase groups: songs, skits, yarns and applause cheers,
+A campfire book for Scout groups: songs, skits, yarns and applause cheers,
 with night/daylight reading modes and big type for reading round an actual fire
 (the moon and Aa buttons at the top right of every page), search across every
 line, filters that change per section, and a book that keeps working with no

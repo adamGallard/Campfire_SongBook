@@ -34,7 +34,7 @@ export function Intro() {
   return (
     <aside className="intro" aria-label="About this book">
       <div className="intro-head">
-        <h2 className="intro-title">A campfire book for ScoutBase groups</h2>
+        <h2 className="intro-title">A campfire book for Scout groups</h2>
         <button
           type="button"
           className="intro-toggle"
