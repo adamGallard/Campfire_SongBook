@@ -5,7 +5,8 @@ with night/daylight reading modes and big type for reading round an actual fire
 (the moon and Aa buttons at the top right of every page), search across every
 line, filters that change per section, and a book that keeps working with no
 signal. It sits alongside ScoutBase and SB Leader, and on a home screen it is
-"SB Campfire".
+"SB Campfire". Every footer points back to [www.scoutbase.app](https://www.scoutbase.app)
+for anyone curious about the other ScoutBase tools.
 
 Everything lives in Postgres rather than in the page, so leaders can edit it and
 the public can send new material in for review.
@@ -23,8 +24,9 @@ in one page load, so switching section needs no signal.
 
 - **The book** — `/` (opens straight into the songs; an intro panel explains
   the site to a first-time visitor and collapses once dismissed)
-- **Make a PDF** — `/export` (tick any mix of songs, skits and cheers, put them
-  in a running order; download A4 pages or an A5 booklet)
+- **Plan a campfire** — `/plan` (tick any mix of songs, skits, yarns and cheers,
+  put them in a running order, print A4 pages or an A5 booklet; each section,
+  and the print options, fold away. `/export`, its old address, redirects here)
 - **Send one in** — `/submit?kind=song|skit|yarn|applause`
 - **Admin** — `/admin` (sign in with email and password)
 
@@ -80,7 +82,7 @@ without a connection once it has been opened on a device.
 `components/OfflineSupport.tsx` in production builds only (development build
 files are not content-hashed, so a cache-first worker would serve stale code).
 
-- **The book (`/`) and the export page (`/export`)** are saved together with
+- **The book (`/`) and the campfire planner (`/plan`)** are saved together with
   every script, stylesheet, web font and image they refer to, found by reading
   the saved HTML and CSS. A saved page still searches, filters and switches
   section. With signal, pages come from the network and refresh the saved
@@ -88,7 +90,7 @@ files are not content-hashed, so a cache-first worker would serve stale code).
   is shown and the fresh one saved when it arrives.
 - **`/submit`** needs a connection anyway; offline it shows `public/offline.html`.
 - **Admin, sign-in and every non-GET request** are never intercepted or saved.
-- **Make a PDF** works offline if a PDF has been made on that device before:
+- **Printing a PDF** works offline if one has been made on that device before:
   its ~600 KB of code is still only fetched when someone presses Download.
 
 A banner says when the phone reports no connection. Bump `VERSION` in `sw.js`
@@ -148,9 +150,9 @@ Note: this becomes a small aside.
 - becomes a list
 ```
 
-## PDF export
+## Planning and printing
 
-`/export` lists the whole book as a checklist. The PDF is laid out **in the
+`/plan` lists the whole book as a checklist. The PDF is laid out **in the
 browser** (`@react-pdf/renderer`), so there is no server endpoint doing heavy
 work for anonymous visitors, and the ~600 KB of PDF code is only fetched when
 someone presses Download. The selection and options are remembered per device.

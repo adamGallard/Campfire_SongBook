@@ -7,19 +7,19 @@ import { loadBook } from '@/lib/book';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: 'Make a PDF',
+  title: 'Plan a campfire',
   description:
-    'Pick the songs, skits, yarns and cheers for your campfire and download them as A4 pages or a folded A5 booklet.',
+    'Pick the songs, skits, yarns and cheers for your campfire, put them in order, and print them as A4 pages or a folded A5 booklet.',
 };
 
-export default async function ExportPage() {
+export default async function PlanPage() {
   const book = await loadBook();
 
   return (
     <>
       <Hero
-        title="Make a PDF"
-        lede="Pick the songs, skits, yarns and cheers for your campfire, put them in order, then download them as A4 pages or as a booklet to fold and staple."
+        title="Plan a campfire"
+        lede="Pick the songs, skits, yarns and cheers for your campfire, put them in order, then print them as A4 pages or as a booklet to fold and staple."
         actions={
           <Link href="/" className="ghost-btn">
             Back to the book

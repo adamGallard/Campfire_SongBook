@@ -66,8 +66,8 @@ export function Intro() {
             working without a connection. Add it to your home screen to find it easily.
           </li>
           <li>
-            <strong>Make a PDF</strong> of just the ones you want — A4 pages, or a booklet to fold
-            and staple.
+            <strong>Plan a campfire</strong>: pick the ones you want, put them in order, and print
+            them as A4 pages or a booklet to fold and staple.
           </li>
           <li>
             <strong>Know one we are missing?</strong> Send it in — a leader reads everything before

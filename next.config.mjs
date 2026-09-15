@@ -6,12 +6,16 @@ const nextConfig = {
   // URL, so the link lands on the home page, which ignores it. Send those on to
   // the callback (the query passes through) instead of silently dropping them.
   async redirects() {
-    return ['code', 'error_description'].map((key) => ({
-      source: '/',
-      has: [{ type: 'query', key }],
-      destination: '/auth/callback?next=/admin/account',
-      permanent: false,
-    }));
+    return [
+      ...['code', 'error_description'].map((key) => ({
+        source: '/',
+        has: [{ type: 'query', key }],
+        destination: '/auth/callback?next=/admin/account',
+        permanent: false,
+      })),
+      // The planner was "Make a PDF" at /export; keep old links and bookmarks working.
+      { source: '/export', destination: '/plan', permanent: true },
+    ];
   },
 };
 

@@ -8,6 +8,8 @@ import type { PdfFormat } from '@/lib/pdf/book-document';
 import type { Item, Kind, Tag } from '@/lib/types';
 
 const STORAGE_KEY = 'songbook:export';
+/** Sections folded away on this device: "how" for the print options, or a section's slug. */
+const FOLDED_KEY = 'songbook:plan-folded';
 
 /** Book order, or an order the leader has arranged by hand. */
 type Order = 'book' | 'mine';
@@ -62,6 +64,34 @@ function either(words: string[]) {
     : `${words.slice(0, -1).join(', ')} or ${words[words.length - 1]}`;
 }
 
+/** The title of a section that folds away, with a chevron that says which way it is. */
+function Fold({
+  open,
+  controls,
+  onToggle,
+  children,
+}: {
+  open: boolean;
+  controls: string;
+  onToggle: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      className="fold-btn"
+      aria-expanded={open}
+      aria-controls={controls}
+      onClick={onToggle}
+    >
+      <svg viewBox="0 0 16 16" className="fold-chevron" aria-hidden="true">
+        <path d="M4 6l4 4 4-4" />
+      </svg>
+      {children}
+    </button>
+  );
+}
+
 /**
  * Pick items, put them in order and download them as a PDF. The PDF is laid
  * out in the browser, so there is no server endpoint doing heavy work on
@@ -73,6 +103,7 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [announcement, setAnnouncement] = useState('');
+  const [folded, setFolded] = useState<Set<string>>(() => new Set());
   /** The row being dragged, and the gap it would drop into (0 is the top). */
   const [drag, setDrag] = useState<{ id: string; gap: number } | null>(null);
   /** A selector to focus once a move or removal has re-rendered the list. */
@@ -95,6 +126,34 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
       /* nothing saved */
     }
   }, [pickable]);
+
+  // A folded section stays folded next visit. Storage is untrusted, as above.
+  useEffect(() => {
+    try {
+      const saved: unknown = JSON.parse(localStorage.getItem(FOLDED_KEY) ?? '[]');
+      if (Array.isArray(saved)) {
+        setFolded(new Set(saved.filter((k): k is string => typeof k === 'string')));
+      }
+    } catch {
+      /* everything open */
+    }
+  }, []);
+
+  function toggleFolded(key: string) {
+    // Built on the latest set, so two toggles before a re-render both count.
+    // Saving here is idempotent, so a repeated call in Strict Mode is harmless.
+    setFolded((current) => {
+      const next = new Set(current);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      try {
+        localStorage.setItem(FOLDED_KEY, JSON.stringify([...next]));
+      } catch {
+        /* it just will not stay folded */
+      }
+      return next;
+    });
+  }
 
   // Saved from the handlers rather than an effect, which would race the
   // restore above and overwrite it with the defaults.
@@ -286,91 +345,107 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
   }
 
   const nothingMatches = sections.every((s) => s.visible.length === 0);
+  // A search opens every section with a match, so a folded one cannot hide results.
+  const searching = query.trim() !== '';
+  const howOpen = !folded.has('how');
+  const howSummary = [
+    choices.format === 'booklet' ? 'A5 booklet' : 'A4 pages',
+    choices.cover ? 'cover and contents' : 'no cover',
+    choices.newPage ? 'each on a new page' : null,
+    choices.title.trim() ? `“${choices.title.trim()}”` : null,
+  ]
+    .filter(Boolean)
+    .join(' · ');
 
   return (
     <>
-      <section className="card form" aria-labelledby="export-how">
+      <section className="card" aria-labelledby="export-how">
         <h2 className="section-title" id="export-how">
-          How it prints
+          <Fold open={howOpen} controls="export-how-body" onToggle={() => toggleFolded('how')}>
+            How it prints
+          </Fold>
         </h2>
+        {howOpen ? null : <p className="fold-summary">{howSummary}</p>}
 
-        <fieldset className="field">
-          <legend className="field-label">Format</legend>
-          <div className="choice-row">
-            <label className="choice">
-              <input
-                type="radio"
-                name="format"
-                checked={choices.format === 'a4'}
-                onChange={() => update({ format: 'a4' })}
-              />
-              <span>
-                <span className="choice-title">A4 pages</span>
-                <span className="choice-desc">
-                  Portrait pages with slightly larger type. Print them however you like.
+        <div className="form fold-body" id="export-how-body" hidden={!howOpen}>
+          <fieldset className="field">
+            <legend className="field-label">Format</legend>
+            <div className="choice-row">
+              <label className="choice">
+                <input
+                  type="radio"
+                  name="format"
+                  checked={choices.format === 'a4'}
+                  onChange={() => update({ format: 'a4' })}
+                />
+                <span>
+                  <span className="choice-title">A4 pages</span>
+                  <span className="choice-desc">
+                    Portrait pages with slightly larger type. Print them however you like.
+                  </span>
                 </span>
-              </span>
+              </label>
+              <label className="choice">
+                <input
+                  type="radio"
+                  name="format"
+                  checked={choices.format === 'booklet'}
+                  onChange={() => update({ format: 'booklet' })}
+                />
+                <span>
+                  <span className="choice-title">A5 booklet</span>
+                  <span className="choice-desc">
+                    Two pages to each A4 sheet. Print double-sided, flipping on the short edge, then
+                    fold the stack in half and staple the spine.
+                  </span>
+                </span>
+              </label>
+            </div>
+          </fieldset>
+
+          <div className="field-row">
+            <label className="field">
+              <span className="field-label">Title</span>
+              <input
+                className="input"
+                value={choices.title}
+                placeholder={defaultTitle}
+                maxLength={60}
+                onChange={(e) => update({ title: e.target.value })}
+              />
             </label>
-            <label className="choice">
-              <input
-                type="radio"
-                name="format"
-                checked={choices.format === 'booklet'}
-                onChange={() => update({ format: 'booklet' })}
-              />
-              <span>
-                <span className="choice-title">A5 booklet</span>
-                <span className="choice-desc">
-                  Two pages to each A4 sheet. Print double-sided, flipping on the short edge, then
-                  fold the stack in half and staple the spine.
-                </span>
+            <label className="field">
+              <span className="field-label">
+                Group <span className="optional">(optional)</span>
               </span>
+              <input
+                className="input"
+                value={choices.group}
+                placeholder="e.g. 1st Anytown Scouts"
+                maxLength={60}
+                onChange={(e) => update({ group: e.target.value })}
+              />
             </label>
           </div>
-        </fieldset>
 
-        <div className="field-row">
-          <label className="field">
-            <span className="field-label">Title</span>
-            <input
-              className="input"
-              value={choices.title}
-              placeholder={defaultTitle}
-              maxLength={60}
-              onChange={(e) => update({ title: e.target.value })}
-            />
-          </label>
-          <label className="field">
-            <span className="field-label">
-              Group <span className="optional">(optional)</span>
-            </span>
-            <input
-              className="input"
-              value={choices.group}
-              placeholder="e.g. 1st Anytown Scouts"
-              maxLength={60}
-              onChange={(e) => update({ group: e.target.value })}
-            />
-          </label>
-        </div>
-
-        <div className="checks">
-          <label className="check">
-            <input
-              type="checkbox"
-              checked={choices.cover}
-              onChange={(e) => update({ cover: e.target.checked })}
-            />
-            Cover and contents page
-          </label>
-          <label className="check">
-            <input
-              type="checkbox"
-              checked={choices.newPage}
-              onChange={(e) => update({ newPage: e.target.checked })}
-            />
-            Start each one on a new page
-          </label>
+          <div className="checks">
+            <label className="check">
+              <input
+                type="checkbox"
+                checked={choices.cover}
+                onChange={(e) => update({ cover: e.target.checked })}
+              />
+              Cover and contents page
+            </label>
+            <label className="check">
+              <input
+                type="checkbox"
+                checked={choices.newPage}
+                onChange={(e) => update({ newPage: e.target.checked })}
+              />
+              Start each one on a new page
+            </label>
+          </div>
         </div>
       </section>
 
@@ -396,8 +471,11 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
           <p className="empty">Nothing matches that. Try a shorter word.</p>
         ) : null}
 
-        {sections.map(({ kind, all, visible }) =>
-          visible.length === 0 ? null : (
+        {sections.map(({ kind, all, visible }) => {
+          if (visible.length === 0) return null;
+          const open = searching || !folded.has(kind.slug);
+          const listId = `pick-list-${kind.slug}`;
+          return (
             <div
               className="pick-section"
               key={kind.slug}
@@ -406,7 +484,13 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
             >
               <div className="pick-head">
                 <h3 className="pick-title" id={`pick-${kind.slug}`}>
-                  {kind.label}
+                  {searching ? (
+                    kind.label
+                  ) : (
+                    <Fold open={open} controls={listId} onToggle={() => toggleFolded(kind.slug)}>
+                      {kind.label}
+                    </Fold>
+                  )}
                 </h3>
                 <span className="pick-count">
                   {all.filter((i) => selected.has(i.id)).length} of {all.length}
@@ -430,7 +514,7 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
                   </button>
                 </span>
               </div>
-              <ul className="pick-list">
+              <ul className="pick-list" id={listId} hidden={!open}>
                 {visible.map((item) => (
                   <li key={item.id}>
                     <label className="pick-row">
@@ -448,8 +532,8 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
                 ))}
               </ul>
             </div>
-          ),
-        )}
+          );
+        })}
       </section>
 
       {/* Below the checklist on purpose: a list that grows above the row being

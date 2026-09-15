@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { Blocks } from './Blocks';
 import { Intro } from './Intro';
-import { FootBrand, Masthead } from './SiteChrome';
+import { FootBrand, Masthead, MoreFromScoutBase } from './SiteChrome';
 import { blocksToPlainText } from '@/lib/blocks';
 import type { Item, Kind, Tag } from '@/lib/types';
 
@@ -96,8 +96,8 @@ export function Book({
           ) : null}
 
           <div className="hero-actions">
-            <Link href="/export" className="ghost-btn">
-              Make a PDF
+            <Link href="/plan" className="ghost-btn">
+              Plan a campfire
             </Link>
             <Link href={`/submit?kind=${active?.slug ?? 'song'}`} className="ghost-btn">
               Submit a {active?.singular ?? 'song'}
@@ -175,11 +175,12 @@ export function Book({
             Joeys, Cubs, Scouts, Venturers and Rovers — learning, leading and living life to the
             fullest.
           </p>
+          <MoreFromScoutBase />
           <p className="footlinks">
             <Link href={`/submit?kind=${active?.slug ?? 'song'}`}>
               Submit a {active?.singular ?? 'song'}
             </Link>
-            <Link href="/export">Make a PDF</Link>
+            <Link href="/plan">Plan a campfire</Link>
             <Link href="/admin">Admin</Link>
           </p>
           <p className="footmeta">

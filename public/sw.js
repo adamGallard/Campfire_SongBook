@@ -1,7 +1,7 @@
 /*
  * ScoutBase Campfire service worker: keeps the book readable with no signal.
  *
- * The book and the export page are saved on the device together with every
+ * The book and the campfire planner are saved on the device together with every
  * script, style, font and image they refer to, so a saved page still searches,
  * switches section and changes reading mode. With signal, pages come from the
  * network and the saved copy is refreshed; with no signal, or one bar that
@@ -12,12 +12,15 @@
  *
  * Bump VERSION when this file's behaviour changes; the old caches are cleared.
  */
-const VERSION = 'v1';
+const VERSION = 'v2';
 const PAGES = `campfire-pages-${VERSION}`;
 const ASSETS = `campfire-assets-${VERSION}`;
 
 /** Pages saved for reading offline. */
-const SAVED = ['/', '/export'];
+const SAVED = ['/', '/plan'];
+
+/** Old addresses, sent on to their new page even with no signal. */
+const MOVED = { '/export': '/plan' };
 
 /** Pages that need a connection anyway; offline they get the notice below. */
 const ONLINE_ONLY = ['/submit'];
@@ -75,6 +78,9 @@ self.addEventListener('fetch', (event) => {
 
   if (request.mode === 'navigate') {
     if (SAVED.includes(url.pathname)) event.respondWith(savedPage(event, url));
+    else if (MOVED[url.pathname]) {
+      event.respondWith(fetch(request).catch(() => Response.redirect(MOVED[url.pathname], 302)));
+    }
     else if (ONLINE_ONLY.includes(url.pathname)) {
       event.respondWith(fetch(request).catch(offlinePage));
     }
