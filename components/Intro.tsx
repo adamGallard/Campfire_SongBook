@@ -49,11 +49,12 @@ export function Intro() {
 
       <div className="intro-body" id="intro-body">
         <p className="intro-lede">
-          Songs to sing, skits to perform, and cheers for the gaps in between. Pick a section above.
+          Songs to sing, skits to perform, yarns to tell, and cheers for the gaps in between. Pick a
+          section above.
         </p>
         <ul className="intro-points">
           <li>
-            <strong>Search</strong> looks inside every song and script, not just the titles — so
+            <strong>Search</strong> looks inside every song, script and story, not just the titles — so
             half a remembered line is enough.
           </li>
           <li>

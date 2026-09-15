@@ -1,6 +1,6 @@
 # Campfire Book
 
-A ScoutBase campfire book: 24 songs, 35 skits and 16 applause cheers, with
+A ScoutBase campfire book of songs, skits, yarns and applause cheers, with
 night/daylight reading modes, big type for reading round an actual fire, search
 across every line, and filters that change per section.
 
@@ -9,15 +9,19 @@ the public can send new material in for review.
 
 Sections are rows in the `kinds` table, and each one carries its own wording —
 the hero heading, and the noun a leader actually uses ("song", "skit",
-"cheer"), so no copy is derived from the section name. Adding a fourth section
-is a row plus its tags. The whole book ships in one page load, so switching
-section needs no signal.
+"yarn", "cheer"), so no copy is derived from the section name. Adding a section
+is a row plus its tags, and an entry in the `WORDING` tables of the submission
+and admin forms (what the tune line and the body are called — a skit has a
+cast and a script, a yarn has "How to tell it" and a story). A new section
+goes in with `enabled = false`, which keeps it out of the book and the
+submission form until its first items have been checked. The whole book ships
+in one page load, so switching section needs no signal.
 
 - **The book** — `/` (opens straight into the songs; an intro panel explains
   the site to a first-time visitor and collapses once dismissed)
 - **Make a PDF** — `/export` (tick any mix of songs, skits and cheers, put them
   in a running order; download A4 pages or an A5 booklet)
-- **Send one in** — `/submit?kind=song|skit|applause`
+- **Send one in** — `/submit?kind=song|skit|yarn|applause`
 - **Admin** — `/admin` (sign in with email and password)
 
 ## Stack
@@ -72,7 +76,7 @@ public submission from ever becoming markup on the page.
 | --- | --- | --- |
 | `verse` | plain text | A verse. `Chorus:` on its own line labels it |
 | `note` | `Note: …` | A small italic aside |
-| `shout` | `Punchline: …` | A large bold line — a skit's payoff |
+| `shout` | `Punchline: …` | A large bold line — a skit's payoff, a yarn's jump |
 | `box` | `Heading:` + `- ` lines | A bordered panel with a list |
 | `grid` | `Heading [columns]:` + `- ` lines | Like `box`, in columns |
 | `pills` | `[chips]:` + `- ` lines | A row of rounded chips |
@@ -134,11 +138,12 @@ alongside). Each has a latin-ext fallback so macrons and other accents print.
 
 ## Database
 
-`supabase/schema.sql` recreates the whole schema. `supabase/seed/songs.sql`
-loads the 24 original songs; `supabase/seed/songs.json` is the same content in
-the block format, which is the easier one to edit by hand.
+`supabase/schema.sql` recreates the whole schema. Each section has a seed in
+`supabase/seed` — `songs`, `skits`, `yarns` and `applause` — as a `.sql` file to
+load and a `.json` file with the same content in the block format, which is the
+easier one to edit by hand.
 
-Tables: `songs`, `submissions`, `tags`, `admins`.
+Tables: `kinds`, `tags`, `items`, `submissions`, `admins`.
 
 ## Security
 

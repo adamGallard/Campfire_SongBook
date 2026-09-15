@@ -164,7 +164,9 @@ function makeStyles(format: PdfFormat, compact = false) {
     verse: { fontSize: b * 11, lineHeight: compact ? 1.5 : 1.6, color: TEXT },
     verseLabel: { marginBottom: b * 3 },
     bold: { fontWeight: 600, color: INK },
-    italic: { fontStyle: 'italic', color: MUTED },
+    // Always Inter: Poppins has no italic, so a stage direction inside a
+    // punchline would otherwise fail the whole export.
+    italic: { fontFamily: INTER, fontStyle: 'italic', color: MUTED },
     note: { fontSize: b * 8.5, fontStyle: 'italic', lineHeight: 1.5, color: MUTED },
     shout: { fontFamily: POPPINS, fontWeight: 700, fontSize: b * 12.5, lineHeight: 1.35, color: INK },
 

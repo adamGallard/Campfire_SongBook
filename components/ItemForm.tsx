@@ -24,6 +24,12 @@ const WORDING: Record<string, { sub: string; subHint: string; body: string; pill
     body: 'The script',
     pill: '4–6 scouts · Chain gag',
   },
+  yarn: {
+    sub: 'How to tell it',
+    subHint: 'About 5 minutes · quieter and quieter to the end',
+    body: 'The story',
+    pill: 'Spooky · jump at the end',
+  },
   applause: {
     sub: 'How to lead it',
     subHint: 'Arms straight, hands flat — flippers, not hands',

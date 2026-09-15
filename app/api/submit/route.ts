@@ -5,7 +5,8 @@ import { createClient } from '@supabase/supabase-js';
 const LIMITS = {
   title: 120,
   tune: 200,
-  body: 8000,
+  // A long yarn runs to a few thousand words; nothing else comes close.
+  body: 20000,
   name: 80,
   email: 160,
   note: 1000,
@@ -46,11 +47,11 @@ export async function POST(request: Request) {
   const submitterEmail = str(payload.submitter_email, LIMITS.email);
 
   if (!title) {
-    return NextResponse.json({ error: 'Please give the song a title.' }, { status: 400 });
+    return NextResponse.json({ error: 'Please give it a title.' }, { status: 400 });
   }
   if (body.length < 20) {
     return NextResponse.json(
-      { error: 'Please include the words — at least a verse or two.' },
+      { error: 'Please include the words — at least a few lines.' },
       { status: 400 },
     );
   }
@@ -79,7 +80,7 @@ export async function POST(request: Request) {
   if (error) {
     if (error.message.includes('rate_limited')) {
       return NextResponse.json(
-        { error: 'That is a few songs in a short time — please try again later.' },
+        { error: 'That is a few in a short time — please try again later.' },
         { status: 429 },
       );
     }

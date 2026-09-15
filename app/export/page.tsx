@@ -9,7 +9,7 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: 'Make a PDF · Campfire Book',
   description:
-    'Pick the songs, skits and cheers for your campfire and download them as A4 pages or a folded A5 booklet.',
+    'Pick the songs, skits, yarns and cheers for your campfire and download them as A4 pages or a folded A5 booklet.',
 };
 
 export default async function ExportPage() {
@@ -19,7 +19,7 @@ export default async function ExportPage() {
     <>
       <Hero
         title="Make a PDF"
-        lede="Pick the songs, skits and cheers for your campfire, then download them as A4 pages or as a booklet to fold and staple."
+        lede="Pick the songs, skits, yarns and cheers for your campfire, put them in order, then download them as A4 pages or as a booklet to fold and staple."
         actions={
           <Link href="/" className="ghost-btn">
             Back to the book

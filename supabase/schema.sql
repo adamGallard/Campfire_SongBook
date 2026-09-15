@@ -1,6 +1,6 @@
 -- Campfire Songbook — full schema as applied to the `campfire-songbook`
 -- Supabase project. Run this against an empty database to recreate it, then
--- load supabase/seed/songs.sql.
+-- load the seeds in supabase/seed (songs, skits, yarns, applause).
 --
 -- Applied as migrations:
 --   20260912003502_create_songbook_schema
@@ -11,6 +11,9 @@
 --   20260912_admins_keyed_by_email / add_admin_email_exists_check
 --   20260912_generalise_songs_to_items_with_kinds
 --   20260912_submit_song_accepts_kind
+--   20260913_add_applause_tags / kinds_carry_their_own_wording
+--   20260915_add_yarns_section
+--   20260915_raise_submission_body_limit
 
 -- Sections of the book -----------------------------------------------------
 -- Each kind carries its own wording, because deriving copy off the section
@@ -31,8 +34,10 @@ insert into public.kinds (slug, label, heading, singular, plural, lede, sort_ord
    'Search for one, or scroll from the loud ones at the top to the quiet ones at the end.', 1, true),
   ('skit', 'Skits', 'Skit Book', 'skit', 'skits',
    'Filter by how many scouts you have got, or search for one you remember.', 2, true),
+  ('yarn', 'Yarns', 'Yarns', 'yarn', 'yarns',
+   'Start with a join-in one, save the quiet ones for last, or search for one you half remember.', 3, true),
   ('applause', 'Applause', 'Applause', 'cheer', 'cheers',
-   'Quick cheers to throw between acts.', 3, true);
+   'Quick cheers to throw between acts.', 4, true);
 
 -- Tags (the filter chips), scoped per kind: "Loud" means nothing to a skit.
 create table public.tags (
@@ -52,6 +57,10 @@ insert into public.tags (kind, slug, label, sort_order) values
   ('skit', 'small',  '2–3 scouts', 1),
   ('skit', 'medium', '4–6 scouts', 2),
   ('skit', 'large',  '7+ scouts',  3),
+  ('yarn', 'join-in', 'Join in', 1),
+  ('yarn', 'funny',   'Funny',   2),
+  ('yarn', 'spooky',  'Spooky',  3),
+  ('yarn', 'quiet',   'Quiet',   4),
   ('applause', 'quick',   'Quick',     1),
   ('applause', 'actions', 'Actions',   2),
   ('applause', 'build',   'Builds up', 3),
@@ -214,7 +223,8 @@ begin
     raise exception 'invalid_title';
   end if;
 
-  if char_length(p_body) < 20 or char_length(p_body) > 8000 then
+  -- A long yarn runs to a few thousand words.
+  if char_length(p_body) < 20 or char_length(p_body) > 20000 then
     raise exception 'invalid_body';
   end if;
 

@@ -4,14 +4,35 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import type { Kind, Tag } from '@/lib/types';
 
-const PLACEHOLDERS: Record<string, string> = {
-  applause: `Straighten both arms in front of you, palms flat.
-Clap them together from the elbows, like a seal.
+interface Wording {
+  title: string;
+  tagQuestion: string;
+  sub: string;
+  subHint: string;
+  body: string;
+  bodyHint: string;
+  help: React.ReactNode;
+}
 
-Punchline: Arf! Arf! Arf!
+const SCRIPT_HELP = (
+  <>
+    Use <code>**Scout 1:**</code> for a speaker, <code>_(actions)_</code> in italics, and{' '}
+    <code>Punchline:</code> for the line everyone yells.
+  </>
+);
 
-Note: tip the head back on the last one.`,
-  song: `Campfires burning, campfires burning,
+/**
+ * What each section calls things. A song has a tune and words, a skit has a
+ * cast and a script; a section with no entry reads like a song.
+ */
+const WORDING: Record<string, Wording> = {
+  song: {
+    title: 'Alice The Camel',
+    tagQuestion: 'What kind of song?',
+    sub: 'Tune',
+    subHint: 'Tune: traditional · faster each verse',
+    body: 'The words',
+    bodyHint: `Campfires burning, campfires burning,
 Draw nearer, draw nearer,
 In the glowing, in the glowing,
 Come sing and be merry.
@@ -20,13 +41,61 @@ Chorus:
 The words of the chorus go here.
 
 Note: anything after "Note:" shows as a small aside.`,
-  skit: `**Scout 1:** Hey, you're good with first aid — I need your help.
+    help: (
+      <>
+        Start a line with <code>Chorus:</code> to label one, or <code>Note:</code> for an aside.
+      </>
+    ),
+  },
+  skit: {
+    title: 'Sore Finger',
+    tagQuestion: 'How many scouts?',
+    sub: 'Cast',
+    subHint: '4 scouts — narrator, policeman…',
+    body: 'The script',
+    bodyHint: `**Scout 1:** Hey, you're good with first aid — I need your help.
 **Scout 2:** Sure, what's the problem?
 _(He presses his forehead, then his jaw, then his stomach.)_
 
 **Scout 2:** You'd better see the doctor.
 
 Punchline: Scout 1: He says I have a broken finger.`,
+    help: SCRIPT_HELP,
+  },
+  yarn: {
+    title: 'The Hairy Toe',
+    tagQuestion: 'What sort of yarn?',
+    sub: 'How to tell it',
+    subHint: 'About 5 minutes · quieter and quieter to the end',
+    body: 'The story',
+    bodyHint: `Note: a tip for whoever is telling it.
+
+Once, a long way from town, there lived an old woman on her own.
+
+One evening she was out digging potatoes, when her fork hit something that was not a potato.
+
+Punchline: YOU'VE GOT IT!`,
+    help: (
+      <>
+        Start a paragraph with <code>Note:</code> for a tip for the teller, and{' '}
+        <code>Punchline:</code> for the jump or the groan at the end.
+      </>
+    ),
+  },
+  applause: {
+    title: 'Seal of Approval',
+    tagQuestion: 'What sort of cheer?',
+    sub: 'How to lead it',
+    subHint: 'Arms straight, hands flat — flippers, not hands',
+    body: 'How it goes',
+    bodyHint: `Straighten both arms in front of you, palms flat.
+Clap them together from the elbows, like a seal.
+
+Punchline: Arf! Arf! Arf!
+
+Note: tip the head back on the last one.`,
+    help: SCRIPT_HELP,
+  },
 };
 
 export function SubmitForm({
@@ -48,6 +117,7 @@ export function SubmitForm({
     [tags, kind],
   );
   const active = kinds.find((k) => k.slug === kind);
+  const words = WORDING[kind] ?? WORDING.song;
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -138,18 +208,14 @@ export function SubmitForm({
             required
             maxLength={120}
             className="input"
-            placeholder={
-              kind === 'skit' ? 'Sore Finger' : kind === 'applause' ? 'Seal of Approval' : 'Alice The Camel'
-            }
+            placeholder={words.title}
           />
         </label>
       </div>
 
       <div className="field-row">
         <label className="field">
-          <span className="field-label">
-            {kind === 'skit' ? 'How many scouts?' : kind === 'applause' ? 'What sort of cheer?' : 'What kind of song?'}
-          </span>
+          <span className="field-label">{words.tagQuestion}</span>
           <select
             name="tag"
             className="input"
@@ -167,49 +233,29 @@ export function SubmitForm({
 
         <label className="field">
           <span className="field-label">
-            {kind === 'skit' ? 'Cast' : kind === 'applause' ? 'How to lead it' : 'Tune'}{' '}
-            <span className="optional">optional</span>
+            {words.sub} <span className="optional">optional</span>
           </span>
           <input
             name="tune"
             maxLength={200}
             className="input"
-            placeholder={
-              kind === 'skit'
-                ? '4 scouts — narrator, policeman…'
-                : kind === 'applause'
-                  ? 'Arms straight, hands flat — flippers, not hands'
-                  : 'Tune: traditional · faster each verse'
-            }
+            placeholder={words.subHint}
           />
         </label>
       </div>
 
       <label className="field">
-        <span className="field-label">
-          {kind === 'skit' ? 'The script' : kind === 'applause' ? 'How it goes' : 'The words'}
-        </span>
+        <span className="field-label">{words.body}</span>
         <textarea
           name="body"
           required
           rows={14}
-          maxLength={8000}
+          maxLength={20000}
           className="input textarea"
-          placeholder={PLACEHOLDERS[kind] ?? PLACEHOLDERS.song}
+          placeholder={words.bodyHint}
         />
         <span className="hint">
-          Leave a blank line between blocks.{' '}
-          {kind === 'skit' || kind === 'applause' ? (
-            <>
-              Use <code>**Scout 1:**</code> for a speaker, <code>_(actions)_</code> in italics, and{' '}
-              <code>Punchline:</code> for the line everyone yells.
-            </>
-          ) : (
-            <>
-              Start a line with <code>Chorus:</code> to label one, or <code>Note:</code> for an
-              aside.
-            </>
-          )}
+          Leave a blank line between blocks. {words.help}
         </span>
       </label>
 

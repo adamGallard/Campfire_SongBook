@@ -17,7 +17,7 @@ export type Block =
 
 export type BlockType = Block['type'];
 
-/** A section of the book: songs, skits, applause. */
+/** A section of the book: songs, skits, yarns, applause. */
 export interface Kind {
   slug: string;
   /** Section name on the switcher: "Songs". */

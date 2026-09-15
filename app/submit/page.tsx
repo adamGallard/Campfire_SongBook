@@ -6,7 +6,7 @@ import type { Kind, Tag } from '@/lib/types';
 
 export const metadata: Metadata = {
   title: 'Submit · Campfire Book',
-  description: 'Send a campfire song, skit or cheer in for a leader to review.',
+  description: 'Send a campfire song, skit, yarn or cheer in for a leader to review.',
 };
 
 export default async function SubmitPage({
@@ -35,7 +35,7 @@ export default async function SubmitPage({
     <>
       <Hero
         title="Send one in"
-        lede="Know a song, a skit or a cheer that belongs round the fire? Send it in and a leader will review it before it joins the book."
+        lede="Know a song, a skit, a yarn or a cheer that belongs round the fire? Send it in and a leader will review it before it joins the book."
       />
       <main className="wrap list">
         <SubmitForm kinds={kinds} tags={tags} startKind={startKind} />
