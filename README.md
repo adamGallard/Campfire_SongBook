@@ -67,6 +67,21 @@ Site URL instead, so a password-reset link just opens the home page.
 (`next.config.mjs` forwards a code that lands there to `/auth/callback` as a
 fallback, but get the settings right.)
 
+## Icon
+
+The book's icon is a sibling of ScoutBase's (navy and green on white) and SB
+Leader's (white on purple): the same tent, flag and people, in white on the
+book's night navy, with a campfire where the middle person would sit. At
+favicon size it drops to a heavy tent and the fire, which is all that survives
+at 16px.
+
+`scripts/icons.mjs` draws it and writes every size: `app/icon.svg` and
+`app/favicon.ico` for browser tabs, `app/apple-icon.png` for iPhone home
+screens, and `public/icons/` for Android and desktop installs. `app/manifest.ts`
+lists those, so the book can be added to a home screen and opens full screen.
+Run `node scripts/icons.mjs` after changing the drawing; `sharp` comes with
+Next.js.
+
 ## The song format
 
 A song body is stored as a list of **blocks**, not HTML. This is what keeps a
