@@ -9,12 +9,14 @@ const MUTED = '#60707a';
 const TIMBER = '#d6d6d6';
 const GRAIN = '#9aa3a8';
 const WHITE = '#ffffff';
+/** The second rope prints mid grey, so the two can be told apart in ink. */
+const TONE_B = '#9aa3a8';
 
 function ShapeView({ shape }: { shape: Shape }) {
   switch (shape.t) {
     case 'spar':
       return (
-        <G>
+        <G transform={shape.angle ? `rotate(${shape.angle} ${shape.x + shape.w / 2} ${shape.y + shape.h / 2})` : undefined}>
           <Rect x={shape.x} y={shape.y} width={shape.w} height={shape.h} rx={5} fill={TIMBER} stroke={INK} strokeWidth={1.5} />
           {shape.grain ? <Path d={shape.grain} fill="none" stroke={GRAIN} strokeWidth={1.2} strokeLinecap="round" /> : null}
         </G>
@@ -31,7 +33,7 @@ function ShapeView({ shape }: { shape: Shape }) {
       return (
         <G>
           <Path d={shape.d} fill="none" stroke={INK} strokeWidth={10} strokeLinecap="round" strokeLinejoin="round" {...back} />
-          <Path d={shape.d} fill="none" stroke={WHITE} strokeWidth={6.5} strokeLinecap="round" strokeLinejoin="round" {...back} />
+          <Path d={shape.d} fill="none" stroke={shape.tone === 'b' ? TONE_B : WHITE} strokeWidth={6.5} strokeLinecap="round" strokeLinejoin="round" {...back} />
         </G>
       );
     }
@@ -50,7 +52,7 @@ function ShapeView({ shape }: { shape: Shape }) {
           x={shape.x}
           y={shape.y}
           textAnchor={shape.anchor ?? 'start'}
-          fill={MUTED}
+          fill={INK}
           transform={shape.rotate ? `rotate(${shape.rotate} ${shape.x} ${shape.y})` : undefined}
           style={{ fontFamily: 'Inter', fontSize: 11, fontWeight: 600 }}
         >
@@ -69,6 +71,14 @@ function ShapeView({ shape }: { shape: Shape }) {
           <Text x={shape.x} y={shape.y + 4.5} textAnchor="middle" fill={WHITE} style={{ fontFamily: 'Inter', fontSize: 13, fontWeight: 700 }}>
             {shape.letter}
           </Text>
+        </G>
+      );
+    case 'group':
+      return (
+        <G transform={shape.transform}>
+          {shape.shapes.map((s, i) => (
+            <ShapeView key={i} shape={s} />
+          ))}
         </G>
       );
   }

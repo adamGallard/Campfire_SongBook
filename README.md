@@ -217,7 +217,12 @@ or removing a step in admin hides the drawings rather than leave one beside the
 wrong instruction; redraw and update `step` to bring them back. A build can
 also have an overview drawing with a legend, shown after its opening sentence.
 
-So far: the clove hitch (four steps) and the A-frame.
+The drawings themselves are in `lib/drawings/`: `knots.ts`, `lashings.ts` and
+`builds.ts`, with `parts.ts` for pieces used more than once (the clove hitch
+that starts and finishes most lashings). Every starter knot and lashing has
+step drawings, and the A-frame has an overview. Rope that passes behind a spar
+is dashed; where two ropes, or a rope's two ends, need telling apart, the
+second is drawn in grey-blue (`tone: 'b'`), grey in print.
 
 ## Planning and printing
 
