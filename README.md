@@ -210,11 +210,12 @@ rope paths, arrows, labels, lettered markers. `components/Diagram.tsx` draws
 them on the page in the book's colours, following day and night mode, and
 `lib/pdf/diagram.tsx` prints the same geometry in ink.
 
-Drawings are keyed by an item's slug. Step drawings pair one to one with the
-item's first steps block, and only show while the number of steps matches, so
-editing an item's steps in admin can never leave a drawing beside the wrong
-step. If the steps change, redraw to match. A build can also have an overview
-drawing with a legend, shown after its opening sentence.
+Drawings are keyed by an item's slug. Each step drawing records the words of
+the step it shows (`step`), and a steps block only gets drawings while every
+step still reads as recorded, in the same order. Rewording, reordering, adding
+or removing a step in admin hides the drawings rather than leave one beside the
+wrong instruction; redraw and update `step` to bring them back. A build can
+also have an overview drawing with a legend, shown after its opening sentence.
 
 So far: the clove hitch (four steps) and the A-frame.
 
