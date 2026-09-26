@@ -1,5 +1,11 @@
 import type { ItemDiagrams, Shape, StepDrawing } from '../diagrams';
 
+/** Small crossing turns where a spar is square-lashed to a leg. */
+const joint = (x: number, y: number): Shape[] => [
+  { t: 'wrap', x1: x - 7, y1: y - 7, x2: x + 7, y2: y + 7 },
+  { t: 'wrap', x1: x + 7, y1: y - 7, x2: x - 7, y2: y + 7 },
+];
+
 // A-frame -------------------------------------------------------------------
 function squareWraps(x: number): Shape[] {
   return [-6, 0, 6].flatMap((k): Shape[] => [
@@ -7,6 +13,31 @@ function squareWraps(x: number): Shape[] {
     { t: 'wrap', x1: x + 11 + k, y1: 244, x2: x - 11 + k, y2: 266 },
   ]);
 }
+
+const frameStep = (step: string, title: string, shapes: Shape[]): StepDrawing => ({
+  step,
+  width: 220,
+  height: 220,
+  title,
+  shapes,
+});
+/** The legs lying side by side, tips level. */
+const FRAME_TOGETHER: Shape[] = [
+  { t: 'pole', x1: 100, y1: 20, x2: 100, y2: 205 },
+  { t: 'pole', x1: 120, y1: 20, x2: 120, y2: 205 },
+];
+/** The legs opened into an A, crossing at the shear lashing. */
+const FRAME_OPEN: Shape[] = [
+  { t: 'pole', x1: 52, y1: 205, x2: 117, y2: 31 },
+  { t: 'pole', x1: 168, y1: 205, x2: 103, y2: 31 },
+  ...[44, 50, 56].map((y): Shape => ({ t: 'wrap', x1: 96, y1: y, x2: 124, y2: y })),
+];
+/** The ledger across the legs, 30 cm up, square-lashed to each. */
+const FRAME_LEDGER: Shape[] = [
+  { t: 'pole', x1: 40, y1: 182, x2: 180, y2: 182 },
+  ...joint(61, 182),
+  ...joint(159, 182),
+];
 
 export const A_FRAME: ItemDiagrams = {
   overview: {
@@ -37,6 +68,54 @@ export const A_FRAME: ItemDiagrams = {
       { letter: 'B', name: 'Square lashing', where: 'ledger to each leg' },
     ],
   },
+  // Seen from above while it lies on the ground, then from the front once it
+  // stands: tips at the top of each drawing, bottoms at the foot.
+  steps: [
+    frameStep(
+      'Lay the two legs side by side on the ground, tips level.',
+      'The two legs lying side by side on the ground, their tips level.',
+      [...FRAME_TOGETHER, { t: 'dim', d: 'M80 20 H140' }, { t: 'label', x: 146, y: 24, text: 'Tips level' }],
+    ),
+    frameStep(
+      'About 30 cm down from the tips, tie a **shear lashing** round both legs. Keep the turns fairly loose.',
+      'A shear lashing round both legs, 30 cm down from the tips.',
+      [
+        ...FRAME_TOGETHER,
+        ...[40, 46, 52, 58].map((y): Shape => ({ t: 'wrap', x1: 92, y1: y, x2: 128, y2: y })),
+        { t: 'label', x: 136, y: 53, text: 'Shear lashing' },
+        { t: 'label', x: 136, y: 67, text: 'fairly loose' },
+        { t: 'dim', d: 'M76 20 V49 M72 20 H80 M72 49 H80' },
+        { t: 'label', x: 68, y: 38, text: '30 cm', anchor: 'end' },
+      ],
+    ),
+    frameStep(
+      'Open the legs into an A until the bottoms are about 1.5 m apart.',
+      'The legs opened into an A, crossing at the shear lashing, their bottoms 1.5 m apart.',
+      [
+        ...FRAME_OPEN,
+        { t: 'arrow', x: 38, y: 190, angle: 180 },
+        { t: 'arrow', x: 182, y: 190, angle: 0 },
+        { t: 'dim', d: 'M52 212 H168 M52 208 V216 M168 208 V216' },
+        { t: 'label', x: 110, y: 202, text: 'about 1.5 m', anchor: 'middle' },
+      ],
+    ),
+    frameStep(
+      'Lay the ledger across both legs, 30 cm up from the bottom, and **square-lash** it to each leg.',
+      'The ledger laid across both legs near their bottoms and square-lashed to each.',
+      [...FRAME_OPEN, ...FRAME_LEDGER, { t: 'label', x: 110, y: 160, text: 'Square lashings', anchor: 'middle' }],
+    ),
+    frameStep(
+      'Stand it up and push the top gently. Tighten any lashing that slips, then have a leader check it.',
+      'The finished A-frame standing, with a gentle push on its top.',
+      [
+        { t: 'ground', x1: 20, y1: 208, x2: 200, y2: 208 },
+        ...FRAME_OPEN,
+        ...FRAME_LEDGER,
+        { t: 'arrow', x: 142, y: 36, angle: 180 },
+        { t: 'label', x: 150, y: 40, text: 'Push gently' },
+      ],
+    ),
+  ],
 };
 
 // Wash-bowl stand -------------------------------------------------------------
@@ -56,11 +135,6 @@ const STAND_FRONT_LEGS: Shape[] = [
 ];
 const TRIPOD_TOP: Shape[] = [48, 54, 60].map((y): Shape => ({ t: 'wrap', x1: 86, y1: y, x2: 114, y2: y }));
 const GROUND: Shape = { t: 'ground', x1: 10, y1: 210, x2: 190, y2: 210 };
-/** Small crossing turns where a short stave is square-lashed to a leg. */
-const joint = (x: number, y: number): Shape[] => [
-  { t: 'wrap', x1: x - 7, y1: y - 7, x2: x + 7, y2: y + 7 },
-  { t: 'wrap', x1: x + 7, y1: y - 7, x2: x - 7, y2: y + 7 },
-];
 // The ring: two staves running back to the back leg, and one across the front.
 const STAND_RING_BACK: Shape[] = [
   { t: 'pole', x1: 58, y1: 134, x2: 106, y2: 114 },

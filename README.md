@@ -220,8 +220,8 @@ also have an overview drawing with a legend, shown after its opening sentence.
 The drawings themselves are in `lib/drawings/`: `knots.ts`, `lashings.ts` and
 `builds.ts`, with `parts.ts` for pieces used more than once (the clove hitch
 that starts and finishes most lashings). Every starter knot and lashing has
-step drawings, the A-frame has an overview, and the wash-bowl stand has step
-drawings. Rope that passes behind a spar
+step drawings, as do the A-frame (which also has an overview) and the
+wash-bowl stand. Rope that passes behind a spar
 is dashed; where two ropes, or a rope's two ends, need telling apart, the
 second is drawn in grey-blue (`tone: 'b'`), grey in print.
 
