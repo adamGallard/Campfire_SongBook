@@ -3,10 +3,12 @@
  * the same geometry: the page in the book's colours (components/Diagram.tsx),
  * the PDF in ink for printing (lib/pdf/book-document.tsx).
  *
- * Drawings are keyed by an item's slug. Step drawings pair with the item's
- * first steps block one to one, and only show when the counts match, so
- * editing an item's steps in admin can never put a drawing beside the wrong
- * step; the drawings just stand aside until they are redrawn to match.
+ * Drawings are keyed by an item's slug. Each step drawing records the exact
+ * step it shows, and a steps block only gets drawings when every one of its
+ * steps still reads as recorded, in the same order. Rewording, reordering,
+ * adding or removing a step in admin therefore can never put a drawing beside
+ * the wrong instruction; the drawings stand aside until they are redrawn and
+ * their `step` text updated to match.
  *
  * Shapes are drawn in order, so list what sits behind first.
  */
@@ -41,9 +43,14 @@ export interface Overview extends Drawing {
   legend?: { letter: string; name: string; where: string }[];
 }
 
+/** A drawing of one step, and the words of the step it shows. */
+export interface StepDrawing extends Drawing {
+  step: string;
+}
+
 export interface ItemDiagrams {
-  /** One per step of the item's first steps block. */
-  steps?: Drawing[];
+  /** One per step, in order, each naming the step it shows. */
+  steps?: StepDrawing[];
   /** A single drawing of the finished thing, shown above the text. */
   overview?: Overview;
 }
@@ -62,7 +69,8 @@ const CLOVE = {
   tucked: 'M84 121 C79 121 82 126 90 126 H190',
 };
 
-const cloveStep = (title: string, shapes: Shape[]): Drawing => ({
+const cloveStep = (step: string, title: string, shapes: Shape[]): StepDrawing => ({
+  step,
   width: 200,
   height: 220,
   title,
@@ -71,40 +79,52 @@ const cloveStep = (title: string, shapes: Shape[]): Drawing => ({
 
 const CLOVE_HITCH: ItemDiagrams = {
   steps: [
-    cloveStep('The rope crosses the front of the spar and goes round the back.', [
+    cloveStep('Take the end round the spar.', 'The rope crosses the front of the spar and goes round the back.', [
       { t: 'rope', d: CLOVE.firstFront },
       { t: 'rope', d: CLOVE.firstBack, back: true },
       { t: 'rope', d: CLOVE.firstEnd },
       { t: 'arrow', x: 70, y: 181, angle: 101 },
       { t: 'label', x: 6, y: 205, text: 'Working end' },
     ]),
-    cloveStep('The end crosses the front again, over the first turn, and goes round the back above it.', [
-      { t: 'rope', d: CLOVE.firstFront },
-      { t: 'rope', d: CLOVE.firstBack, back: true },
-      { t: 'rope', d: CLOVE.diagonal },
-      { t: 'rope', d: CLOVE.secondBack, back: true },
-      { t: 'rope', d: CLOVE.secondEnd },
-      { t: 'arrow', x: 70, y: 135, angle: 104 },
-    ]),
-    cloveStep('The end is tucked under the diagonal and comes out beside the standing part.', [
-      { t: 'rope', d: CLOVE.firstBack, back: true },
-      { t: 'rope', d: CLOVE.secondBack, back: true },
-      { t: 'rope', d: CLOVE.firstFront },
-      { t: 'rope', d: CLOVE.tucked },
-      { t: 'rope', d: CLOVE.diagonal },
-      { t: 'arrow', x: 192, y: 126, angle: 0 },
-    ]),
-    cloveStep('The finished clove hitch, with both ends pulled tight in opposite directions.', [
-      { t: 'rope', d: CLOVE.firstBack, back: true },
-      { t: 'rope', d: CLOVE.secondBack, back: true },
-      { t: 'rope', d: CLOVE.firstFront },
-      { t: 'rope', d: CLOVE.tucked },
-      { t: 'rope', d: CLOVE.diagonal },
-      { t: 'arrow', x: 6, y: 150, angle: 180 },
-      { t: 'arrow', x: 194, y: 126, angle: 0 },
-      { t: 'label', x: 4, y: 175, text: 'Standing part' },
-      { t: 'label', x: 197, y: 111, text: 'Working end', anchor: 'end' },
-    ]),
+    cloveStep(
+      'Cross it over the standing part and take it round the spar again, beside the first turn.',
+      'The end crosses the front again, over the first turn, and goes round the back above it.',
+      [
+        { t: 'rope', d: CLOVE.firstFront },
+        { t: 'rope', d: CLOVE.firstBack, back: true },
+        { t: 'rope', d: CLOVE.diagonal },
+        { t: 'rope', d: CLOVE.secondBack, back: true },
+        { t: 'rope', d: CLOVE.secondEnd },
+        { t: 'arrow', x: 70, y: 135, angle: 104 },
+      ],
+    ),
+    cloveStep(
+      'Tuck the end under the turn you have just made, so it comes out between the two turns, beside the standing part.',
+      'The end is tucked under the diagonal and comes out beside the standing part.',
+      [
+        { t: 'rope', d: CLOVE.firstBack, back: true },
+        { t: 'rope', d: CLOVE.secondBack, back: true },
+        { t: 'rope', d: CLOVE.firstFront },
+        { t: 'rope', d: CLOVE.tucked },
+        { t: 'rope', d: CLOVE.diagonal },
+        { t: 'arrow', x: 192, y: 126, angle: 0 },
+      ],
+    ),
+    cloveStep(
+      'Pull both ends tight and push the turns snug against each other.',
+      'The finished clove hitch, with both ends pulled tight in opposite directions.',
+      [
+        { t: 'rope', d: CLOVE.firstBack, back: true },
+        { t: 'rope', d: CLOVE.secondBack, back: true },
+        { t: 'rope', d: CLOVE.firstFront },
+        { t: 'rope', d: CLOVE.tucked },
+        { t: 'rope', d: CLOVE.diagonal },
+        { t: 'arrow', x: 6, y: 150, angle: 180 },
+        { t: 'arrow', x: 194, y: 126, angle: 0 },
+        { t: 'label', x: 4, y: 175, text: 'Standing part' },
+        { t: 'label', x: 197, y: 111, text: 'Working end', anchor: 'end' },
+      ],
+    ),
   ],
 };
 
@@ -156,8 +176,18 @@ export function diagramsFor(slug: string): ItemDiagrams | undefined {
   return DIAGRAMS[slug];
 }
 
-/** The drawings for a steps block, or none when they no longer match its steps. */
-export function stepDrawings(diagrams: ItemDiagrams | undefined, stepCount: number): Drawing[] | null {
-  const steps = diagrams?.steps;
-  return steps && steps.length === stepCount ? steps : null;
+/** Compared loosely: case, spacing, and bold and italic marks do not matter. */
+function sameStep(a: string, b: string): boolean {
+  const norm = (s: string) => s.replace(/\*\*|_/g, '').replace(/\s+/g, ' ').trim().toLowerCase();
+  return norm(a) === norm(b);
+}
+
+/**
+ * The drawings for a steps block, or none unless every step still reads as
+ * the drawings record, in the same order.
+ */
+export function stepDrawings(diagrams: ItemDiagrams | undefined, steps: string[]): StepDrawing[] | null {
+  const drawings = diagrams?.steps;
+  if (!drawings || drawings.length !== steps.length) return null;
+  return drawings.every((d, i) => sameStep(d.step, steps[i])) ? drawings : null;
 }

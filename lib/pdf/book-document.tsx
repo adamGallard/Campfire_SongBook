@@ -368,7 +368,6 @@ function Inline({ text, s }: { text: string; s: Styles }) {
 /** An item's blocks, with its drawings where lib/diagrams.ts has them. */
 function ItemBody({ blocks, slug, s }: { blocks: Block[]; slug: string; s: Styles }) {
   const diagrams = diagramsFor(slug);
-  const firstSteps = blocks.findIndex((b) => b.type === 'steps');
   // As on the page: a build's drawing follows its opening sentence.
   const overviewAfter = blocks[0]?.type === 'verse' ? 0 : -1;
   const overview = diagrams?.overview ? <OverviewView overview={diagrams.overview} s={s} /> : null;
@@ -381,7 +380,7 @@ function ItemBody({ blocks, slug, s }: { blocks: Block[]; slug: string; s: Style
           <BlockView
             block={block}
             s={s}
-            drawings={j === firstSteps && block.type === 'steps' ? stepDrawings(diagrams, block.items.length) : null}
+            drawings={block.type === 'steps' ? stepDrawings(diagrams, block.items) : null}
           />
           {j === overviewAfter ? overview : null}
         </Fragment>

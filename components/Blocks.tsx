@@ -30,8 +30,6 @@ function inline(text: string): ReactNode {
 }
 
 export function Blocks({ blocks, diagrams }: { blocks: Block[]; diagrams?: ItemDiagrams }) {
-  // Step drawings belong to the first steps block only.
-  const firstSteps = blocks.findIndex((b) => b.type === 'steps');
   // A build's drawing follows its opening sentence, if it has one.
   const overviewAfter = blocks[0]?.type === 'verse' ? 0 : -1;
   const overview = diagrams?.overview ? <OverviewFigure overview={diagrams.overview} /> : null;
@@ -114,7 +112,8 @@ export function Blocks({ blocks, diagrams }: { blocks: Block[]; diagrams?: ItemD
 
       // The order is the point, so it is a real ordered list.
       case 'steps': {
-        const drawings = i === firstSteps ? stepDrawings(diagrams, block.items.length) : null;
+        // Only the steps block whose words the drawings record gets them.
+        const drawings = stepDrawings(diagrams, block.items);
         if (drawings) {
           return (
             <div className="steps" key={i}>
