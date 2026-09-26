@@ -8,10 +8,14 @@ function ShapeView({ shape }: { shape: Shape }) {
   switch (shape.t) {
     case 'spar':
       return (
-        <>
+        <g
+          transform={
+            shape.angle ? `rotate(${shape.angle} ${shape.x + shape.w / 2} ${shape.y + shape.h / 2})` : undefined
+          }
+        >
           <rect className="dg-spar" x={shape.x} y={shape.y} width={shape.w} height={shape.h} rx={5} />
           {shape.grain ? <path className="dg-grain" d={shape.grain} /> : null}
-        </>
+        </g>
       );
     case 'pole':
       return (
@@ -22,10 +26,11 @@ function ShapeView({ shape }: { shape: Shape }) {
       );
     case 'rope': {
       const back = shape.back ? ' dg-back' : '';
+      const tone = shape.tone === 'b' ? ' dg-tone-b' : '';
       return (
         <>
-          <path className={`dg-rope-edge${back}`} d={shape.d} />
-          <path className={`dg-rope${back}`} d={shape.d} />
+          <path className={`dg-rope-edge${back}${tone}`} d={shape.d} />
+          <path className={`dg-rope${back}${tone}`} d={shape.d} />
         </>
       );
     }
@@ -68,6 +73,14 @@ function ShapeView({ shape }: { shape: Shape }) {
           <text x={shape.x} y={shape.y + 4.5} textAnchor="middle">
             {shape.letter}
           </text>
+        </g>
+      );
+    case 'group':
+      return (
+        <g transform={shape.transform}>
+          {shape.shapes.map((s, i) => (
+            <ShapeView key={i} shape={s} />
+          ))}
         </g>
       );
   }

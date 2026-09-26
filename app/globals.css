@@ -40,6 +40,8 @@
   --spar: #8a6843;
   --spar-edge: #c49b69;
   --grain: rgba(255, 230, 190, 0.22);
+  --rope-b: #8fb3c9;
+  --rope-b-edge: #2f4a5c;
 
   --lyric-size: clamp(16px, 4vw, 18px);
   --lyric-leading: 1.72;
@@ -79,6 +81,8 @@
   --spar: #b08556;
   --spar-edge: #6d4d2a;
   --grain: rgba(80, 52, 22, 0.35);
+  --rope-b: #7fa6be;
+  --rope-b-edge: #2c4557;
 }
 
 [data-big='1'] {
@@ -638,12 +642,16 @@ a.chip {
 .dg-rope { fill: none; stroke: var(--rope); stroke-width: 6.5; stroke-linecap: round; stroke-linejoin: round; }
 /* Behind the spar: faint and dashed. */
 .dg-back { opacity: 0.45; stroke-dasharray: 5 5; }
+/* A second rope, or the other end, in a cool grey-blue beside the natural one. */
+.dg-rope.dg-tone-b { stroke: var(--rope-b); }
+.dg-rope-edge.dg-tone-b { stroke: var(--rope-b-edge); }
 .dg-pole-edge { stroke: var(--spar-edge); stroke-width: 15; stroke-linecap: round; }
 .dg-pole { stroke: var(--spar); stroke-width: 12; stroke-linecap: round; }
 .dg-wrap-edge { stroke: var(--rope-edge); stroke-width: 4.5; stroke-linecap: round; }
 .dg-wrap { stroke: var(--rope); stroke-width: 2.5; stroke-linecap: round; }
 .dg-arrow { fill: var(--accent); }
-.dg-label { fill: var(--muted); font: 600 11px var(--font-inter), sans-serif; }
+/* An outline in the ground colour keeps a label readable over rope or timber. */
+.dg-label { fill: var(--text-strong); font: 600 11px var(--font-inter), sans-serif; paint-order: stroke; stroke: var(--inset); stroke-width: 3px; stroke-linejoin: round; }
 .dg-dim { fill: none; stroke: var(--muted); stroke-width: 1; }
 .dg-ground { stroke: var(--border-strong); stroke-width: 2; stroke-dasharray: 2 5; stroke-linecap: round; }
 .dg-callout line { stroke: var(--app-text); stroke-width: 1.5; }
