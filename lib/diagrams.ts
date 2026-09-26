@@ -12,7 +12,7 @@
  *
  * Shapes are drawn in order, so list what sits behind first.
  */
-import { A_FRAME } from './drawings/builds';
+import { A_FRAME, WASH_BOWL_STAND } from './drawings/builds';
 import { BOWLINE, CLOVE_HITCH, REEF_KNOT, ROUND_TURN_TWO_HALF_HITCHES, SHEET_BEND, TIMBER_HITCH } from './drawings/knots';
 import { LASHINGS } from './drawings/lashings';
 
@@ -37,6 +37,8 @@ export type Shape =
   | { t: 'ground'; x1: number; y1: number; x2: number; y2: number }
   /** A lettered marker, with a leader line to what it points at. */
   | { t: 'callout'; x: number; y: number; to: [number, number]; letter: string }
+  /** A filled object that is not rope or timber, such as a bowl. */
+  | { t: 'solid'; d: string }
   /** Shapes moved, scaled or turned together: an SVG transform list. */
   | { t: 'group'; transform: string; shapes: Shape[] };
 
@@ -74,6 +76,7 @@ const DIAGRAMS: Record<string, ItemDiagrams> = {
   bowline: BOWLINE,
   ...LASHINGS,
   'a-frame': A_FRAME,
+  'wash-bowl-stand': WASH_BOWL_STAND,
 };
 
 export function diagramsFor(slug: string): ItemDiagrams | undefined {

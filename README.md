@@ -206,7 +206,7 @@ Note: this becomes a small aside.
 ## Diagrams
 
 Step drawings and build drawings live in `lib/diagrams.ts` as data: spars,
-rope paths, arrows, labels, lettered markers. `components/Diagram.tsx` draws
+rope paths, arrows, labels, lettered markers, and plain solids such as a bowl. `components/Diagram.tsx` draws
 them on the page in the book's colours, following day and night mode, and
 `lib/pdf/diagram.tsx` prints the same geometry in ink.
 
@@ -220,7 +220,8 @@ also have an overview drawing with a legend, shown after its opening sentence.
 The drawings themselves are in `lib/drawings/`: `knots.ts`, `lashings.ts` and
 `builds.ts`, with `parts.ts` for pieces used more than once (the clove hitch
 that starts and finishes most lashings). Every starter knot and lashing has
-step drawings, and the A-frame has an overview. Rope that passes behind a spar
+step drawings, the A-frame has an overview, and the wash-bowl stand has step
+drawings. Rope that passes behind a spar
 is dashed; where two ropes, or a rope's two ends, need telling apart, the
 second is drawn in grey-blue (`tone: 'b'`), grey in print.
 

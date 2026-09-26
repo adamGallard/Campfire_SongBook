@@ -75,6 +75,8 @@ function ShapeView({ shape }: { shape: Shape }) {
           </text>
         </g>
       );
+    case 'solid':
+      return <path className="dg-solid" d={shape.d} />;
     case 'group':
       return (
         <g transform={shape.transform}>
