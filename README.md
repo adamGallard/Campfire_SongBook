@@ -102,11 +102,12 @@ then stop the server and reload.
 
 ## Icon
 
-The book's icon is a sibling of ScoutBase's (navy and green on white) and SB
-Leader's (white on purple): the same tent, flag and people, in white on the
-book's night navy, with a campfire where the middle person would sit. At
-favicon size it drops to a heavy tent and the fire, which is all that survives
-at 16px.
+The book's icon is the filled Campfire icon from the ScoutBase design system:
+the master mark's tent, pole and pennant in white on Campfire orange
+(`app-campfire`, #EA580C), with a flame on crossed logs where the three figures
+sit. The same drawing is used at every size, favicons included, as the design
+system asks. The site's accent colours come from the same system: see the
+tokens at the top of `app/globals.css`.
 
 `scripts/icons.mjs` draws it and writes every size: `app/icon.svg` and
 `app/favicon.ico` for browser tabs, `app/apple-icon.png` for iPhone home
