@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Blocks } from './Blocks';
 import { SubmitButton } from './ConfirmButton';
 import { parseBody } from '@/lib/blocks';
+import { BOOK } from '@/lib/brand';
 import type { Item, Kind, Tag } from '@/lib/types';
 import type { ItemFormResult } from '@/app/admin/(dash)/actions';
 
@@ -35,6 +36,30 @@ const WORDING: Record<string, { sub: string; subHint: string; body: string; pill
     subHint: 'Arms straight, hands flat — flippers, not hands',
     body: 'How it goes',
     pill: 'Actions · everyone',
+  },
+  knot: {
+    sub: 'Also called',
+    subHint: "Builder's hitch",
+    body: 'How to tie it',
+    pill: 'Hitch · Cubs and up',
+  },
+  lashing: {
+    sub: 'What it joins',
+    subHint: 'Two spars crossing at right angles',
+    body: 'How to lash it',
+    pill: 'Right angles · Scouts and up',
+  },
+  build: {
+    sub: 'Team and time',
+    subHint: '3–4 Scouts · about 30 minutes',
+    body: 'How to build it',
+    pill: 'Frame · Medium',
+  },
+  gadget: {
+    sub: 'Team and time',
+    subHint: '2 Scouts · about 20 minutes',
+    body: 'How to make it',
+    pill: 'Camp kitchen · Easy',
   },
 };
 
@@ -185,12 +210,22 @@ export function ItemForm({
           value={body}
           onChange={(e) => setBody(e.target.value)}
         />
-        <span className="hint">
-          Blank line between blocks. <code>**Scout 1:**</code> for a speaker,{' '}
-          <code>_(stage direction)_</code> in italics. <code>Punchline:</code> sets the payoff line
-          large and bold. <code>Chorus:</code> labels a verse, <code>Note:</code> makes an aside,
-          and lines starting <code>-</code> become a list.
-        </span>
+        {BOOK === 'pioneering' ? (
+          <span className="hint">
+            Blank line between blocks. Lines numbered <code>1.</code>, <code>2.</code> become steps,
+            under an optional <code>How to tie it:</code> heading. <code>Kit:</code> over a list
+            like <code>- 2 × Spars, 2.4 m</code> makes the kit list, and <code>Safety:</code> over
+            a list makes the safety check. <code>Note:</code> makes an aside, <code>**bold**</code>{' '}
+            and <code>_italic_</code> work anywhere.
+          </span>
+        ) : (
+          <span className="hint">
+            Blank line between blocks. <code>**Scout 1:**</code> for a speaker,{' '}
+            <code>_(stage direction)_</code> in italics. <code>Punchline:</code> sets the payoff line
+            large and bold. <code>Chorus:</code> labels a verse, <code>Note:</code> makes an aside,
+            and lines starting <code>-</code> become a list.
+          </span>
+        )}
       </label>
 
       {item ? (

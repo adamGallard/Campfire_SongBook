@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
+import { bookKinds } from '@/lib/scope';
 import { ItemList } from './ItemList';
 import type { Kind } from '@/lib/types';
 
@@ -9,18 +10,15 @@ export default async function AdminItemsPage({
   searchParams: Promise<{ kind?: string }>;
 }) {
   const supabase = await createClient();
-  const [{ data: kindRows }, { data: itemRows }] = await Promise.all([
-    supabase
-      .from('kinds')
-      .select('slug, label, heading, singular, plural, lede, sort_order, enabled')
-      .order('sort_order'),
-    supabase
-      .from('items')
-      .select('id, slug, title, kind, tag, category_label, tune, blocks, published, sort_order')
-      .order('sort_order'),
-  ]);
-
-  const kinds: Kind[] = kindRows ?? [];
+  const kinds: Kind[] = await bookKinds(supabase);
+  const { data: itemRows } = await supabase
+    .from('items')
+    .select('id, slug, title, kind, tag, category_label, tune, blocks, published, sort_order')
+    .in(
+      'kind',
+      kinds.map((k) => k.slug),
+    )
+    .order('sort_order');
   const items = itemRows ?? [];
 
   // One section at a time: the running order and the arrows only make sense within a section.

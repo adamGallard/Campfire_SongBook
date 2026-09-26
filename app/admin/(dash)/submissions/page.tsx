@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
+import { bookKindSlugs } from '@/lib/scope';
 import type { Submission } from '@/lib/types';
 
 function when(iso: string) {
@@ -22,6 +23,7 @@ export default async function SubmissionsPage({
   let query = supabase
     .from('submissions')
     .select('id, title, kind, tag, submitter_name, status, created_at')
+    .in('kind', await bookKindSlugs(supabase))
     .order('created_at', { ascending: false });
 
   if (filter !== 'all') query = query.eq('status', filter);

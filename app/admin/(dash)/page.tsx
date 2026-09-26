@@ -1,15 +1,20 @@
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
+import { bookKindSlugs } from '@/lib/scope';
 
 export default async function AdminHome() {
   const supabase = await createClient();
+  // Counts for this book only; the other book has its own admin.
+  const slugs = await bookKindSlugs(supabase);
+  const items = () => supabase.from('items').select('id', { count: 'exact', head: true }).in('kind', slugs);
+  const subs = () => supabase.from('submissions').select('id', { count: 'exact', head: true }).in('kind', slugs);
 
   const [songs, published, pending, approved, rejected] = await Promise.all([
-    supabase.from('items').select('id', { count: 'exact', head: true }),
-    supabase.from('items').select('id', { count: 'exact', head: true }).eq('published', true),
-    supabase.from('submissions').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
-    supabase.from('submissions').select('id', { count: 'exact', head: true }).eq('status', 'approved'),
-    supabase.from('submissions').select('id', { count: 'exact', head: true }).eq('status', 'rejected'),
+    items(),
+    items().eq('published', true),
+    subs().eq('status', 'pending'),
+    subs().eq('status', 'approved'),
+    subs().eq('status', 'rejected'),
   ]);
 
   const pendingCount = pending.count ?? 0;

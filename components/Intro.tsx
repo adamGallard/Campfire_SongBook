@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { brand } from '@/lib/brand';
 
 /**
  * Site-level "what is this" for a first-time visitor.
@@ -34,7 +35,7 @@ export function Intro() {
   return (
     <aside className="intro" aria-label="About this book">
       <div className="intro-head">
-        <h2 className="intro-title">A campfire book for Scout groups</h2>
+        <h2 className="intro-title">{brand.intro.title}</h2>
         <button
           type="button"
           className="intro-toggle"
@@ -48,26 +49,21 @@ export function Intro() {
       </div>
 
       <div className="intro-body" id="intro-body">
-        <p className="intro-lede">
-          Songs to sing, skits to perform, yarns to tell, and cheers for the gaps in between. Pick a
-          section above.
-        </p>
+        <p className="intro-lede">{brand.intro.lede}</p>
         <ul className="intro-points">
           <li>
-            <strong>Search</strong> looks inside every song, script and story, not just the titles — so
-            half a remembered line is enough.
+            <strong>Search</strong> {brand.intro.search}
           </li>
           <li>
-            <strong>Night mode</strong> (the moon, top right) keeps the screen dim round a real
-            fire, and <strong>Big type</strong> (the Aa) makes it readable at arm's length.
+            <strong>Night mode</strong> (the moon, top right) {brand.intro.night}, and{' '}
+            <strong>Big type</strong> (the Aa) makes it readable at arm's length.
           </li>
           <li>
             <strong>No signal at camp?</strong> Once you have opened the book on your phone it keeps
             working without a connection. Add it to your home screen to find it easily.
           </li>
           <li>
-            <strong>Plan a campfire</strong>: pick the ones you want, put them in order, and print
-            them as A4 pages or a booklet to fold and staple.
+            <strong>{brand.plan.label}</strong>: {brand.intro.plan}
           </li>
           <li>
             <strong>Know one we are missing?</strong> Send it in — a leader reads everything before

@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
 import { Hero, Footer } from '@/components/SiteChrome';
 import { createPublicClient } from '@/lib/supabase/public';
+import { BOOK, brand } from '@/lib/brand';
 import { SubmitForm } from './SubmitForm';
 import type { Kind, Tag } from '@/lib/types';
 
 export const metadata: Metadata = {
   title: 'Send one in',
-  description: 'Send a campfire song, skit, yarn or cheer in for a leader to review.',
+  description: brand.submit.description,
 };
 
 export default async function SubmitPage({
@@ -20,6 +21,7 @@ export default async function SubmitPage({
       .from('kinds')
       .select('slug, label, heading, singular, plural, lede, sort_order, enabled')
       .eq('enabled', true)
+      .eq('book', BOOK)
       .order('sort_order'),
     supabase.from('tags').select('kind, slug, label, sort_order').order('sort_order'),
   ]);
@@ -29,16 +31,22 @@ export default async function SubmitPage({
 
   // Open on whichever section they were browsing when they tapped Submit.
   const { kind } = await searchParams;
-  const startKind = kinds.find((k) => k.slug === kind)?.slug ?? kinds[0]?.slug ?? 'song';
+  const startKind = kinds.find((k) => k.slug === kind)?.slug ?? kinds[0]?.slug ?? '';
 
   return (
     <>
       <Hero
         title="Send one in"
-        lede="Know a song, a skit, a yarn or a cheer that belongs round the fire? Send it in and a leader will review it before it joins the book."
+        lede={brand.submit.lede}
       />
       <main className="wrap list">
-        <SubmitForm kinds={kinds} tags={tags} startKind={startKind} />
+        {kinds.length ? (
+          <SubmitForm kinds={kinds} tags={tags} startKind={startKind} />
+        ) : (
+          <p className="empty">
+            The book is not taking submissions just yet. Its first pages are still being checked.
+          </p>
+        )}
       </main>
       <Footer />
     </>

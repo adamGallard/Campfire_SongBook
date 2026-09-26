@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, type DragEvent } from 'react';
 import { blocksToPlainText, slugify } from '@/lib/blocks';
+import { appName, brand } from '@/lib/brand';
 import { countParts, inBookOrder, sectionsTogether } from '@/lib/kinds';
 // Type-only: the PDF code itself is loaded on demand, so the page stays light.
 import type { PdfFormat } from '@/lib/pdf/book-document';
@@ -211,7 +212,7 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
 
   const chosenKinds = kinds.filter((k) => chosen.some((i) => i.kind === k.slug));
   const defaultTitle =
-    chosenKinds.length === 1 ? `Campfire ${chosenKinds[0].heading}` : 'Campfire Book';
+    chosenKinds.length === 1 ? `${brand.name} ${chosenKinds[0].heading}` : brand.plan.pdfTitle;
 
   function toggle(id: string) {
     update({
@@ -330,7 +331,7 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
       const url = URL.createObjectURL(new Blob([bytes as BlobPart], { type: 'application/pdf' }));
       const link = document.createElement('a');
       link.href = url;
-      link.download = `${slugify(title) || 'scoutbase-campfire'}-${choices.format}.pdf`;
+      link.download = `${slugify(title) || slugify(appName)}-${choices.format}.pdf`;
       document.body.append(link);
       link.click();
       link.remove();

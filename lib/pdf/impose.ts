@@ -1,4 +1,5 @@
 import { PDFDocument } from 'pdf-lib';
+import { appName } from '../brand';
 
 /**
  * Lay A5 pages out two-up on A4 landscape sheets in saddle-stitch order, so
@@ -42,8 +43,8 @@ export async function imposeBooklet(
     }
   }
 
-  out.setTitle(src.getTitle() ?? 'ScoutBase Campfire');
+  out.setTitle(src.getTitle() ?? appName);
   if (src.getAuthor()) out.setAuthor(src.getAuthor()!);
-  out.setCreator('ScoutBase Campfire');
+  out.setCreator(appName);
   return out.save();
 }

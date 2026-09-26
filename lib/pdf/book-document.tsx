@@ -1,5 +1,6 @@
 import { Document, Image, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
 import { inlineRuns } from '../blocks';
+import { appName, brand } from '../brand';
 import { countParts } from '../kinds';
 import type { Block, Item, Kind } from '../types';
 
@@ -190,6 +191,25 @@ function makeStyles(format: PdfFormat, compact = false) {
       paddingHorizontal: pt(8),
     },
     pillText: { fontSize: b * 8.5, color: INK },
+
+    // Pioneering: steps, kit lists and safety checks. Printed in ink only, so
+    // the safety check is marked by its heavier border and heading, not colour.
+    step: { flexDirection: 'row', marginTop: b * 5 },
+    stepNum: {
+      width: pt(14),
+      height: pt(14),
+      borderRadius: pt(7),
+      backgroundColor: INK,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginRight: pt(7),
+      marginTop: b * 0.5,
+    },
+    stepNumText: { fontFamily: POPPINS, fontWeight: 700, fontSize: pt(6.5), color: '#ffffff' },
+    stepText: { flex: 1, fontSize: b * 10, lineHeight: 1.5, color: TEXT },
+    kitRow: { flexDirection: 'row', marginTop: b * 2 },
+    kitQty: { width: pt(22), fontFamily: POPPINS, fontWeight: 700, fontSize: b * 9, color: INK },
+    safety: { borderWidth: 1.5, borderColor: INK },
 
     // Contents ---------------------------------------------------------------
     h1: {
@@ -382,6 +402,50 @@ function BlockView({ block, s }: { block: Block; s: Styles }) {
         </View>
       );
 
+    case 'steps':
+      return (
+        <View style={s.block}>
+          {block.heading ? <Text style={[s.kicker, s.boxHead]}>{block.heading}</Text> : null}
+          {block.items.map((line, j) => (
+            <View key={j} style={s.step} wrap={false}>
+              <View style={s.stepNum}>
+                <Text style={s.stepNumText}>{j + 1}</Text>
+              </View>
+              <Text style={s.stepText}>
+                <Inline text={line} s={s} />
+              </Text>
+            </View>
+          ))}
+        </View>
+      );
+
+    case 'kit':
+      return (
+        <View style={[s.block, s.box]}>
+          <Text style={[s.kicker, s.boxHead]}>{block.heading ?? 'Kit'}</Text>
+          {block.items.map((line, j) => (
+            <View key={j} style={s.kitRow}>
+              <Text style={s.kitQty}>{line.qty === null ? '' : `${line.qty}×`}</Text>
+              <Text style={[s.boxItem, { flex: 1, marginTop: 0 }]}>
+                <Inline text={line.item} s={s} />
+              </Text>
+            </View>
+          ))}
+        </View>
+      );
+
+    case 'safety':
+      return (
+        <View style={[s.block, s.box, s.safety]}>
+          <Text style={[s.kicker, s.boxHead]}>{block.heading ?? 'Safety check'}</Text>
+          {block.items.map((line, j) => (
+            <Text key={j} style={s.boxItem}>
+              • <Inline text={line} s={s} />
+            </Text>
+          ))}
+        </View>
+      );
+
     default:
       return null;
   }
@@ -468,16 +532,17 @@ export function BookDocument({
   const counts = countPhrase(entries, kinds);
 
   return (
-    <Document title={options.title} author={options.group || undefined} creator="ScoutBase Campfire">
+    <Document title={options.title} author={options.group || undefined} creator={appName}>
       {covers ? (
         <Page size={size} style={s.coverPage}>
           <Brand name={brandName} logo={assets.logo} s={s} />
           <View style={s.coverMain}>
-            <Text style={s.kicker}>Sing loud · laugh often</Text>
+            <Text style={s.kicker}>{brand.plan.coverKicker}</Text>
             <Text style={s.coverTitle}>{options.title}</Text>
             <View style={[s.rule, s.coverRule]} />
             <Text style={s.coverLede}>
-              {counts.charAt(0).toUpperCase() + counts.slice(1)} for the fire.
+              {counts.charAt(0).toUpperCase() + counts.slice(1)}
+              {brand.countSuffix}.
             </Text>
           </View>
           <View style={s.coverFoot}>
@@ -570,7 +635,7 @@ export function BookDocument({
       {covers && options.format === 'booklet' ? (
         <Page size={size} style={s.coverPage}>
           <View style={s.coverMain}>
-            <Brand name="ScoutBase Campfire" logo={assets.logo} s={s} />
+            <Brand name={appName} logo={assets.logo} s={s} />
             <Text style={s.backName}>{brandName}</Text>
             <View style={[s.rule, s.coverRule]} />
             <Text style={s.coverLede}>{BLURB}</Text>

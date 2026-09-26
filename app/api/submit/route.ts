@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createHash } from 'node:crypto';
 import { createClient } from '@supabase/supabase-js';
+import { BOOK } from '@/lib/brand';
 
 const LIMITS = {
   title: 120,
@@ -74,7 +75,9 @@ export async function POST(request: Request) {
     p_email: submitterEmail || null,
     p_note: str(payload.submitter_note, LIMITS.note) || null,
     p_ip_hash: clientIpHash(request),
-    p_kind: str(payload.kind, 40) || 'song',
+    p_kind: str(payload.kind, 40) || null,
+    // The database files it under this book's sections only.
+    p_book: BOOK,
   });
 
   if (error) {
@@ -82,6 +85,12 @@ export async function POST(request: Request) {
       return NextResponse.json(
         { error: 'That is a few in a short time — please try again later.' },
         { status: 429 },
+      );
+    }
+    if (error.message.includes('invalid_kind')) {
+      return NextResponse.json(
+        { error: 'This book is not taking submissions just yet.' },
+        { status: 400 },
       );
     }
     if (error.message.includes('invalid_title') || error.message.includes('invalid_body')) {

@@ -1,4 +1,15 @@
-# ScoutBase Campfire
+# ScoutBase Campfire and Pioneering
+
+One codebase and one database, two books:
+
+- **ScoutBase Campfire** — songs, skits, yarns and applause, read round a fire.
+- **ScoutBase Pioneering** — knots, lashings, builds and camp gadgets, step by
+  step, with kit lists and safety checks. Daylight by default, in Pioneering
+  blue, at `pioneering.scoutbase.app`.
+
+Each book is its own Vercel project deploying this repo, told apart by
+`NEXT_PUBLIC_BOOK` (see [Two books](#two-books)). Everything below applies to
+both unless it says otherwise.
 
 A campfire book for Scout groups: songs, skits, yarns and applause cheers,
 with night/daylight reading modes and big type for reading round an actual fire
@@ -51,6 +62,7 @@ Environment variables:
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Publishable (anon) key — safe in the browser |
 | `SUBMISSION_SALT` | Any random string; salts the IP hash used for rate limiting |
+| `NEXT_PUBLIC_BOOK` | `campfire` (the default when unset) or `pioneering` |
 
 ## Deploying
 
@@ -72,6 +84,40 @@ allowlist pattern, and a pattern with no `**` does not match
 Site URL instead, so a password-reset link just opens the home page.
 (`next.config.mjs` forwards a code that lands there to `/auth/callback` as a
 fallback, but get the settings right.)
+
+## Two books
+
+`lib/brand.ts` holds everything that differs between the books: the name,
+the wording, the default reading mode and the PDF cover. Sections belong to a
+book in the database (`kinds.book`), so each site shows, plans, takes
+submissions for and administers only its own book's sections. The admin list
+is shared: one login manages both, each on its own site.
+
+The accent colour follows the book: the layout puts `data-book` on `<html>`,
+and `app/globals.css` sets the `--app-*` tokens from the ScoutBase design
+system for it (`app-campfire…`, `app-pioneering…`).
+
+Icons and the offline notice live per book in `public/icons/<book>/` and
+`public/offline/<book>.html`, and `next.config.mjs` serves this deploy's set at
+the plain addresses (`/icon.svg`, `/favicon.ico`, `/icons/icon-192.png`,
+`/offline.html`), so the manifest and service worker are the same for both.
+
+### Setting up the Pioneering site
+
+1. Apply `supabase/migrations/20260926_add_books.sql` to the shared database
+   **before** deploying this code: the pages read `kinds.book` at build time.
+   It is safe on the live Campfire site, which keeps working unchanged.
+2. Load `supabase/seed/pioneering.sql`. Its sections are switched off, so
+   nothing shows until a section is switched on
+   (`update public.kinds set enabled = true where slug = 'knot';`).
+3. In Vercel, add a second project from this repo with the same three
+   variables as Campfire plus `NEXT_PUBLIC_BOOK=pioneering`, and add the domain
+   `pioneering.scoutbase.app`.
+4. In Cloudflare DNS, add a `CNAME` named `pioneering` pointing at the target
+   Vercel shows, with the proxy **off** (DNS only), so Vercel can issue the
+   certificate.
+5. In Supabase → Authentication → URL Configuration, add
+   `https://pioneering.scoutbase.app/**` under Redirect URLs.
 
 ## Offline
 
@@ -102,23 +148,22 @@ then stop the server and reload.
 
 ## Icon
 
-The book's icon is the filled Campfire icon from the ScoutBase design system:
-the master mark's tent, pole and pennant in white on Campfire orange
-(`app-campfire`, #EA580C), with a flame on crossed logs where the three figures
-sit. The same drawing is used at every size, favicons included, as the design
-system asks. The site's accent colours come from the same system: see the
-tokens at the top of `app/globals.css`.
+Each book's icon is its filled icon from the ScoutBase design system: the
+master mark's tent, pole and pennant in white on the app colour, with the
+app's glyph where the three figures sit. Campfire is a flame on crossed logs
+on Campfire orange (`app-campfire`, #EA580C); Pioneering is a trestle with
+square lashings on Pioneering blue (`app-pioneering`, #1D4ED8). The same
+drawing is used at every size, favicons included, as the design system asks.
 
-`scripts/icons.mjs` draws it and writes every size: `app/icon.svg` and
-`app/favicon.ico` for browser tabs, `app/apple-icon.png` for iPhone home
-screens, and `public/icons/` for Android and desktop installs. `app/manifest.ts`
-lists those, so the book can be added to a home screen and opens full screen.
-Run `node scripts/icons.mjs` after changing the drawing; `sharp` comes with
-Next.js.
+`scripts/icons.mjs` draws both and writes every size into `public/icons/<book>/`:
+`icon.svg` and `favicon.ico` for browser tabs, `apple-icon.png` for iPhone home
+screens, and the `icon-*.png` files for Android and desktop installs, which
+`app/manifest.ts` lists. Run `node scripts/icons.mjs` after changing a drawing;
+`sharp` comes with Next.js.
 
-## The song format
+## The block format
 
-A song body is stored as a list of **blocks**, not HTML. This is what keeps a
+An item's body is stored as a list of **blocks**, not HTML. This is what keeps a
 public submission from ever becoming markup on the page.
 
 | Block | Written as | Renders as |
@@ -129,6 +174,13 @@ public submission from ever becoming markup on the page.
 | `box` | `Heading:` + `- ` lines | A bordered panel with a list |
 | `grid` | `Heading [columns]:` + `- ` lines | Like `box`, in columns |
 | `pills` | `[chips]:` + `- ` lines | A row of rounded chips |
+| `steps` | lines numbered `1.`, `2.`, under an optional `Heading:` | Numbered steps to follow |
+| `kit` | `Kit:` + `- 2 × Spars, 2.4 m` lines | A kit list; each count is stored apart, so a plan can add kit up |
+| `safety` | `Safety:` + `- ` lines | A warning panel of things to check first |
+
+The three pioneering blocks also take a `[steps]`, `[kit]` or `[safety]`
+marker after any other heading (`Legs [kit]:`), which is how an unusual
+heading survives the editor.
 
 Inside any line: `**bold**` (a speaker name, a cue), `_italic_` (a stage
 direction), and a newline is a line break. Nothing else is interpreted.
@@ -187,12 +239,18 @@ alongside). Each has a latin-ext fallback so macrons and other accents print.
 
 ## Database
 
-`supabase/schema.sql` recreates the whole schema. Each section has a seed in
-`supabase/seed` — `songs`, `skits`, `yarns` and `applause` — as a `.sql` file to
-load and a `.json` file with the same content in the block format, which is the
-easier one to edit by hand.
+`supabase/schema.sql` recreates the whole schema, and changes since it was
+first written are also kept as files in `supabase/migrations`. Each section has
+a seed in `supabase/seed` — `songs`, `skits`, `yarns` and `applause`, and
+`pioneering` for the whole Pioneering book — as a `.sql` file to load and a
+`.json` file with the same content in the block format, which is the easier
+one to edit by hand.
 
-Tables: `kinds`, `tags`, `items`, `submissions`, `admins`.
+Tables: `books`, `kinds`, `tags`, `items`, `submissions`, `admins`.
+
+`submit_song()` takes the book the form was on, and files a submission only
+under a switched-on section of that book; a book with none switched on refuses
+it.
 
 ## Security
 

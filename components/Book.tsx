@@ -6,13 +6,14 @@ import { Blocks } from './Blocks';
 import { Intro } from './Intro';
 import { FootBrand, Masthead, MoreFromScoutBase } from './SiteChrome';
 import { blocksToPlainText } from '@/lib/blocks';
+import { appName, brand } from '@/lib/brand';
 import type { Item, Kind, Tag } from '@/lib/types';
 
 /**
  * The whole book on one page. Every section's items ship in the initial
  * payload and switching is client-side, so a leader can move between songs and
  * skits with no signal once the page has loaded — which is the normal state of
- * affairs at a campfire.
+ * affairs at a campfire, and in the corner of a field with a pile of spars.
  */
 export function Book({
   items,
@@ -23,7 +24,7 @@ export function Book({
   kinds: Kind[];
   tags: Tag[];
 }) {
-  const [kind, setKind] = useState(kinds[0]?.slug ?? 'song');
+  const [kind, setKind] = useState(kinds[0]?.slug ?? '');
   const [query, setQuery] = useState('');
   const [tag, setTag] = useState('all');
 
@@ -67,12 +68,13 @@ export function Book({
         <div className="wrap">
           <Masthead />
 
-          {/* The brand above already says Campfire; the title is the section. */}
-          <h1>{active?.heading}</h1>
+          {/* The brand above already names the book; the title is the section. */}
+          <h1>{active?.heading ?? brand.name}</h1>
           <div className="rule" />
           <p className="lede">
-            {inKind.length} {inKind.length === 1 ? active?.singular : active?.plural} for the
-            fire. {active?.lede}
+            {active
+              ? `${inKind.length} ${inKind.length === 1 ? active.singular : active.plural}${brand.countSuffix}. ${active.lede ?? ''}`
+              : 'Nothing here yet. The first pages are being checked before they go in.'}
           </p>
 
           {kinds.length > 1 ? (
@@ -97,10 +99,10 @@ export function Book({
 
           <div className="hero-actions">
             <Link href="/plan" className="ghost-btn">
-              Plan a campfire
+              {brand.plan.label}
             </Link>
-            <Link href={`/submit?kind=${active?.slug ?? 'song'}`} className="ghost-btn">
-              Submit a {active?.singular ?? 'song'}
+            <Link href={active ? `/submit?kind=${active.slug}` : '/submit'} className="ghost-btn">
+              {active ? `Submit a ${active.singular}` : 'Send one in'}
             </Link>
           </div>
         </div>
@@ -117,7 +119,7 @@ export function Book({
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder={`Search a ${active?.singular ?? 'song'} or a line…`}
+            placeholder={`Search a ${active?.singular ?? 'page'} or a line…`}
             aria-label={`Search ${active?.label ?? ''}`}
           />
           {kindTags.length > 0 ? (
@@ -147,9 +149,11 @@ export function Book({
       </div>
 
       <main className="wrap list">
-        {visible.length === 0 ? (
+        {!active ? (
+          <p className="empty">The first pages are being checked. Come back soon.</p>
+        ) : visible.length === 0 ? (
           <p className="empty">
-            No {active?.singular ?? 'item'} matches that. Try a shorter word.
+            No {active.singular} matches that. Try a shorter word.
           </p>
         ) : (
           visible.map((item, i) => (
@@ -177,14 +181,15 @@ export function Book({
           </p>
           <MoreFromScoutBase />
           <p className="footlinks">
-            <Link href={`/submit?kind=${active?.slug ?? 'song'}`}>
-              Submit a {active?.singular ?? 'song'}
+            <Link href={active ? `/submit?kind=${active.slug}` : '/submit'}>
+              {active ? `Submit a ${active.singular}` : 'Send one in'}
             </Link>
-            <Link href="/plan">Plan a campfire</Link>
+            <Link href="/plan">{brand.plan.label}</Link>
             <Link href="/admin">Admin</Link>
           </p>
           <p className="footmeta">
-            ScoutBase Campfire ·{' '}
+            {appName}
+            {kinds.length ? ' · ' : ''}
             {kinds
               .map((k) => {
                 const n = items.filter((i) => i.kind === k.slug).length;

@@ -2,8 +2,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { ReadingToggles } from './ReadingPrefs';
-import icon from '@/public/icons/icon-192.png';
+import { BOOK, appName, brand } from '@/lib/brand';
+import campfireIcon from '@/public/icons/campfire/icon-192.png';
+import pioneeringIcon from '@/public/icons/pioneering/icon-192.png';
 import scoutbaseMark from '@/public/scout-mark.png';
+
+const icon = BOOK === 'pioneering' ? pioneeringIcon : campfireIcon;
 
 /** The top row of every page: the brand on the left, the reading toggles on the right. */
 export function Masthead() {
@@ -12,7 +16,7 @@ export function Masthead() {
       <Link href="/" className="brand" style={{ textDecoration: 'none' }}>
         <Image src={icon} alt="" width={34} height={34} className="brand-icon" />
         <span className="kicker">
-          ScoutBase <span className="kicker-app">Campfire</span>
+          ScoutBase <span className="kicker-app">{brand.name}</span>
         </span>
       </Link>
       <ReadingToggles />
@@ -24,13 +28,13 @@ export function FootBrand() {
   return (
     <div className="brand">
       <Image src={icon} alt="" width={28} height={28} className="brand-icon" />
-      <span className="footname">ScoutBase Campfire</span>
+      <span className="footname">{appName}</span>
     </div>
   );
 }
 
 /**
- * For anyone who finds the campfire book and wonders what else ScoutBase does.
+ * For anyone who finds the book and wonders what else ScoutBase does.
  * The description is ScoutBase's own, from www.scoutbase.app.
  */
 export function MoreFromScoutBase() {
@@ -87,11 +91,11 @@ export function Footer() {
         <MoreFromScoutBase />
         <p className="footlinks">
           <Link href="/">The book</Link>
-          <Link href="/plan">Plan a campfire</Link>
+          <Link href="/plan">{brand.plan.label}</Link>
           <Link href="/submit">Send one in</Link>
           <Link href="/admin">Admin</Link>
         </p>
-        <p className="footmeta">ScoutBase Campfire</p>
+        <p className="footmeta">{appName}</p>
       </div>
     </footer>
   );
