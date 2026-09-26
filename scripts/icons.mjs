@@ -2,9 +2,11 @@
 //
 //   node scripts/icons.mjs
 //
-// The icon belongs with ScoutBase's (navy and green on white) and SB Leader's
-// (white on purple): the same tent, flag and people, drawn in white on the
-// book's night navy, with a fire where the middle person would sit.
+// The artwork is the ScoutBase design system's filled Campfire icon
+// (scoutbase-campfire-filled.svg): the master mark's tent, pole and pennant in
+// white on an app-campfire tile, with a flame on crossed logs where the three
+// figures sit. Keep the geometry as it is here; the design system says never to
+// redraw a glyph, and to use this filled icon at 32px and below.
 // sharp comes with Next.js, so there is nothing extra to install.
 import sharp from 'sharp';
 import { mkdirSync, writeFileSync } from 'node:fs';
@@ -13,48 +15,37 @@ import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 
-const NIGHT = '#0D1B2A';
+const TILE = '#EA580C'; // app-campfire
 const INK = '#FFFFFF';
-const FLAME = '#F59E0B';
-const CORE = '#FDE68A';
 
 /**
- * The artwork on a 512 grid. `scale` shrinks it about the centre, for icons a
- * platform crops into a circle. `small` is the favicon cut: at 16–32px the flag,
- * logs and people turn to mush, so it keeps just a heavy tent and the fire.
+ * The mark on the design system's 100 grid. `scale` shrinks it about the
+ * centre, for icons a platform crops into a circle.
  */
-function art({ scale = 1, small = false }) {
-  const floor = 388;
-  const person = (cx, r, w) => `
-    <circle cx="${cx}" cy="${floor - w * 0.5 - r - 8}" r="${r}" fill="${INK}"/>
-    <path d="M${cx - w / 2} ${floor} v-${w * 0.1} a${w / 2} ${w * 0.46} 0 0 1 ${w} 0 v${w * 0.1} z" fill="${INK}"/>`;
-  const fire = (s) => `
-    <g transform="translate(256 ${floor}) scale(${s})">
-      ${small ? '' : `<path d="M-46 -2 L46 -22 M-46 -22 L46 -2" stroke="${INK}" stroke-width="12" stroke-linecap="round"/>`}
-      <path d="M0 -150 C18 -122 50 -100 50 -60 C50 -30 28 -10 0 -10 C-28 -10 -50 -30 -50 -60 C-50 -86 -38 -104 -25 -118 C-22 -98 -15 -86 -5 -80 C-10 -106 -10 -128 0 -150 Z" fill="${FLAME}"/>
-      <path d="M2 -88 C12 -74 26 -60 26 -42 C26 -24 14 -14 0 -14 C-14 -14 -26 -24 -26 -40 C-26 -56 -10 -68 2 -88 Z" fill="${CORE}"/>
-    </g>`;
-  const tent = small
-    ? `<path d="M132 ${floor} H70 L256 120 L442 ${floor} H380"/>`
-    : `<path d="M256 96 L326 122 L256 148"/><path d="M256 96 V214"/>
-       <path d="M150 ${floor} H92 L256 176 L420 ${floor} H362"/>`;
-
+function art(scale = 1) {
   return `
-  <g transform="translate(256 256) scale(${scale}) translate(-256 -256)">
-    <g fill="none" stroke="${INK}" stroke-width="${small ? 30 : 13}" stroke-linecap="round" stroke-linejoin="round">
-      ${tent}
+  <g transform="translate(50 50) scale(${scale}) translate(-50 -50)">
+    <g transform="translate(49.623 78.339) scale(0.12567)">
+      <path d="M5 -448 L96 -412 L10 -379 Z" fill="none" stroke="${INK}" stroke-width="18" stroke-linejoin="round"/>
+      <g fill="none" stroke="${INK}" stroke-width="20" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M-188 -9 L-265 -9 L0 -353 L265 -9 L186 -9"/>
+        <path d="M0 -441 V-169"/>
+      </g>
+      <g fill="none" stroke="${INK}" stroke-width="22" stroke-linecap="round">
+        <path d="M-95 -4 L95 -38"/>
+        <path d="M-95 -38 L95 -4"/>
+      </g>
+      <path d="M0 -152 C42 -114 55 -82 44 -55 C36 -37 20 -27 0 -27 C-26 -27 -46 -45 -46 -69 C-46 -91 -32 -105 -22 -125 C-14 -102 -4 -93 8 -98 C17 -117 14 -135 0 -152 Z" fill="${INK}" stroke="${TILE}" stroke-width="10" stroke-linejoin="round"/>
     </g>
-    ${small ? '' : person(184, 21, 68) + person(328, 21, 68)}
-    ${fire(small ? 1.45 : 0.86)}
   </g>`;
 }
 
 /** `rounded` for icons shown as they are; square for ones a platform masks itself. */
-function svg({ size = 512, rounded = true, scale = 1, small = false } = {}) {
+function svg({ size = 512, rounded = true, scale = 1 } = {}) {
   const ground = rounded
-    ? `<rect width="512" height="512" rx="112" fill="${NIGHT}"/>`
-    : `<rect width="512" height="512" fill="${NIGHT}"/>`;
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 512 512">${ground}${art({ scale, small })}</svg>\n`;
+    ? `<rect width="100" height="100" rx="23" fill="${TILE}"/>`
+    : `<rect width="100" height="100" fill="${TILE}"/>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 100 100">${ground}${art(scale)}</svg>\n`;
 }
 
 const png = (options) => sharp(Buffer.from(svg(options))).png().toBuffer();
@@ -87,17 +78,18 @@ function write(path, data) {
 }
 
 // Browser tabs: Next.js links app/icon.svg and app/favicon.ico automatically.
-write('app/icon.svg', svg({ small: true }));
+write('app/icon.svg', svg());
 write(
   'app/favicon.ico',
-  ico(await Promise.all([16, 32, 48].map(async (size) => ({ size, data: await png({ size, small: true }) })))),
+  ico(await Promise.all([16, 32, 48].map(async (size) => ({ size, data: await png({ size }) })))),
 );
 
-// iOS rounds the corners itself, and fills transparent ones with black.
-write('app/apple-icon.png', await png({ size: 180, rounded: false, scale: 0.92 }));
+// iOS rounds the corners itself, and fills transparent ones with black. The
+// mark already leaves room for the corners, so it goes in at full size.
+write('app/apple-icon.png', await png({ size: 180, rounded: false }));
 
 // Android and desktop installs, listed in app/manifest.ts. The maskable one
 // keeps the artwork inside the central circle a launcher may crop to.
 write('public/icons/icon-192.png', await png({ size: 192 }));
 write('public/icons/icon-512.png', await png({ size: 512 }));
-write('public/icons/icon-512-maskable.png', await png({ size: 512, rounded: false, scale: 0.78 }));
+write('public/icons/icon-512-maskable.png', await png({ size: 512, rounded: false, scale: 0.84 }));

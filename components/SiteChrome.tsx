@@ -10,8 +10,10 @@ export function Masthead() {
   return (
     <div className="masthead">
       <Link href="/" className="brand" style={{ textDecoration: 'none' }}>
-        <Image src={icon} alt="" width={32} height={32} className="brand-icon" />
-        <span className="kicker">ScoutBase Campfire</span>
+        <Image src={icon} alt="" width={34} height={34} className="brand-icon" />
+        <span className="kicker">
+          ScoutBase <span className="kicker-app">Campfire</span>
+        </span>
       </Link>
       <ReadingToggles />
     </div>

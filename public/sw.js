@@ -10,9 +10,10 @@
  * Admin, sign-in and anything that is not a GET are never touched: they go
  * straight to the network and are never saved.
  *
- * Bump VERSION when this file's behaviour changes; the old caches are cleared.
+ * Bump VERSION when this file's behaviour changes, or when a file in EXTRAS
+ * changes under the same name (as the icons did); the old caches are cleared.
  */
-const VERSION = 'v2';
+const VERSION = 'v3';
 const PAGES = `campfire-pages-${VERSION}`;
 const ASSETS = `campfire-assets-${VERSION}`;
 
