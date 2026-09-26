@@ -7,6 +7,7 @@ import { Intro } from './Intro';
 import { FootBrand, Masthead, MoreFromScoutBase } from './SiteChrome';
 import { blocksToPlainText } from '@/lib/blocks';
 import { appName, brand } from '@/lib/brand';
+import { diagramsFor } from '@/lib/diagrams';
 import type { Item, Kind, Tag } from '@/lib/types';
 
 /**
@@ -165,7 +166,7 @@ export function Book({
               <h2>{item.title}</h2>
               {item.tune ? <p className="tune">{item.tune}</p> : null}
               <div className="lyrics">
-                <Blocks blocks={item.blocks} />
+                <Blocks blocks={item.blocks} diagrams={diagramsFor(item.slug)} />
               </div>
             </article>
           ))

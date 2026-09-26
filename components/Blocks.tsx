@@ -1,5 +1,7 @@
 import { Fragment, type ReactNode } from 'react';
+import { Diagram, OverviewFigure } from './Diagram';
 import { inlineRuns } from '@/lib/blocks';
+import { stepDrawings, type ItemDiagrams } from '@/lib/diagrams';
 import type { Block } from '@/lib/types';
 
 /**
@@ -27,122 +29,162 @@ function inline(text: string): ReactNode {
   return nodes;
 }
 
-export function Blocks({ blocks }: { blocks: Block[] }) {
+export function Blocks({ blocks, diagrams }: { blocks: Block[]; diagrams?: ItemDiagrams }) {
+  // A build's drawing follows its opening sentence, if it has one.
+  const overviewAfter = blocks[0]?.type === 'verse' ? 0 : -1;
+  const overview = diagrams?.overview ? <OverviewFigure overview={diagrams.overview} /> : null;
+
   return (
     <>
+      {overviewAfter === -1 ? overview : null}
       {blocks.map((block, i) => {
-        switch (block.type) {
-          case 'verse':
-            return (
-              <p key={i}>
-                {block.label ? <span className="verse-label">{block.label}</span> : null}
-                {inline(block.text)}
-              </p>
-            );
+        const rendered = renderBlock(block, i);
+        return i === overviewAfter && overview ? (
+          <Fragment key={i}>
+            {rendered}
+            {overview}
+          </Fragment>
+        ) : (
+          rendered
+        );
+      })}
+    </>
+  );
 
-          case 'note':
-            return (
-              <p className="note" key={i}>
-                {inline(block.text)}
-              </p>
-            );
+  function renderBlock(block: Block, i: number) {
+    switch (block.type) {
+      case 'verse':
+        return (
+          <p key={i}>
+            {block.label ? <span className="verse-label">{block.label}</span> : null}
+            {inline(block.text)}
+          </p>
+        );
 
-          case 'shout':
-            return (
-              <p className="shout" key={i}>
-                {inline(block.text)}
-              </p>
-            );
+      case 'note':
+        return (
+          <p className="note" key={i}>
+            {inline(block.text)}
+          </p>
+        );
 
-          case 'box':
-            return (
-              <div className="box" key={i}>
-                {block.heading ? <div className="box-head">{block.heading}</div> : null}
-                <ul className="box-list">
-                  {block.items.map((item, j) => (
-                    <li key={j}>{inline(item)}</li>
-                  ))}
-                </ul>
-              </div>
-            );
+      case 'shout':
+        return (
+          <p className="shout" key={i}>
+            {inline(block.text)}
+          </p>
+        );
 
-          case 'grid':
-            return (
-              <div className="box" key={i}>
-                {block.heading ? <div className="box-head">{block.heading}</div> : null}
-                <ul className="grid-list">
-                  {block.items.map((item, j) => (
-                    <li key={j}>{inline(item)}</li>
-                  ))}
-                </ul>
-              </div>
-            );
+      case 'box':
+        return (
+          <div className="box" key={i}>
+            {block.heading ? <div className="box-head">{block.heading}</div> : null}
+            <ul className="box-list">
+              {block.items.map((item, j) => (
+                <li key={j}>{inline(item)}</li>
+              ))}
+            </ul>
+          </div>
+        );
 
-          case 'pills':
-            return (
-              <ul className="pill-row" key={i}>
+      case 'grid':
+        return (
+          <div className="box" key={i}>
+            {block.heading ? <div className="box-head">{block.heading}</div> : null}
+            <ul className="grid-list">
+              {block.items.map((item, j) => (
+                <li key={j}>{inline(item)}</li>
+              ))}
+            </ul>
+          </div>
+        );
+
+      case 'pills':
+        return (
+          <ul className="pill-row" key={i}>
+            {block.items.map((item, j) => (
+              <li className="tagpill" key={j}>
+                {item}
+              </li>
+            ))}
+          </ul>
+        );
+
+      // The order is the point, so it is a real ordered list.
+      case 'steps': {
+        // Only the steps block whose words the drawings record gets them.
+        const drawings = stepDrawings(diagrams, block.items);
+        if (drawings) {
+          return (
+            <div className="steps" key={i}>
+              {block.heading ? <div className="box-head">{block.heading}</div> : null}
+              <ol className="step-grid">
                 {block.items.map((item, j) => (
-                  <li className="tagpill" key={j}>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            );
-
-          // The order is the point, so it is a real ordered list.
-          case 'steps':
-            return (
-              <div className="steps" key={i}>
-                {block.heading ? <div className="box-head">{block.heading}</div> : null}
-                <ol className="step-list">
-                  {block.items.map((item, j) => (
-                    <li key={j}>
+                  <li key={j}>
+                    <Diagram drawing={drawings[j]} />
+                    <div className="step-cap">
                       <span className="step-num" aria-hidden="true">
                         {j + 1}
                       </span>
                       <span>{inline(item)}</span>
-                    </li>
-                  ))}
-                </ol>
-              </div>
-            );
-
-          case 'kit':
-            return (
-              <div className="box kit" key={i}>
-                <div className="box-head">{block.heading ?? 'Kit'}</div>
-                <ul className="kit-list">
-                  {block.items.map((line, j) => (
-                    <li key={j}>
-                      <span className="kit-qty">{line.qty === null ? '' : `${line.qty}×`}</span>
-                      <span>{inline(line.item)}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            );
-
-          case 'safety':
-            return (
-              <div className="safety" role="note" key={i}>
-                <div className="safety-head">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M12 3 2 20h20L12 3ZM12 10v4M12 17v.5" />
-                  </svg>
-                  {block.heading ?? 'Safety check'}
-                </div>
-                <ul className="box-list">
-                  {block.items.map((item, j) => (
-                    <li key={j}>{inline(item)}</li>
-                  ))}
-                </ul>
-              </div>
-            );
-
-          default:
-            return null;
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          );
         }
-      })}
-    </>
-  );
+        return (
+          <div className="steps" key={i}>
+            {block.heading ? <div className="box-head">{block.heading}</div> : null}
+            <ol className="step-list">
+              {block.items.map((item, j) => (
+                <li key={j}>
+                  <span className="step-num" aria-hidden="true">
+                    {j + 1}
+                  </span>
+                  <span>{inline(item)}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        );
+      }
+
+      case 'kit':
+        return (
+          <div className="box kit" key={i}>
+            <div className="box-head">{block.heading ?? 'Kit'}</div>
+            <ul className="kit-list">
+              {block.items.map((line, j) => (
+                <li key={j}>
+                  <span className="kit-qty">{line.qty === null ? '' : `${line.qty}×`}</span>
+                  <span>{inline(line.item)}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        );
+
+      case 'safety':
+        return (
+          <div className="safety" role="note" key={i}>
+            <div className="safety-head">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 3 2 20h20L12 3ZM12 10v4M12 17v.5" />
+              </svg>
+              {block.heading ?? 'Safety check'}
+            </div>
+            <ul className="box-list">
+              {block.items.map((item, j) => (
+                <li key={j}>{inline(item)}</li>
+              ))}
+            </ul>
+          </div>
+        );
+
+      default:
+        return null;
+    }
+  }
 }

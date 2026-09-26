@@ -1,7 +1,10 @@
+import { Fragment } from 'react';
 import { Document, Image, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
 import { inlineRuns } from '../blocks';
 import { appName, brand } from '../brand';
+import { diagramsFor, stepDrawings, type Drawing, type Overview } from '../diagrams';
 import { countParts } from '../kinds';
+import { PdfDiagram } from './diagram';
 import type { Block, Item, Kind } from '../types';
 
 export type PdfFormat = 'a4' | 'booklet';
@@ -211,6 +214,22 @@ function makeStyles(format: PdfFormat, compact = false) {
     kitQty: { width: pt(22), fontFamily: POPPINS, fontWeight: 700, fontSize: b * 9, color: INK },
     safety: { borderWidth: 1.5, borderColor: INK },
 
+    // Drawings: small beside each step, larger for a build's overview.
+    stepDrawn: { flexDirection: 'row', alignItems: 'center', marginTop: b * 6 },
+    stepDrawing: { width: pt(62), marginRight: pt(9) },
+    overview: { width: pt(190), alignSelf: 'center', marginBottom: b * 4 },
+    legendRow: { flexDirection: 'row', alignItems: 'center', marginTop: b * 3 },
+    legendTag: {
+      width: pt(12),
+      height: pt(12),
+      borderRadius: pt(6),
+      backgroundColor: INK,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginRight: pt(6),
+    },
+    legendTagText: { fontFamily: INTER, fontWeight: 700, fontSize: pt(6.5), color: '#ffffff' },
+
     // Contents ---------------------------------------------------------------
     h1: {
       marginTop: pt(8),
@@ -346,7 +365,49 @@ function Inline({ text, s }: { text: string; s: Styles }) {
   );
 }
 
-function BlockView({ block, s }: { block: Block; s: Styles }) {
+/** An item's blocks, with its drawings where lib/diagrams.ts has them. */
+function ItemBody({ blocks, slug, s }: { blocks: Block[]; slug: string; s: Styles }) {
+  const diagrams = diagramsFor(slug);
+  // As on the page: a build's drawing follows its opening sentence.
+  const overviewAfter = blocks[0]?.type === 'verse' ? 0 : -1;
+  const overview = diagrams?.overview ? <OverviewView overview={diagrams.overview} s={s} /> : null;
+
+  return (
+    <>
+      {overviewAfter === -1 ? overview : null}
+      {blocks.map((block, j) => (
+        <Fragment key={j}>
+          <BlockView
+            block={block}
+            s={s}
+            drawings={block.type === 'steps' ? stepDrawings(diagrams, block.items) : null}
+          />
+          {j === overviewAfter ? overview : null}
+        </Fragment>
+      ))}
+    </>
+  );
+}
+
+function OverviewView({ overview, s }: { overview: Overview; s: Styles }) {
+  return (
+    <View style={s.block} wrap={false}>
+      <PdfDiagram drawing={overview} width={s.overview.width as number} style={s.overview} />
+      {overview.legend?.map((l) => (
+        <View key={l.letter} style={s.legendRow}>
+          <View style={s.legendTag}>
+            <Text style={s.legendTagText}>{l.letter}</Text>
+          </View>
+          <Text style={[s.boxItem, { marginTop: 0 }]}>
+            <Text style={s.bold}>{l.name}</Text> {l.where}
+          </Text>
+        </View>
+      ))}
+    </View>
+  );
+}
+
+function BlockView({ block, s, drawings }: { block: Block; s: Styles; drawings?: Drawing[] | null }) {
   switch (block.type) {
     case 'verse':
       return (
@@ -403,6 +464,24 @@ function BlockView({ block, s }: { block: Block; s: Styles }) {
       );
 
     case 'steps':
+      if (drawings) {
+        return (
+          <View style={s.block}>
+            {block.heading ? <Text style={[s.kicker, s.boxHead]}>{block.heading}</Text> : null}
+            {block.items.map((line, j) => (
+              <View key={j} style={s.stepDrawn} wrap={false}>
+                <PdfDiagram drawing={drawings[j]} width={s.stepDrawing.width as number} style={s.stepDrawing} />
+                <View style={s.stepNum}>
+                  <Text style={s.stepNumText}>{j + 1}</Text>
+                </View>
+                <Text style={s.stepText}>
+                  <Inline text={line} s={s} />
+                </Text>
+              </View>
+            ))}
+          </View>
+        );
+      }
       return (
         <View style={s.block}>
           {block.heading ? <Text style={[s.kicker, s.boxHead]}>{block.heading}</Text> : null}
@@ -620,9 +699,7 @@ export function BookDocument({
               {e.item.tune ? <Text style={s.tune}>{e.item.tune}</Text> : null}
               <View style={s.rule} />
               <View style={is.body}>
-                {e.item.blocks.map((block, j) => (
-                  <BlockView key={j} block={block} s={is} />
-                ))}
+                <ItemBody blocks={e.item.blocks} slug={e.item.slug} s={is} />
               </View>
               <View style={s.itemGap} />
               <PageMarker onPage={(p) => onItemPage(id, 'end', p)} />

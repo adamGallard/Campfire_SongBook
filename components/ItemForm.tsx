@@ -6,6 +6,7 @@ import { Blocks } from './Blocks';
 import { SubmitButton } from './ConfirmButton';
 import { parseBody } from '@/lib/blocks';
 import { BOOK } from '@/lib/brand';
+import { diagramsFor } from '@/lib/diagrams';
 import type { Item, Kind, Tag } from '@/lib/types';
 import type { ItemFormResult } from '@/app/admin/(dash)/actions';
 
@@ -243,7 +244,7 @@ export function ItemForm({
         <div className="box-head">Preview</div>
         <div className="lyrics">
           {preview.length ? (
-            <Blocks blocks={preview} />
+            <Blocks blocks={preview} diagrams={item ? diagramsFor(item.slug) : undefined} />
           ) : (
             <p className="note">
               What you type appears here as it will on the night

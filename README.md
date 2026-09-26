@@ -203,6 +203,22 @@ Note: this becomes a small aside.
 - becomes a list
 ```
 
+## Diagrams
+
+Step drawings and build drawings live in `lib/diagrams.ts` as data: spars,
+rope paths, arrows, labels, lettered markers. `components/Diagram.tsx` draws
+them on the page in the book's colours, following day and night mode, and
+`lib/pdf/diagram.tsx` prints the same geometry in ink.
+
+Drawings are keyed by an item's slug. Each step drawing records the words of
+the step it shows (`step`), and a steps block only gets drawings while every
+step still reads as recorded, in the same order. Rewording, reordering, adding
+or removing a step in admin hides the drawings rather than leave one beside the
+wrong instruction; redraw and update `step` to bring them back. A build can
+also have an overview drawing with a legend, shown after its opening sentence.
+
+So far: the clove hitch (four steps) and the A-frame.
+
 ## Planning and printing
 
 `/plan` lists the whole book as a checklist. The PDF is laid out **in the
