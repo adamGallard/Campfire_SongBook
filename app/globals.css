@@ -652,6 +652,7 @@ a.chip {
 .dg-arrow { fill: var(--accent); }
 /* An outline in the ground colour keeps a label readable over rope or timber. */
 .dg-label { fill: var(--text-strong); font: 600 11px var(--font-inter), sans-serif; paint-order: stroke; stroke: var(--inset); stroke-width: 3px; stroke-linejoin: round; }
+.dg-solid { fill: var(--surface); stroke: var(--text-strong); stroke-width: 1.5; }
 .dg-dim { fill: none; stroke: var(--muted); stroke-width: 1; }
 .dg-ground { stroke: var(--border-strong); stroke-width: 2; stroke-dasharray: 2 5; stroke-linecap: round; }
 .dg-callout line { stroke: var(--app-text); stroke-width: 1.5; }

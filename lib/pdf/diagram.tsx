@@ -73,6 +73,8 @@ function ShapeView({ shape }: { shape: Shape }) {
           </Text>
         </G>
       );
+    case 'solid':
+      return <Path d={shape.d} fill={WHITE} stroke={INK} strokeWidth={1.5} />;
     case 'group':
       return (
         <G transform={shape.transform}>
