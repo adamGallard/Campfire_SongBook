@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { brand } from '@/lib/brand';
 
 type Mode = 'night' | 'day';
 
@@ -17,7 +18,9 @@ interface Prefs {
 const Ctx = createContext<Prefs | null>(null);
 
 export function ReadingPrefsProvider({ children }: { children: ReactNode }) {
-  const [mode, setMode] = useState<Mode>('night');
+  // Starts on the book's own default, which the layout has already put on
+  // <html>; starting anywhere else would flash the other mode on first paint.
+  const [mode, setMode] = useState<Mode>(brand.defaultMode);
   const [big, setBig] = useState(false);
 
   // Restore preferences. Wrapped because storage throws in some privacy

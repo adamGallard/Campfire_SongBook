@@ -1,7 +1,8 @@
 import { ItemForm } from '@/components/ItemForm';
 import { createClient } from '@/lib/supabase/server';
+import { bookKinds } from '@/lib/scope';
 import { saveItem } from '../../actions';
-import type { Kind, Tag } from '@/lib/types';
+import type { Tag } from '@/lib/types';
 
 export default async function NewItemPage({
   searchParams,
@@ -9,18 +10,14 @@ export default async function NewItemPage({
   searchParams: Promise<{ kind?: string }>;
 }) {
   const supabase = await createClient();
-  const [{ data: kindRows }, { data: tagRows }] = await Promise.all([
-    supabase
-      .from('kinds')
-      .select('slug, label, heading, singular, plural, lede, sort_order, enabled')
-      .order('sort_order'),
+  const [kinds, { data: tagRows }] = await Promise.all([
+    bookKinds(supabase),
     supabase.from('tags').select('kind, slug, label, sort_order').order('sort_order'),
   ]);
 
-  const kinds: Kind[] = kindRows ?? [];
   const tags: Tag[] = tagRows ?? [];
   const { kind } = await searchParams;
-  const start = kinds.find((k) => k.slug === kind)?.slug ?? kinds[0]?.slug ?? 'song';
+  const start = kinds.find((k) => k.slug === kind)?.slug ?? kinds[0]?.slug ?? '';
 
   return (
     <main className="wrap list">

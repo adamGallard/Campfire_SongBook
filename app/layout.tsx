@@ -3,6 +3,7 @@ import { Inter, Poppins } from 'next/font/google';
 import { OfflineSupport } from '@/components/OfflineSupport';
 import { ReadingPrefsProvider } from '@/components/ReadingPrefs';
 import { Analytics } from '@vercel/analytics/next';
+import { BOOK, appName, brand } from '@/lib/brand';
 import './globals.css';
 
 const inter = Inter({
@@ -20,10 +21,17 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: { default: 'ScoutBase Campfire', template: '%s · ScoutBase Campfire' },
-  description:
-    'Songs, skits, yarns and cheers for the campfire. Search every line, read it round a real fire, and print your own booklet.',
-  applicationName: 'ScoutBase Campfire',
+  title: { default: appName, template: `%s · ${appName}` },
+  description: brand.description,
+  applicationName: appName,
+  // Plain addresses: next.config.mjs sends each to this book's own files.
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: '16x16 32x32 48x48' },
+      { url: '/icon.svg', type: 'image/svg+xml' },
+    ],
+    apple: '/apple-icon.png',
+  },
 };
 
 export const viewport: Viewport = {
@@ -32,17 +40,19 @@ export const viewport: Viewport = {
 
 /**
  * Applies the saved mode before first paint so a leader who chose daylight
- * mode does not get a faceful of dark blue when the page loads.
+ * mode does not get a faceful of dark blue when the page loads. With nothing
+ * saved, each book opens in its own default: night round the fire, day for
+ * pioneering.
  */
 const noFlash = `
 try {
   var m = localStorage.getItem('songbook:mode');
-  document.documentElement.dataset.mode = (m === 'day' || m === 'night') ? m : 'night';
+  document.documentElement.dataset.mode = (m === 'day' || m === 'night') ? m : '${brand.defaultMode}';
   document.documentElement.dataset.big = localStorage.getItem('songbook:big') === '1' ? '1' : '0';
   document.documentElement.dataset.intro =
     localStorage.getItem('songbook:intro') === 'hidden' ? 'hidden' : 'shown';
 } catch (e) {
-  document.documentElement.dataset.mode = 'night';
+  document.documentElement.dataset.mode = '${brand.defaultMode}';
   document.documentElement.dataset.intro = 'shown';
 }
 `;
@@ -53,7 +63,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     // attributes before React hydrates, so a mismatch here is expected.
     <html
       lang="en-AU"
-      data-mode="night"
+      data-mode={brand.defaultMode}
+      data-book={BOOK}
       data-big="0"
       data-intro="shown"
       className={`${inter.variable} ${poppins.variable}`}

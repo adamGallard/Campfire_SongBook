@@ -1,0 +1,439 @@
+[
+  {
+    "kind": "knot",
+    "num": 1,
+    "title": "Clove hitch",
+    "tag": "hitch",
+    "category": "Hitch · Cubs and up",
+    "cast": "Also called the builder's hitch",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "Ties a rope to a spar in seconds, and starts or finishes nearly every lashing. Learn it first."
+      },
+      {
+        "type": "steps",
+        "heading": "How to tie it",
+        "items": [
+          "Take the end round the spar.",
+          "Cross it over the standing part and take it round the spar again, beside the first turn.",
+          "Tuck the end under the turn you have just made, so it comes out between the two turns, beside the standing part.",
+          "Pull both ends tight and push the turns snug against each other."
+        ]
+      },
+      {
+        "type": "box",
+        "heading": "It's right when",
+        "items": [
+          "Both ends come out from under the same crossing turn.",
+          "The ends point in opposite directions.",
+          "The back shows two neat turns side by side."
+        ]
+      },
+      {
+        "type": "note",
+        "text": "A clove hitch can slip or roll when the spar turns or the pull comes from the side. For anything that takes weight, add a half hitch round the standing part."
+      }
+    ]
+  },
+  {
+    "kind": "knot",
+    "num": 2,
+    "title": "Round turn and two half hitches",
+    "tag": "hitch",
+    "category": "Hitch · Scouts and up",
+    "cast": "For guy lines, and tying to a post or a ring",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "Ties a rope to a pole, a peg or a ring so it holds under a steady pull, and it can be tied or untied while the rope is still taking the strain."
+      },
+      {
+        "type": "steps",
+        "heading": "How to tie it",
+        "items": [
+          "Take the end round the pole twice. These two turns are the round turn, and they take the strain.",
+          "Bring the end over the standing part, round it and back through, to make a half hitch.",
+          "Make a second half hitch the same way, just below the first, going round in the same direction.",
+          "Slide both half hitches up to the round turn and pull tight."
+        ]
+      },
+      {
+        "type": "box",
+        "heading": "It's right when",
+        "items": [
+          "The two half hitches look like a clove hitch round the standing part.",
+          "There is a full round turn against the pole, not just one turn."
+        ]
+      }
+    ]
+  },
+  {
+    "kind": "knot",
+    "num": 3,
+    "title": "Timber hitch",
+    "tag": "hitch",
+    "category": "Hitch · Scouts and up",
+    "cast": "For dragging a log, and for starting a diagonal lashing",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "Grips a spar or a log when pulled, and falls apart easily when the pull stops. It starts the diagonal lashing."
+      },
+      {
+        "type": "steps",
+        "heading": "How to tie it",
+        "items": [
+          "Take the end round the spar.",
+          "Pass it round the standing part.",
+          "Twist the end back round its own part at least three times, so the twists lie along the spar.",
+          "Pull on the standing part until the loop grips the spar."
+        ]
+      },
+      {
+        "type": "note",
+        "text": "It only holds while it is under strain. That is what makes it quick to undo afterwards."
+      }
+    ]
+  },
+  {
+    "kind": "knot",
+    "num": 4,
+    "title": "Reef knot",
+    "tag": "binding",
+    "category": "Binding · Joeys and up",
+    "cast": "Also called the square knot",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "Ties the two ends of one rope round something, like a bundle or a bandage. It lies flat and unties easily."
+      },
+      {
+        "type": "steps",
+        "heading": "How to tie it",
+        "items": [
+          "Right end over left end, and under.",
+          "Left end over right end, and under.",
+          "Pull both ends to tighten."
+        ]
+      },
+      {
+        "type": "box",
+        "heading": "It's right when",
+        "items": [
+          "Each end comes out beside its own standing part.",
+          "It lies flat, like two interlocking loops."
+        ]
+      },
+      {
+        "type": "note",
+        "text": "Never use a reef knot to join two ropes that will take weight: it can shake loose. Use a sheet bend."
+      }
+    ]
+  },
+  {
+    "kind": "knot",
+    "num": 5,
+    "title": "Sheet bend",
+    "tag": "bend",
+    "category": "Joining ropes · Cubs and up",
+    "cast": "Joins two ropes, even of different thickness",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "Joins two ropes together, and still holds when one is much thicker than the other."
+      },
+      {
+        "type": "steps",
+        "heading": "How to tie it",
+        "items": [
+          "Make a bend (a U shape) in the end of the thicker rope.",
+          "Bring the end of the thinner rope up through the bend from underneath.",
+          "Take it round behind both sides of the bend.",
+          "Tuck it under itself, but not back through the bend.",
+          "Hold the bend and pull the thinner rope tight."
+        ]
+      },
+      {
+        "type": "box",
+        "heading": "It's right when",
+        "items": [
+          "Both short ends finish on the same side of the knot."
+        ]
+      }
+    ]
+  },
+  {
+    "kind": "knot",
+    "num": 6,
+    "title": "Bowline",
+    "tag": "loop",
+    "category": "Loop · Scouts and up",
+    "cast": "A loop that will not slip",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "Makes a fixed loop in the end of a rope that will not tighten or slip, and still unties after taking a load."
+      },
+      {
+        "type": "steps",
+        "heading": "How to tie it",
+        "items": [
+          "Make a small loop in the standing part, with the part nearest the end lying on top. This is the rabbit's hole.",
+          "Bring the end up through the small loop from underneath: the rabbit comes out of the hole.",
+          "Take the end round behind the standing part: round the tree.",
+          "Bring it back down through the small loop: back down the hole.",
+          "Hold the end against the side of the big loop, and pull the standing part to tighten."
+        ]
+      },
+      {
+        "type": "note",
+        "text": "Leave a good length of tail, and check it before anyone relies on it."
+      }
+    ]
+  },
+  {
+    "kind": "lashing",
+    "num": 1,
+    "title": "Square lashing",
+    "tag": "right-angle",
+    "category": "Right angles · Scouts and up",
+    "cast": "Two spars crossing at right angles",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "Holds two spars that cross at right angles, like a ledger across the legs of a frame. The lashing most builds use."
+      },
+      {
+        "type": "steps",
+        "heading": "How to lash it",
+        "items": [
+          "Tie a clove hitch on the upright, just below where the crosspiece will sit. Twist the short end round the rope so it is out of the way.",
+          "Take the rope up over the crosspiece, behind the upright, down in front of the crosspiece and behind the upright again. That is one wrap.",
+          "Make three or four wraps, pulling each one tight. On the crosspiece each wrap goes outside the last; on the upright, inside.",
+          "Make two or three frapping turns: wind the rope between the two spars, round the wraps, and pull hard. This is what tightens the lashing.",
+          "Finish with a clove hitch on the crosspiece."
+        ]
+      },
+      {
+        "type": "box",
+        "heading": "It's right when",
+        "items": [
+          "The wraps lie flat and side by side, not crossing each other.",
+          "The frapping turns pull the wraps in tight between the spars.",
+          "The spars do not twist when you push them."
+        ]
+      }
+    ]
+  },
+  {
+    "kind": "lashing",
+    "num": 2,
+    "title": "Diagonal lashing",
+    "tag": "right-angle",
+    "category": "Right angles · Scouts and up",
+    "cast": "Two spars that cross but do not touch, or want to spring apart",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "Pulls together two spars that cross but are not touching, such as the braces on a trestle. It starts with a timber hitch that draws them together."
+      },
+      {
+        "type": "steps",
+        "heading": "How to lash it",
+        "items": [
+          "Tie a timber hitch round both spars, diagonally across the crossing, and pull it tight to draw the spars together.",
+          "Make three or four wraps along the same diagonal as the timber hitch.",
+          "Make three or four wraps across the other diagonal.",
+          "Make two frapping turns between the spars, round the wraps, and pull hard.",
+          "Finish with a clove hitch on one spar."
+        ]
+      }
+    ]
+  },
+  {
+    "kind": "lashing",
+    "num": 3,
+    "title": "Shear lashing",
+    "tag": "parallel",
+    "category": "Side by side · Scouts and up",
+    "cast": "Two spars side by side, opened into an A",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "Joins two spars side by side so they can be opened out, like the top of an A-frame or a pair of sheer legs."
+      },
+      {
+        "type": "steps",
+        "heading": "How to lash it",
+        "items": [
+          "Lay the two spars side by side. Tie a clove hitch round one of them.",
+          "Make eight to ten wraps round both spars. Keep them fairly loose, or the spars will not open.",
+          "Make two frapping turns between the spars, round the wraps.",
+          "Finish with a clove hitch on the other spar.",
+          "Open the spars out. The lashing tightens as they open."
+        ]
+      }
+    ]
+  },
+  {
+    "kind": "lashing",
+    "num": 4,
+    "title": "Round lashing",
+    "tag": "parallel",
+    "category": "Side by side · Scouts and up",
+    "cast": "Joins two spars to make a longer one",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "Joins two overlapping spars into one longer one, for a flagpole or a long handrail. Always use two, well apart."
+      },
+      {
+        "type": "steps",
+        "heading": "How to lash it",
+        "items": [
+          "Overlap the two spars by at least a metre. Tie a clove hitch round both of them.",
+          "Make eight to ten tight wraps round both spars.",
+          "Finish with a clove hitch round both spars. There is no gap between the spars for frapping turns.",
+          "Tie a second round lashing near the other end of the overlap."
+        ]
+      }
+    ]
+  },
+  {
+    "kind": "lashing",
+    "num": 5,
+    "title": "Tripod lashing",
+    "tag": "three",
+    "category": "Three spars · Scouts and up",
+    "cast": "Also called the figure-of-eight lashing",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "Binds three spars together so they open into a tripod: the start of a wash stand, a cooking crane or a flagpole base."
+      },
+      {
+        "type": "steps",
+        "heading": "How to lash it",
+        "items": [
+          "Lay three spars side by side, with the middle one pointing the other way.",
+          "Tie a clove hitch round one of the outside spars.",
+          "Weave the rope over and under the spars in a figure of eight, six to eight times. Keep it loose.",
+          "Make two frapping turns in each gap between the spars.",
+          "Finish with a clove hitch on the other outside spar.",
+          "Cross the outside legs over the middle one and stand the tripod up."
+        ]
+      }
+    ]
+  },
+  {
+    "kind": "build",
+    "num": 1,
+    "title": "A-frame",
+    "tag": "frame",
+    "category": "Frame · Medium",
+    "cast": "3–4 Scouts · about 30 minutes",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "The frame behind most bigger builds. Bridges, chariots and gateways are mostly A-frames joined together, so teach this one first."
+      },
+      {
+        "type": "kit",
+        "heading": "Kit",
+        "items": [
+          {
+            "qty": 2,
+            "item": "Spars, 2.4 m (the legs)"
+          },
+          {
+            "qty": 1,
+            "item": "Spar, 1.8 m (the ledger)"
+          },
+          {
+            "qty": 3,
+            "item": "Lashing ropes, 4 m"
+          }
+        ]
+      },
+      {
+        "type": "safety",
+        "heading": "Safety check",
+        "items": [
+          "Check every spar for cracks, splits and soft or rotten wood. Put bad ones aside.",
+          "Do not use rope that is frayed, soft or mouldy.",
+          "Nobody climbs on, sits on or swings from the frame until a leader has checked every lashing.",
+          "Carry spars low in camp, and call out before you swing one round."
+        ]
+      },
+      {
+        "type": "steps",
+        "heading": "How to build it",
+        "items": [
+          "Lay the two legs side by side on the ground, tips level.",
+          "About 30 cm down from the tips, tie a **shear lashing** round both legs. Keep the turns fairly loose.",
+          "Open the legs into an A until the bottoms are about 1.5 m apart.",
+          "Lay the ledger across both legs, 30 cm up from the bottom, and **square-lash** it to each leg.",
+          "Stand it up and push the top gently. Tighten any lashing that slips, then have a leader check it."
+        ]
+      },
+      {
+        "type": "note",
+        "text": "Two A-frames and a walkway make a bridge."
+      }
+    ]
+  },
+  {
+    "kind": "gadget",
+    "num": 1,
+    "title": "Wash-bowl stand",
+    "tag": "site",
+    "category": "Around the site · Easy",
+    "cast": "2 Scouts · about 30 minutes",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "Keeps the wash bowl off the ground and at a height where nobody has to crouch. A good first build for a patrol."
+      },
+      {
+        "type": "kit",
+        "heading": "Kit",
+        "items": [
+          {
+            "qty": 3,
+            "item": "Staves, 1.5 m (the legs)"
+          },
+          {
+            "qty": 3,
+            "item": "Staves, 0.6 m (the ring)"
+          },
+          {
+            "qty": 1,
+            "item": "Lashing rope, 3 m"
+          },
+          {
+            "qty": 6,
+            "item": "Lashing ropes, 2 m"
+          }
+        ]
+      },
+      {
+        "type": "safety",
+        "heading": "Safety check",
+        "items": [
+          "Check the staves for cracks before you start.",
+          "Stand it on level ground, and try it with an empty bowl before filling it."
+        ]
+      },
+      {
+        "type": "steps",
+        "heading": "How to make it",
+        "items": [
+          "Tie a **tripod lashing** round the three long staves, about 30 cm from their tops, and stand them up as a tripod.",
+          "Square-lash the three short staves across the legs, at the height the bowl should sit, to make a triangle.",
+          "Rest the bowl in the triangle. If it is loose, move the short staves up the legs until it sits snugly."
+        ]
+      }
+    ]
+  }
+]

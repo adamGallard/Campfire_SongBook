@@ -89,6 +89,56 @@ export function Blocks({ blocks }: { blocks: Block[] }) {
               </ul>
             );
 
+          // The order is the point, so it is a real ordered list.
+          case 'steps':
+            return (
+              <div className="steps" key={i}>
+                {block.heading ? <div className="box-head">{block.heading}</div> : null}
+                <ol className="step-list">
+                  {block.items.map((item, j) => (
+                    <li key={j}>
+                      <span className="step-num" aria-hidden="true">
+                        {j + 1}
+                      </span>
+                      <span>{inline(item)}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            );
+
+          case 'kit':
+            return (
+              <div className="box kit" key={i}>
+                <div className="box-head">{block.heading ?? 'Kit'}</div>
+                <ul className="kit-list">
+                  {block.items.map((line, j) => (
+                    <li key={j}>
+                      <span className="kit-qty">{line.qty === null ? '' : `${line.qty}×`}</span>
+                      <span>{inline(line.item)}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+
+          case 'safety':
+            return (
+              <div className="safety" role="note" key={i}>
+                <div className="safety-head">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 3 2 20h20L12 3ZM12 10v4M12 17v.5" />
+                  </svg>
+                  {block.heading ?? 'Safety check'}
+                </div>
+                <ul className="box-list">
+                  {block.items.map((item, j) => (
+                    <li key={j}>{inline(item)}</li>
+                  ))}
+                </ul>
+              </div>
+            );
+
           default:
             return null;
         }

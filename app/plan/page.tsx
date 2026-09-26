@@ -3,13 +3,13 @@ import Link from 'next/link';
 import { ExportBuilder } from '@/components/ExportBuilder';
 import { Hero, Footer } from '@/components/SiteChrome';
 import { loadBook } from '@/lib/book';
+import { brand } from '@/lib/brand';
 
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: 'Plan a campfire',
-  description:
-    'Pick the songs, skits, yarns and cheers for your campfire, put them in order, and print them as A4 pages or a folded A5 booklet.',
+  title: brand.plan.label,
+  description: brand.plan.description,
 };
 
 export default async function PlanPage() {
@@ -18,8 +18,8 @@ export default async function PlanPage() {
   return (
     <>
       <Hero
-        title="Plan a campfire"
-        lede="Pick the songs, skits, yarns and cheers for your campfire, put them in order, then print them as A4 pages or as a booklet to fold and staple."
+        title={brand.plan.label}
+        lede={brand.plan.lede}
         actions={
           <Link href="/" className="ghost-btn">
             Back to the book

@@ -3,8 +3,9 @@ import { notFound } from 'next/navigation';
 import { ItemForm } from '@/components/ItemForm';
 import { ConfirmButton } from '@/components/ConfirmButton';
 import { createClient } from '@/lib/supabase/server';
+import { bookKinds } from '@/lib/scope';
 import { approveSubmission, rejectSubmission, reopenSubmission } from '../../actions';
-import type { Kind, Submission, Tag } from '@/lib/types';
+import type { Submission, Tag } from '@/lib/types';
 
 export default async function ReviewSubmissionPage({
   params,
@@ -14,19 +15,16 @@ export default async function ReviewSubmissionPage({
   const { id } = await params;
   const supabase = await createClient();
 
-  const [{ data: row }, { data: kindRows }, { data: tagRows }] = await Promise.all([
+  const [{ data: row }, kinds, { data: tagRows }] = await Promise.all([
     supabase.from('submissions').select('*').eq('id', id).maybeSingle(),
-    supabase
-      .from('kinds')
-      .select('slug, label, heading, singular, plural, lede, sort_order, enabled')
-      .order('sort_order'),
+    bookKinds(supabase),
     supabase.from('tags').select('kind, slug, label, sort_order').order('sort_order'),
   ]);
 
-  if (!row) notFound();
+  // The other book's submissions are reviewed on the other book's site.
+  if (!row || !kinds.some((k) => k.slug === row.kind)) notFound();
 
   const submission = row as Submission;
-  const kinds: Kind[] = kindRows ?? [];
   const tags: Tag[] = tagRows ?? [];
 
   return (

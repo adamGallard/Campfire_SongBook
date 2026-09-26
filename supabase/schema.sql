@@ -1,6 +1,7 @@
--- Campfire Songbook — full schema as applied to the `campfire-songbook`
--- Supabase project. Run this against an empty database to recreate it, then
--- load the seeds in supabase/seed (songs, skits, yarns, applause).
+-- ScoutBase Campfire and Pioneering — full schema as applied to the
+-- `campfire-songbook` Supabase project, which both books share. Run this
+-- against an empty database to recreate it, then load the seeds in
+-- supabase/seed (songs, skits, yarns, applause; pioneering).
 --
 -- Applied as migrations:
 --   20260912003502_create_songbook_schema
@@ -14,6 +15,20 @@
 --   20260913_add_applause_tags / kinds_carry_their_own_wording
 --   20260915_add_yarns_section
 --   20260915_raise_submission_body_limit
+--   20260926_add_books (supabase/migrations)
+
+-- Books ------------------------------------------------------------------
+-- One database, more than one book. Each deploy shows one book, chosen by its
+-- BOOK environment variable; see lib/brand.ts.
+create table public.books (
+  slug        text primary key,
+  name        text not null,          -- the app name after "ScoutBase": "Campfire"
+  sort_order  integer not null default 0
+);
+
+insert into public.books (slug, name, sort_order) values
+  ('campfire',   'Campfire',   1),
+  ('pioneering', 'Pioneering', 2);
 
 -- Sections of the book -----------------------------------------------------
 -- Each kind carries its own wording, because deriving copy off the section
@@ -26,8 +41,11 @@ create table public.kinds (
   plural      text not null,          -- "songs", "cheers"
   lede        text,                   -- section blurb on the public page
   sort_order  integer not null default 0,
-  enabled     boolean not null default true
+  enabled     boolean not null default true,
+  book        text not null default 'campfire' references public.books(slug) on update cascade
 );
+
+create index kinds_book_sort_idx on public.kinds (book, sort_order);
 
 insert into public.kinds (slug, label, heading, singular, plural, lede, sort_order, enabled) values
   ('song', 'Songs', 'Song Book', 'song', 'songs',
@@ -38,6 +56,17 @@ insert into public.kinds (slug, label, heading, singular, plural, lede, sort_ord
    'Start with a join-in one, save the quiet ones for last, or search for one you half remember.', 3, true),
   ('applause', 'Applause', 'Applause', 'cheer', 'cheers',
    'Quick cheers to throw between acts.', 4, true);
+
+-- Pioneering sections go in switched off until their first items are checked.
+insert into public.kinds (slug, label, heading, singular, plural, lede, sort_order, enabled, book) values
+  ('knot', 'Knots', 'Knots', 'knot', 'knots',
+   'Start with the clove hitch: it begins and ends nearly every lashing.', 1, false, 'pioneering'),
+  ('lashing', 'Lashings', 'Lashings', 'lashing', 'lashings',
+   'How to join two spars, or three, so they stay joined when someone leans on them.', 2, false, 'pioneering'),
+  ('build', 'Builds', 'Builds', 'build', 'builds',
+   'Frames, bridges and towers, each with its kit list, the lashings it uses and a safety check.', 3, false, 'pioneering'),
+  ('gadget', 'Camp gadgets', 'Camp gadgets', 'gadget', 'gadgets',
+   'Small builds that make a campsite work: somewhere to wash, to hang things, to keep the kitchen off the ground.', 4, false, 'pioneering');
 
 -- Tags (the filter chips), scoped per kind: "Loud" means nothing to a skit.
 create table public.tags (
@@ -64,7 +93,19 @@ insert into public.tags (kind, slug, label, sort_order) values
   ('applause', 'quick',   'Quick',     1),
   ('applause', 'actions', 'Actions',   2),
   ('applause', 'build',   'Builds up', 3),
-  ('applause', 'daft',    'Daft',      4);
+  ('applause', 'daft',    'Daft',      4),
+  ('knot', 'hitch', 'Hitches', 1),
+  ('knot', 'bend',  'Joining ropes', 2),
+  ('knot', 'loop',  'Loops', 3),
+  ('knot', 'binding', 'Binding', 4),
+  ('lashing', 'right-angle', 'Right angles', 1),
+  ('lashing', 'parallel',    'Side by side', 2),
+  ('lashing', 'three',       'Three spars', 3),
+  ('build', 'frame',  'Frames', 1),
+  ('build', 'bridge', 'Bridges', 2),
+  ('build', 'tower',  'Towers and poles', 3),
+  ('gadget', 'kitchen', 'Camp kitchen', 1),
+  ('gadget', 'site',    'Around the site', 2);
 
 -- Items (songs, skits, applause) -------------------------------------------
 -- `blocks` holds the body as structured JSON rather than HTML, so nothing a
@@ -161,11 +202,17 @@ create trigger songs_touch_updated_at
   for each row execute function public.touch_updated_at();
 
 -- Row level security -------------------------------------------------------
+alter table public.books       enable row level security;
 alter table public.tags        enable row level security;
 alter table public.items       enable row level security;
 alter table public.kinds       enable row level security;
 alter table public.submissions enable row level security;
 alter table public.admins      enable row level security;
+
+create policy books_public_read on public.books
+  for select to anon, authenticated using (true);
+create policy books_admin_write on public.books
+  for all to authenticated using (private.is_admin()) with check (private.is_admin());
 
 create policy tags_public_read on public.tags
   for select to anon, authenticated using (true);
@@ -195,7 +242,9 @@ create policy admins_write on public.admins
 -- Public submission entry point --------------------------------------------
 -- A function rather than a table grant, so anon never holds insert rights and
 -- the validation and rate limit cannot be bypassed by calling PostgREST
--- directly. This is why the app needs no service-role key.
+-- directly. This is why the app needs no service-role key. p_book names the
+-- book the form was on, so a section from another book, or one switched off,
+-- is never filed.
 create or replace function public.submit_song(
   p_title    text,
   p_tag      text,
@@ -205,7 +254,8 @@ create or replace function public.submit_song(
   p_email    text,
   p_note     text,
   p_ip_hash  text,
-  p_kind     text default 'song'
+  p_kind     text default 'song',
+  p_book     text default 'campfire'
 ) returns void
 language plpgsql
 security definer
@@ -228,7 +278,7 @@ begin
     raise exception 'invalid_body';
   end if;
 
-  -- Five songs an hour from one source is plenty for a leader typing up a set.
+  -- Five an hour from one source is plenty for a leader typing up a set.
   select count(*) into v_recent
   from public.submissions
   where ip_hash = p_ip_hash
@@ -238,10 +288,19 @@ begin
     raise exception 'rate_limited';
   end if;
 
-  -- Only a section that exists and is switched on; otherwise fall back to song.
-  select slug into v_kind from public.kinds where slug = p_kind and enabled;
+  -- Only a section of this book that is switched on; otherwise the book's first.
+  select slug into v_kind from public.kinds
+  where slug = p_kind and book = p_book and enabled;
+
   if v_kind is null then
-    v_kind := 'song';
+    select slug into v_kind from public.kinds
+    where book = p_book and enabled
+    order by sort_order
+    limit 1;
+  end if;
+
+  if v_kind is null then
+    raise exception 'invalid_kind';
   end if;
 
   -- Only a tag that belongs to that section; anything else becomes null.
@@ -264,8 +323,8 @@ begin
 end;
 $$;
 
-revoke all on function public.submit_song(text, text, text, text, text, text, text, text, text) from public;
-grant execute on function public.submit_song(text, text, text, text, text, text, text, text, text) to anon, authenticated;
+revoke all on function public.submit_song(text, text, text, text, text, text, text, text, text, text) from public;
+grant execute on function public.submit_song(text, text, text, text, text, text, text, text, text, text) to anon, authenticated;
 
 -- Seed the first administrator (change this address).
 insert into public.admins (email, note) values ('adam@thegallards.co.uk', 'Initial administrator');

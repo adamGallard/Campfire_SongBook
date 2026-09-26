@@ -1,7 +1,10 @@
 /*
- * ScoutBase Campfire service worker: keeps the book readable with no signal.
+ * ScoutBase Campfire and Pioneering service worker: keeps the book readable
+ * with no signal. Each book is its own site, so each has its own worker and
+ * caches; the icon and offline addresses below are the same in both, and
+ * next.config.mjs points them at the right book's files.
  *
- * The book and the campfire planner are saved on the device together with every
+ * The book and the planner are saved on the device together with every
  * script, style, font and image they refer to, so a saved page still searches,
  * switches section and changes reading mode. With signal, pages come from the
  * network and the saved copy is refreshed; with no signal, or one bar that
@@ -13,7 +16,7 @@
  * Bump VERSION when this file's behaviour changes, or when a file in EXTRAS
  * changes under the same name (as the icons did); the old caches are cleared.
  */
-const VERSION = 'v3';
+const VERSION = 'v4';
 const PAGES = `campfire-pages-${VERSION}`;
 const ASSETS = `campfire-assets-${VERSION}`;
 

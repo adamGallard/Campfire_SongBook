@@ -13,7 +13,21 @@ export type Block =
   | { type: 'shout'; text: string }
   | { type: 'box'; heading?: string | null; items: string[] }
   | { type: 'grid'; heading?: string | null; items: string[] }
-  | { type: 'pills'; items: string[] };
+  | { type: 'pills'; items: string[] }
+  // Pioneering: numbered steps to follow, the kit to fetch, and what to check.
+  | { type: 'steps'; heading?: string | null; items: string[] }
+  | { type: 'kit'; heading?: string | null; items: KitLine[] }
+  | { type: 'safety'; heading?: string | null; items: string[] };
+
+/**
+ * One line of a kit list: "2 × Spars, 2.4 m". The count is kept apart so a
+ * plan can add kit up across builds; null for something with no count
+ * ("Mallet").
+ */
+export interface KitLine {
+  qty: number | null;
+  item: string;
+}
 
 export type BlockType = Block['type'];
 

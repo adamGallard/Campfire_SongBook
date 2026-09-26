@@ -13,10 +13,11 @@ export default async function AdminsPage() {
   return (
     <main className="wrap list">
       <div className="card">
-        <h2 className="section-title">Who can manage the songbook</h2>
+        <h2 className="section-title">Who can manage the books</h2>
         <p className="muted-line" style={{ marginBottom: 0 }}>
-          Anyone on this list can sign in with a one-time link and edit songs or review
-          submissions. Removing an address takes effect immediately.
+          Anyone on this list can sign in and edit the book or review submissions, in Campfire and
+          Pioneering alike: the two books share one list. Removing an address takes effect
+          immediately.
         </p>
       </div>
 

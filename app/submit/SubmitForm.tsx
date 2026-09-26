@@ -14,6 +14,13 @@ interface Wording {
   help: React.ReactNode;
 }
 
+const PIONEERING_HELP = (
+  <>
+    Number the steps <code>1.</code>, <code>2.</code>, <code>3.</code>. Put <code>Kit:</code> over a
+    list like <code>- 2 × Spars, 2.4 m</code>, and <code>Safety:</code> over anything to check first.
+  </>
+);
+
 const SCRIPT_HELP = (
   <>
     Use <code>**Scout 1:**</code> for a speaker, <code>_(actions)_</code> in italics, and{' '}
@@ -96,6 +103,63 @@ Punchline: Arf! Arf! Arf!
 Note: tip the head back on the last one.`,
     help: SCRIPT_HELP,
   },
+  knot: {
+    title: 'Clove hitch',
+    tagQuestion: 'What sort of knot?',
+    sub: 'Also called',
+    subHint: "Builder's hitch",
+    body: 'How to tie it',
+    bodyHint: `1. Take the end across the front of the spar and round the back.
+2. Bring it up across the front, over the first turn, and round the back again.
+3. Tuck the end under the diagonal, beside the standing part.
+4. Pull both ends tight.
+
+Note: what it is good for, or what to watch out for.`,
+    help: PIONEERING_HELP,
+  },
+  lashing: {
+    title: 'Square lashing',
+    tagQuestion: 'What does it join?',
+    sub: 'What it joins',
+    subHint: 'Two spars crossing at right angles',
+    body: 'How to lash it',
+    bodyHint: `1. Tie a clove hitch on the upright, just under the crosspiece.
+2. …
+
+Note: how tight it should be, and how to check it.`,
+    help: PIONEERING_HELP,
+  },
+  build: {
+    title: 'A-frame',
+    tagQuestion: 'What sort of build?',
+    sub: 'Team and time',
+    subHint: '3–4 Scouts · about 30 minutes',
+    body: 'How to build it',
+    bodyHint: `Kit:
+- 2 × Spars, 2.4 m
+- 1 × Spar, 1.8 m
+- 3 × Lashing ropes, 4 m
+
+Safety:
+- Check every spar for cracks before you start.
+
+1. Lay the two legs side by side, tips level.
+2. …`,
+    help: PIONEERING_HELP,
+  },
+  gadget: {
+    title: 'Wash stand',
+    tagQuestion: 'Where is it used?',
+    sub: 'Team and time',
+    subHint: '2 Scouts · about 20 minutes',
+    body: 'How to make it',
+    bodyHint: `Kit:
+- 4 × Staves, 1.2 m
+- 8 × Lashing ropes, 2 m
+
+1. …`,
+    help: PIONEERING_HELP,
+  },
 };
 
 export function SubmitForm({
@@ -109,7 +173,7 @@ export function SubmitForm({
 }) {
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent'>('idle');
   const [error, setError] = useState<string | null>(null);
-  const [kind, setKind] = useState(startKind ?? kinds[0]?.slug ?? 'song');
+  const [kind, setKind] = useState(startKind || kinds[0]?.slug || '');
   const [tag, setTag] = useState('');
 
   const kindTags = useMemo(
@@ -117,7 +181,7 @@ export function SubmitForm({
     [tags, kind],
   );
   const active = kinds.find((k) => k.slug === kind);
-  const words = WORDING[kind] ?? WORDING.song;
+  const words = WORDING[kind] ?? WORDING[kinds[0]?.slug ?? ''] ?? WORDING.song;
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -297,7 +361,7 @@ export function SubmitForm({
 
       <div className="form-actions">
         <button type="submit" className="primary-btn" disabled={status === 'sending'}>
-          {status === 'sending' ? 'Sending…' : `Send the ${active?.singular ?? 'song'} in`}
+          {status === 'sending' ? 'Sending…' : `Send the ${active?.singular ?? 'page'} in`}
         </button>
         <Link href="/" className="linklike">
           Cancel

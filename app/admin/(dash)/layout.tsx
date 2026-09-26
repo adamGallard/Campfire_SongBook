@@ -1,7 +1,9 @@
 import Link from 'next/link';
 import { ReadingToggles } from '@/components/ReadingPrefs';
 import { requireAdmin } from '@/lib/auth';
+import { brand } from '@/lib/brand';
 import { createClient } from '@/lib/supabase/server';
+import { bookKindSlugs } from '@/lib/scope';
 import { signOut } from './actions';
 
 export const metadata = { title: 'Admin' };
@@ -13,6 +15,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const { count } = await supabase
     .from('submissions')
     .select('id', { count: 'exact', head: true })
+    .in('kind', await bookKindSlugs(supabase))
     .eq('status', 'pending');
 
   const pending = count ?? 0;
@@ -21,7 +24,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     <>
       <div className="admin-bar">
         <div className="wrap">
-          <strong className="footname">Campfire admin</strong>
+          <strong className="footname">{brand.name} admin</strong>
           <nav className="admin-nav">
             <Link href="/admin">Overview</Link>
             <Link href="/admin/items">Content</Link>

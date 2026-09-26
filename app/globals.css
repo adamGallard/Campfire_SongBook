@@ -1,18 +1,22 @@
-/* Design tokens from the ScoutBase design system. Night is the default —
-   it is a campfire songbook, after all — and day mode swaps the same roles.
-   Campfire orange carries the accent; ScoutBase green stays for success
-   states and for the link back to ScoutBase itself. */
+/* Design tokens from the ScoutBase design system. Each book takes its own
+   app colour as the accent (Campfire orange, Pioneering blue), set by the
+   data-book attribute the layout puts on <html>; everything else is shared.
+   ScoutBase green stays for success states and for the link back to
+   ScoutBase itself. Night mode swaps the same roles onto navy. */
 :root {
   --ink: #0d1b2a;
   --deep: #13324d;
   --paper: #f7faf8;
   --green: #2e7d32;
   --leaf: #7ac46f;
-  --ember: #ea580c; /* app-campfire: icons, rules, fills with no text on them */
-  --ember-deep: #c2410c; /* app-campfire-text: day text, and fills under white text */
-  --ember-hover: #9a3412;
-  --ember-soft: #fb923c; /* app-campfire-soft: accent text on navy */
-  --ember-wash: #fff1e6; /* app-campfire-wash: selected wash on light grounds */
+
+  /* The app colour, Campfire's by default. */
+  --app: #ea580c; /* app-campfire: icons, rules, fills with no text on them */
+  --app-rgb: 234, 88, 12; /* the same, for glows and washes on navy */
+  --app-text: #c2410c; /* app-campfire-text: day text, and fills under white text */
+  --app-hover: #9a3412;
+  --app-soft: #fb923c; /* app-campfire-soft: accent text on navy */
+  --app-wash: #fff1e6; /* app-campfire-wash: selected wash on light grounds */
 
   --bg: var(--ink);
   --surface: var(--deep);
@@ -22,18 +26,29 @@
   --text-strong: #ffffff;
   --muted: rgba(247, 250, 248, 0.66);
   --faint: rgba(247, 250, 248, 0.5);
-  --accent: var(--ember-soft);
+  --accent: var(--app-soft);
   --sb-link: var(--leaf);
   --inset: rgba(255, 255, 255, 0.05);
   --bar: rgba(13, 27, 42, 0.94);
   --field: rgba(255, 255, 255, 0.07);
-  --chip-on-bg: rgba(234, 88, 12, 0.2);
+  --chip-on-bg: rgba(var(--app-rgb), 0.2);
   --shadow: none;
 
   --lyric-size: clamp(16px, 4vw, 18px);
   --lyric-leading: 1.72;
   --title-size: clamp(22px, 5.4vw, 27px);
   --aside-size: 14px;
+}
+
+/* Pioneering: white text on app-pioneering passes AA (about 6.7:1), so the
+   one blue serves for text and for fills under white text alike. */
+[data-book='pioneering'] {
+  --app: #1d4ed8; /* app-pioneering */
+  --app-rgb: 29, 78, 216;
+  --app-text: #1d4ed8; /* app-pioneering */
+  --app-hover: #1e40af; /* app-pioneering-hover */
+  --app-soft: #60a5fa; /* app-pioneering-soft: accent text on navy only */
+  --app-wash: #eff6ff; /* app-pioneering-wash */
 }
 
 [data-mode='day'] {
@@ -45,12 +60,12 @@
   --text-strong: var(--ink);
   --muted: #60707a;
   --faint: #60707a;
-  --accent: var(--ember-deep);
+  --accent: var(--app-text);
   --sb-link: var(--green);
   --inset: var(--paper);
   --bar: rgba(247, 250, 248, 0.95);
   --field: #ffffff;
-  --chip-on-bg: var(--ember-wash);
+  --chip-on-bg: var(--app-wash);
   --shadow: 0 1px 4px rgba(13, 27, 42, 0.07);
 }
 
@@ -120,7 +135,7 @@ a {
 
 /* Hero ------------------------------------------------------------------ */
 .hero {
-  background: linear-gradient(165deg, #0d1b2a 0%, #13324d 62%, #c2410c 135%);
+  background: linear-gradient(165deg, #0d1b2a 0%, #13324d 62%, var(--app-text) 135%);
   padding: 28px 0 26px;
   position: relative;
   overflow: hidden;
@@ -131,7 +146,7 @@ a {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 84% 10%, rgba(234, 88, 12, 0.3), transparent 48%);
+  background: radial-gradient(circle at 84% 10%, rgba(var(--app-rgb), 0.3), transparent 48%);
   pointer-events: none;
 }
 
@@ -204,8 +219,8 @@ a {
 
 [data-mode='night'] .toggle-mode,
 [data-big='1'] .toggle-big {
-  background: rgba(234, 88, 12, 0.22);
-  border-color: var(--ember-soft);
+  background: rgba(var(--app-rgb), 0.22);
+  border-color: var(--app-soft);
 }
 
 /* In the admin bar the toggles sit on the page colours, not the dark hero. */
@@ -230,9 +245,9 @@ a {
   color: rgba(255, 255, 255, 0.82);
 }
 
-/* The hero is navy in both modes, so the app name always takes the soft orange. */
+/* The hero is navy in both modes, so the app name always takes the soft accent. */
 .kicker-app {
-  color: var(--ember-soft);
+  color: var(--app-soft);
 }
 
 .hero h1 {
@@ -245,7 +260,7 @@ a {
 .rule {
   height: 4px;
   width: 48px;
-  background: var(--ember);
+  background: var(--app);
   border-radius: 999px;
   margin: 18px 0 0;
 }
@@ -389,7 +404,7 @@ a.chip {
   width: 24px;
   height: 24px;
   border-radius: 999px;
-  background: var(--ember-deep);
+  background: var(--app-text);
   color: #fff;
   font: 700 12px/1 var(--font-poppins), sans-serif;
   flex: none;
@@ -501,6 +516,101 @@ a.chip {
   border-radius: 999px;
   padding: 7px 13px;
   font: 500 14px/1 var(--font-inter), sans-serif;
+}
+
+/* Pioneering blocks ------------------------------------------------------ */
+.step-list {
+  list-style: none;
+  display: grid;
+  gap: 12px;
+}
+
+.step-list li {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.step-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: var(--app-text);
+  color: #fff;
+  font: 700 13px/28px var(--font-poppins), sans-serif;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  margin-top: 1px;
+}
+
+.kit-list {
+  list-style: none;
+  font: 400 15px/1.6 var(--font-inter), sans-serif;
+}
+
+.kit-list li {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 10px;
+  align-items: baseline;
+  padding: 6px 0;
+}
+
+.kit-list li + li {
+  border-top: 1px solid var(--border);
+}
+
+.kit-qty {
+  font: 700 17px/1 var(--font-poppins), sans-serif;
+  color: var(--accent);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The design system's warning pair: sb-warning-bg with dark text, and the
+   sb-warning edge. Night keeps the edge and dims the ground. */
+.safety {
+  --safety-bg: #fef3c7;
+  --safety-text: #713f12;
+  background: var(--safety-bg);
+  color: var(--safety-text);
+  border: 1.5px solid #f59e0b;
+  border-radius: 18px;
+  padding: 14px 16px 16px;
+}
+
+[data-mode='night'] .safety {
+  --safety-bg: rgba(245, 158, 11, 0.12);
+  --safety-text: #f4d29b;
+}
+
+.safety-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font: 700 15px/1.3 var(--font-inter), sans-serif;
+  margin-bottom: 8px;
+}
+
+.safety-head svg {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.safety .box-list {
+  padding-left: 18px;
+  list-style: disc;
+}
+
+.safety .box-list li + li {
+  margin-top: 6px;
 }
 
 .empty {
@@ -673,8 +783,8 @@ a.chip {
 
 .primary-btn {
   border: none;
-  background: var(--ember-deep);
-  box-shadow: 0 8px 22px rgba(234, 88, 12, 0.18);
+  background: var(--app-text);
+  box-shadow: 0 8px 22px rgba(var(--app-rgb), 0.18);
   color: #fff;
   font: 700 15px/1 var(--font-inter), sans-serif;
   padding: 15px 24px;
@@ -684,7 +794,7 @@ a.chip {
 }
 
 .primary-btn:hover:not(:disabled) {
-  background: var(--ember-hover);
+  background: var(--app-hover);
 }
 
 .primary-btn:disabled {
@@ -784,7 +894,7 @@ a.chip {
   height: 22px;
   padding: 0 7px;
   border-radius: 999px;
-  background: var(--ember-deep);
+  background: var(--app-text);
   color: #fff;
   font: 700 12px/1 var(--font-inter), sans-serif;
 }
@@ -955,7 +1065,7 @@ a.chip {
 }
 
 .section-btn[aria-selected='true'] .section-count {
-  background: var(--ember-deep);
+  background: var(--app-text);
   color: #fff;
 }
 
@@ -1095,7 +1205,7 @@ fieldset.field {
   flex: none;
   width: 20px;
   height: 20px;
-  accent-color: var(--ember-deep);
+  accent-color: var(--app-text);
 }
 
 .choice input {

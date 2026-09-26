@@ -75,7 +75,7 @@ export function LoginForm({ notice }: { notice?: string }) {
     const supabase = createClient();
 
     // Only allowlisted leaders may create an account, so a stranger cannot
-    // register against the songbook at all.
+    // register against the book at all.
     const { data: allowed, error: checkError } = await supabase.rpc('admin_email_exists', {
       p_email: email.trim(),
     });
@@ -237,7 +237,7 @@ export function LoginForm({ notice }: { notice?: string }) {
                 : 'Send reset link'}
         </button>
         <Link href="/" className="linklike">
-          Back to the songbook
+          Back to the book
         </Link>
       </div>
 
