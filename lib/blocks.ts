@@ -10,10 +10,23 @@ const STEP_RE = /^\d{1,2}[.)]\s+/;
 const KIT_HEAD = /^(kit|you need|you will need|kit list)$/i;
 const SAFETY_HEAD = /^(safety|safety check|before you build|before you start)$/i;
 
-/** "2 × Spars, 2.4 m", "2 x spars" or "2 spars"; anything else has no count. */
+/** Units that make a leading number a measurement, not a count: "12 mm rope". */
+const UNIT_RE = /^(?:mm|cm|m|km|metres?|meters?|in|inch(?:es)?|ft|feet|foot|kg|g)\b/i;
+
+/**
+ * "2 × Spars, 2.4 m", "2 x spars" or "2 spars"; anything else has no count.
+ * A line that starts with a measurement ("2.4 m rope", "12 mm rope") or a
+ * size ("2x4 timber") keeps its number as part of the item.
+ */
 export function kitLine(text: string): KitLine {
-  const m = /^(\d{1,3})\s*(?:[×xX]\s*)?(\S.*)$/.exec(text.trim());
-  return m ? { qty: Number(m[1]), item: m[2].trim() } : { qty: null, item: text.trim() };
+  const line = text.trim();
+  // An explicit count: "2 × …", or "2 x …" with a space after the x.
+  const times = /^(\d{1,3})\s*(?:×|[xX](?=\s))\s*(\S.*)$/.exec(line);
+  if (times) return { qty: Number(times[1]), item: times[2].trim() };
+  // A bare whole number, then a word that is not a unit: "3 lashing ropes".
+  const bare = /^(\d{1,3})\s+(\S.*)$/.exec(line);
+  if (bare && !UNIT_RE.test(bare[2])) return { qty: Number(bare[1]), item: bare[2].trim() };
+  return { qty: null, item: line };
 }
 
 /** Back to the line a leader types: "2 × Spars, 2.4 m". */
