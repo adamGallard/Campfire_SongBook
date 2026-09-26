@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { Blocks } from './Blocks';
 import { Intro } from './Intro';
-import { FootBrand, Masthead, MoreFromScoutBase } from './SiteChrome';
+import { FootBrand, Masthead, MoreFromScoutBase, OtherBooks } from './SiteChrome';
 import { blocksToPlainText } from '@/lib/blocks';
 import { appName, brand } from '@/lib/brand';
 import { diagramsFor } from '@/lib/diagrams';
@@ -180,6 +180,7 @@ export function Book({
             Joeys, Cubs, Scouts, Venturers and Rovers — learning, leading and living life to the
             fullest.
           </p>
+          <OtherBooks />
           <MoreFromScoutBase />
           <p className="footlinks">
             <Link href={active ? `/submit?kind=${active.slug}` : '/submit'}>
