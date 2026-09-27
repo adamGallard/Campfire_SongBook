@@ -16,8 +16,10 @@ with night/daylight reading modes and big type for reading round an actual fire
 (the moon and Aa buttons at the top right of every page), search across every
 line, filters that change per section, and a book that keeps working with no
 signal. It sits alongside ScoutBase and SB Leader, and on a home screen it is
-"SB Campfire". Every footer points back to [www.scoutbase.app](https://www.scoutbase.app)
-for anyone curious about the other ScoutBase tools.
+"SB Campfire". Every footer links to the other book (Campfire to Pioneering and
+back; each book's `url` and `blurb` are in `lib/brand.ts`) and points back to
+[www.scoutbase.app](https://www.scoutbase.app) for anyone curious about the other
+ScoutBase tools.
 
 Everything lives in Postgres rather than in the page, so leaders can edit it and
 the public can send new material in for review.

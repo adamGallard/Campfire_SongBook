@@ -2,12 +2,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { ReadingToggles } from './ReadingPrefs';
-import { BOOK, appName, brand } from '@/lib/brand';
+import { BOOK, appName, brand, otherBrands } from '@/lib/brand';
 import campfireIcon from '@/public/icons/campfire/icon-192.png';
 import pioneeringIcon from '@/public/icons/pioneering/icon-192.png';
 import scoutbaseMark from '@/public/scout-mark.png';
 
-const icon = BOOK === 'pioneering' ? pioneeringIcon : campfireIcon;
+const ICONS = { campfire: campfireIcon, pioneering: pioneeringIcon };
+const icon = ICONS[BOOK];
 
 /** The top row of every page: the brand on the left, the reading toggles on the right. */
 export function Masthead() {
@@ -57,6 +58,28 @@ export function MoreFromScoutBase() {
   );
 }
 
+/** Links to the other ScoutBase books, each with its own icon. */
+export function OtherBooks() {
+  return (
+    <nav className="sb-books" aria-label="Other ScoutBase books">
+      <p className="sb-more-title">Also from ScoutBase</p>
+      <ul>
+        {otherBrands.map((b) => (
+          <li key={b.slug}>
+            <a className="sb-book" href={b.url}>
+              <Image src={ICONS[b.slug]} alt="" width={34} height={34} className="brand-icon" />
+              <span>
+                <span className="sb-book-name">ScoutBase {b.name}</span>
+                <span className="sb-book-blurb">{b.blurb}</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+}
+
 export function Hero({
   title,
   lede,
@@ -88,6 +111,7 @@ export function Footer() {
           Joeys, Cubs, Scouts, Venturers and Rovers — learning, leading and living life to the
           fullest.
         </p>
+        <OtherBooks />
         <MoreFromScoutBase />
         <p className="footlinks">
           <Link href="/">The book</Link>

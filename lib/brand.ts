@@ -21,6 +21,10 @@ export interface Brand {
   /** Home-screen name, which has to fit under an icon. */
   shortName: string;
   description: string;
+  /** Where the book lives, for links from the other books. */
+  url: string;
+  /** One line for a link to this book from the other books' footers. */
+  blurb: string;
   /** Campfire is read round a real fire; pioneering happens by day. */
   defaultMode: 'night' | 'day';
   /** Splash-screen ground behind the icon when it opens from a home screen. */
@@ -55,6 +59,8 @@ const BRANDS: Record<BookSlug, Brand> = {
     slug: 'campfire',
     name: 'Campfire',
     shortName: 'SB Campfire',
+    url: 'https://campfire.scoutbase.app',
+    blurb: 'Songs, skits, yarns and cheers for around the fire.',
     description:
       'Songs, skits, yarns and cheers for the campfire. Search every line, read it round a real fire, and print your own booklet.',
     defaultMode: 'night',
@@ -85,6 +91,8 @@ const BRANDS: Record<BookSlug, Brand> = {
     slug: 'pioneering',
     name: 'Pioneering',
     shortName: 'SB Pioneering',
+    url: 'https://pioneering.scoutbase.app',
+    blurb: 'Knots, lashings, builds and camp gadgets, step by step.',
     description:
       'Knots, lashings and builds for Scout groups, step by step. Search every step, follow it with rope in your hands, and print cards and build sheets.',
     defaultMode: 'day',
@@ -114,6 +122,9 @@ const BRANDS: Record<BookSlug, Brand> = {
 };
 
 export const brand: Brand = BRANDS[BOOK];
+
+/** The other books, for linking to from this one. */
+export const otherBrands: Brand[] = Object.values(BRANDS).filter((b) => b.slug !== BOOK);
 
 /** "ScoutBase Campfire" */
 export const appName = `ScoutBase ${brand.name}`;
