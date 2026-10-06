@@ -41,10 +41,13 @@ export function watchSite(href: string): string | null {
 }
 
 /** The link as the book shows it, or null when there is none to show. */
-export function watchLink(href: string | null | undefined): { href: string; site: string; short: string } | null {
+export function watchLink(
+  href: string | null | undefined,
+): { href: string; site: string; host: string; short: string } | null {
   if (!href || !href.startsWith('https://')) return null;
   const site = watchSite(href);
   if (!site) return null;
+  const host = new URL(href).hostname.replace(/^www\./, '');
   const short = href.replace(/^https:\/\/(www\.)?/, '').replace(/\/$/, '');
-  return { href, site, short };
+  return { href, site, host, short };
 }

@@ -207,7 +207,7 @@ export function Book({
   );
 }
 
-/** Opens the animation on the other site; it needs a signal, unlike the rest of the book. */
+/** Opens the animation on the other site; online only, unlike the rest of the book. */
 function WatchLink({ href }: { href: string | null }) {
   const link = watchLink(href);
   if (!link) return null;
@@ -218,7 +218,7 @@ function WatchLink({ href }: { href: string | null }) {
       </span>
       <span>
         Watch it tied on {link.site}
-        <span className="watch-note">Opens their site · needs a signal</span>
+        <span className="watch-note">Opens {link.host} · online only</span>
       </span>
     </a>
   );
