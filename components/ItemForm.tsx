@@ -211,13 +211,13 @@ export function ItemForm({
           value={body}
           onChange={(e) => setBody(e.target.value)}
         />
-        {BOOK === 'pioneering' ? (
+        {BOOK !== 'campfire' ? (
           <span className="hint">
             Blank line between blocks. Lines numbered <code>1.</code>, <code>2.</code> become steps,
-            under an optional <code>How to tie it:</code> heading. <code>Kit:</code> over a list
-            like <code>- 2 × Spars, 2.4 m</code> makes the kit list, and <code>Safety:</code> over
-            a list makes the safety check. <code>Note:</code> makes an aside, <code>**bold**</code>{' '}
-            and <code>_italic_</code> work anywhere.
+            under an optional heading like <code>How to do it:</code>. <code>Kit:</code> or{' '}
+            <code>You need:</code> over a list like <code>- 2 × Spars, 2.4 m</code> makes the kit
+            list, and <code>Safety:</code> over a list makes the safety check. <code>Note:</code>{' '}
+            makes an aside, <code>**bold**</code> and <code>_italic_</code> work anywhere.
           </span>
         ) : (
           <span className="hint">

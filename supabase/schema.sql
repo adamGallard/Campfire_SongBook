@@ -1,7 +1,7 @@
--- ScoutBase Campfire and Pioneering — full schema as applied to the
--- `campfire-songbook` Supabase project, which both books share. Run this
+-- ScoutBase Campfire, Pioneering and Bushcraft — full schema as applied to
+-- the `campfire-songbook` Supabase project, which the books share. Run this
 -- against an empty database to recreate it, then load the seeds in
--- supabase/seed (songs, skits, yarns, applause; pioneering).
+-- supabase/seed (songs, skits, yarns, applause; pioneering; bushcraft).
 --
 -- Applied as migrations:
 --   20260912003502_create_songbook_schema
@@ -15,7 +15,8 @@
 --   20260913_add_applause_tags / kinds_carry_their_own_wording
 --   20260915_add_yarns_section
 --   20260915_raise_submission_body_limit
---   20260926_add_books (supabase/migrations)
+--   20260926_add_books, 20261006_add_watch_url, 20261006_add_bushcraft
+--   (supabase/migrations)
 
 -- Books ------------------------------------------------------------------
 -- One database, more than one book. Each deploy shows one book, chosen by its
@@ -28,7 +29,8 @@ create table public.books (
 
 insert into public.books (slug, name, sort_order) values
   ('campfire',   'Campfire',   1),
-  ('pioneering', 'Pioneering', 2);
+  ('pioneering', 'Pioneering', 2),
+  ('bushcraft',  'Bushcraft',  3);
 
 -- Sections of the book -----------------------------------------------------
 -- Each kind carries its own wording, because deriving copy off the section
@@ -68,6 +70,12 @@ insert into public.kinds (slug, label, heading, singular, plural, lede, sort_ord
   ('gadget', 'Camp gadgets', 'Camp gadgets', 'gadget', 'gadgets',
    'Small builds that make a campsite work: somewhere to wash, to hang things, to keep the kitchen off the ground.', 4, false, 'pioneering');
 
+-- Bushcraft starts with fire lighting, switched off until it is checked.
+insert into public.kinds (slug, label, heading, singular, plural, lede, sort_order, enabled, book) values
+  ('fire', 'Fire', 'Fire lighting', 'fire skill', 'fire skills',
+   'Fire without matches or lighters. Read fire safety first, then start with the bow drill: once you can make an ember with it, the others come faster.',
+   1, false, 'bushcraft');
+
 -- Tags (the filter chips), scoped per kind: "Loud" means nothing to a skit.
 create table public.tags (
   slug        text not null,
@@ -105,7 +113,10 @@ insert into public.tags (kind, slug, label, sort_order) values
   ('build', 'bridge', 'Bridges', 2),
   ('build', 'tower',  'Towers and poles', 3),
   ('gadget', 'kitchen', 'Camp kitchen', 1),
-  ('gadget', 'site',    'Around the site', 2);
+  ('gadget', 'site',    'Around the site', 2),
+  ('fire', 'basics',     'Before you start', 1),
+  ('fire', 'friction',   'Friction', 2),
+  ('fire', 'percussion', 'Sparks', 3);
 
 -- Items (songs, skits, applause) -------------------------------------------
 -- `blocks` holds the body as structured JSON rather than HTML, so nothing a

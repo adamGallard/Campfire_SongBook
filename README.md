@@ -1,14 +1,17 @@
-# ScoutBase Campfire and Pioneering
+# ScoutBase Campfire, Pioneering and Bushcraft
 
-One codebase and one database, two books:
+One codebase and one database, three books:
 
 - **ScoutBase Campfire** — songs, skits, yarns and applause, read round a fire.
 - **ScoutBase Pioneering** — knots, lashings, builds and camp gadgets, step by
   step, with kit lists and safety checks. Daylight by default, in Pioneering
   blue, at `pioneering.scoutbase.app`.
+- **ScoutBase Bushcraft** — fire lighting without matches, and in time the rest
+  of living well in the bush, in the same step-by-step style. Daylight by
+  default, in Bushcraft brown, at `bushcraft.scoutbase.app`.
 
 Each book is its own Vercel project deploying this repo, told apart by
-`NEXT_PUBLIC_BOOK` (see [Two books](#two-books)). Everything below applies to
+`NEXT_PUBLIC_BOOK` (see [The books](#the-books)). Everything below applies to
 both unless it says otherwise.
 
 A campfire book for Scout groups: songs, skits, yarns and applause cheers,
@@ -16,8 +19,8 @@ with night/daylight reading modes and big type for reading round an actual fire
 (the moon and Aa buttons at the top right of every page), search across every
 line, filters that change per section, and a book that keeps working with no
 signal. It sits alongside ScoutBase and SB Leader, and on a home screen it is
-"SB Campfire". Every footer links to the other book (Campfire to Pioneering and
-back; each book's `url` and `blurb` are in `lib/brand.ts`) and points back to
+"SB Campfire". Every footer links to the other books (each book's `url` and
+`blurb` are in `lib/brand.ts`) and points back to
 [www.scoutbase.app](https://www.scoutbase.app) for anyone curious about the other
 ScoutBase tools.
 
@@ -64,7 +67,7 @@ Environment variables:
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Publishable (anon) key — safe in the browser |
 | `SUBMISSION_SALT` | Any random string; salts the IP hash used for rate limiting |
-| `NEXT_PUBLIC_BOOK` | `campfire` (the default when unset) or `pioneering` |
+| `NEXT_PUBLIC_BOOK` | `campfire` (the default when unset), `pioneering` or `bushcraft` |
 
 ## Deploying
 
@@ -87,17 +90,17 @@ Site URL instead, so a password-reset link just opens the home page.
 (`next.config.mjs` forwards a code that lands there to `/auth/callback` as a
 fallback, but get the settings right.)
 
-## Two books
+## The books
 
 `lib/brand.ts` holds everything that differs between the books: the name,
 the wording, the default reading mode and the PDF cover. Sections belong to a
 book in the database (`kinds.book`), so each site shows, plans, takes
 submissions for and administers only its own book's sections. The admin list
-is shared: one login manages both, each on its own site.
+is shared: one login manages them all, each on its own site.
 
 The accent colour follows the book: the layout puts `data-book` on `<html>`,
 and `app/globals.css` sets the `--app-*` tokens from the ScoutBase design
-system for it (`app-campfire…`, `app-pioneering…`).
+system for it (`app-campfire…`, `app-pioneering…`, `app-bushcraft…`).
 
 Icons and the offline notice live per book in `public/icons/<book>/` and
 `public/offline/<book>.html`, and `next.config.mjs` serves this deploy's set at
@@ -121,12 +124,35 @@ the plain addresses (`/icon.svg`, `/favicon.ico`, `/icons/icon-192.png`,
 5. In Supabase → Authentication → URL Configuration, add
    `https://pioneering.scoutbase.app/**` under Redirect URLs.
 6. Apply `supabase/migrations/20261006_add_watch_url.sql` **before** deploying
-   the code that adds "Watch it tied": both books ask for `items.watch_url` by
+   the code that adds "Watch it tied": every book asks for `items.watch_url` by
    name, and the page will not load without it. Re-running
    `supabase/seed/pioneering.sql` then fills in every starter knot and
    lashing's link; new ones go in **Animation link** in the admin. Animated Knots
    have said yes to us linking to them; link only, never copy their
    animations, pictures or words in.
+
+### Setting up the Bushcraft site
+
+The same steps as Pioneering, for the third book:
+
+1. Apply `supabase/migrations/20261006_add_bushcraft.sql` to the shared
+   database. It adds the book and its first section, **Fire**, switched off;
+   nothing on the other two sites changes.
+2. Load `supabase/seed/bushcraft.sql`: eight pages (fire safety; tinder,
+   kindling and fuel; the bow drill, hand drill, fire plough, fire saw and pump
+   drill; flint and steel), from the Fire Starter Guide by Ben Maden (Baloo),
+   Belmont Scouts, and credited on each page. Have someone who teaches fire
+   lighting check them, then
+   `update public.kinds set enabled = true where slug = 'fire';`.
+3. In Vercel, add a third project from this repo with the same three variables
+   plus `NEXT_PUBLIC_BOOK=bushcraft`, and the domain `bushcraft.scoutbase.app`.
+4. In Cloudflare DNS, a `CNAME` named `bushcraft` to the target Vercel shows,
+   proxy **off**.
+5. In Supabase → Authentication → URL Configuration, add
+   `https://bushcraft.scoutbase.app/**` under Redirect URLs.
+
+More sections (shelters, water, tools…) are a row in `kinds` and their tags,
+plus a `WORDING` entry in `app/submit/SubmitForm.tsx`, as for any section.
 
 ## Offline
 
@@ -161,10 +187,11 @@ Each book's icon is its filled icon from the ScoutBase design system: the
 master mark's tent, pole and pennant in white on the app colour, with the
 app's glyph where the three figures sit. Campfire is a flame on crossed logs
 on Campfire orange (`app-campfire`, #EA580C); Pioneering is a trestle with
-square lashings on Pioneering blue (`app-pioneering`, #1D4ED8). The same
+square lashings on Pioneering blue (`app-pioneering`, #1D4ED8); Bushcraft is an
+axe bitten into a log on Bushcraft brown (`app-bushcraft`, #7C4A1E). The same
 drawing is used at every size, favicons included, as the design system asks.
 
-`scripts/icons.mjs` draws both and writes every size into `public/icons/<book>/`:
+`scripts/icons.mjs` draws them all and writes every size into `public/icons/<book>/`:
 `icon.svg` and `favicon.ico` for browser tabs, `apple-icon.png` for iPhone home
 screens, and the `icon-*.png` files for Android and desktop installs, which
 `app/manifest.ts` lists. Run `node scripts/icons.mjs` after changing a drawing;
@@ -273,7 +300,7 @@ alongside). Each has a latin-ext fallback so macrons and other accents print.
 `supabase/schema.sql` recreates the whole schema, and changes since it was
 first written are also kept as files in `supabase/migrations`. Each section has
 a seed in `supabase/seed` — `songs`, `skits`, `yarns` and `applause`, and
-`pioneering` for the whole Pioneering book — as a `.sql` file to load and a
+`pioneering` and `bushcraft` for those whole books — as a `.sql` file to load and a
 `.json` file with the same content in the block format, which is the easier
 one to edit by hand.
 

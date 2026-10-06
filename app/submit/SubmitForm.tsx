@@ -21,6 +21,13 @@ const PIONEERING_HELP = (
   </>
 );
 
+const BUSHCRAFT_HELP = (
+  <>
+    Number the steps <code>1.</code>, <code>2.</code>, <code>3.</code>. Put <code>You need:</code>{' '}
+    over a list of what to gather, and <code>Safety:</code> over anything to check first.
+  </>
+);
+
 const SCRIPT_HELP = (
   <>
     Use <code>**Scout 1:**</code> for a speaker, <code>_(actions)_</code> in italics, and{' '}
@@ -159,6 +166,26 @@ Safety:
 
 1. …`,
     help: PIONEERING_HELP,
+  },
+  fire: {
+    title: 'Bow drill',
+    tagQuestion: 'What sort of method?',
+    sub: 'In a line',
+    subHint: 'A bow spins the spindle for you',
+    body: 'How to do it',
+    bodyHint: `You need:
+- 1 × Bow, about the length of your arm
+- 1 × Spindle, 20 cm long and thumb-thick
+
+Safety:
+- Check the fire danger rating and any fire bans.
+
+1. Carve a socket in the bearing block.
+2. …
+
+Tips:
+- What helps when it will not catch.`,
+    help: BUSHCRAFT_HELP,
   },
 };
 

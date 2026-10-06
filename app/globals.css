@@ -1,6 +1,7 @@
 /* Design tokens from the ScoutBase design system. Each book takes its own
-   app colour as the accent (Campfire orange, Pioneering blue), set by the
-   data-book attribute the layout puts on <html>; everything else is shared.
+   app colour as the accent (Campfire orange, Pioneering blue, Bushcraft
+   brown), set by the data-book attribute the layout puts on <html>;
+   everything else is shared.
    ScoutBase green stays for success states and for the link back to
    ScoutBase itself. Night mode swaps the same roles onto navy. */
 :root {
@@ -58,6 +59,17 @@
   --app-hover: #1e40af; /* app-pioneering-hover */
   --app-soft: #60a5fa; /* app-pioneering-soft: accent text on navy only */
   --app-wash: #eff6ff; /* app-pioneering-wash */
+}
+
+/* Bushcraft: timber brown. White text on app-bushcraft passes AA (about
+   7.4:1), so it too serves for text and for fills under white text. */
+[data-book='bushcraft'] {
+  --app: #7c4a1e; /* app-bushcraft */
+  --app-rgb: 124, 74, 30;
+  --app-text: #7c4a1e; /* app-bushcraft */
+  --app-hover: #5c3a15; /* app-bushcraft-hover */
+  --app-soft: #d9a066; /* app-bushcraft-soft: accent text on navy only */
+  --app-wash: #faf4ec; /* app-bushcraft-wash */
 }
 
 [data-mode='day'] {
@@ -534,7 +546,7 @@ a.chip {
   font: 500 14px/1 var(--font-inter), sans-serif;
 }
 
-/* Pioneering blocks ------------------------------------------------------ */
+/* Step-by-step blocks (Pioneering and Bushcraft) ------------------------ */
 .step-list {
   list-style: none;
   display: grid;

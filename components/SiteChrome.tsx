@@ -5,9 +5,10 @@ import { ReadingToggles } from './ReadingPrefs';
 import { BOOK, appName, brand, otherBrands } from '@/lib/brand';
 import campfireIcon from '@/public/icons/campfire/icon-192.png';
 import pioneeringIcon from '@/public/icons/pioneering/icon-192.png';
+import bushcraftIcon from '@/public/icons/bushcraft/icon-192.png';
 import scoutbaseMark from '@/public/scout-mark.png';
 
-const ICONS = { campfire: campfireIcon, pioneering: pioneeringIcon };
+const ICONS = { campfire: campfireIcon, pioneering: pioneeringIcon, bushcraft: bushcraftIcon };
 const icon = ICONS[BOOK];
 
 /** The top row of every page: the brand on the left, the reading toggles on the right. */
