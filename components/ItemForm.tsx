@@ -229,6 +229,26 @@ export function ItemForm({
         )}
       </label>
 
+      {BOOK === 'pioneering' ? (
+        <label className="field">
+          <span className="field-label">
+            Animation link <span className="optional">optional</span>
+          </span>
+          <input
+            name="watch_url"
+            type="url"
+            maxLength={500}
+            className="input"
+            defaultValue={item?.watch_url ?? ''}
+            placeholder="https://www.animatedknots.com/…"
+          />
+          <span className="hint">
+            The matching page on Animated Knots. It shows as &ldquo;Watch it tied on Animated
+            Knots&rdquo; under the steps. Link only: never copy their pictures or words in.
+          </span>
+        </label>
+      ) : null}
+
       {item ? (
         <label className="field" style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
           <input type="checkbox" name="published" defaultChecked={item.published} />

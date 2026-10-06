@@ -65,6 +65,8 @@ export interface Item {
   /** The italic line under the title: a tune for songs, a cast list for skits. */
   tune: string | null;
   blocks: Block[];
+  /** An animation of it being tied, on another site. Pioneering only. */
+  watch_url: string | null;
   sort_order: number;
   published: boolean;
   created_at: string;

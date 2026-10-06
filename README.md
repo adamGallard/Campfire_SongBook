@@ -120,6 +120,12 @@ the plain addresses (`/icon.svg`, `/favicon.ico`, `/icons/icon-192.png`,
    certificate.
 5. In Supabase → Authentication → URL Configuration, add
    `https://pioneering.scoutbase.app/**` under Redirect URLs.
+6. Apply `supabase/migrations/20261006_add_watch_url.sql` **before** deploying
+   the code that adds "Watch it tied": both books ask for `items.watch_url` by
+   name, and the page will not load without it. Then paste each knot's
+   Animated Knots page into **Animation link** in the admin. Animated Knots
+   have said yes to us linking to them; link only, never copy their
+   animations, pictures or words in.
 
 ## Offline
 

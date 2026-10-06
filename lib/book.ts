@@ -21,7 +21,7 @@ export async function loadBook(): Promise<BookData | null> {
   const [{ data: itemRows, error }, { data: kindRows }, { data: tagRows }] = await Promise.all([
     supabase
       .from('items')
-      .select('id, slug, title, kind, tag, category_label, tune, blocks, sort_order, published, created_at, updated_at')
+      .select('id, slug, title, kind, tag, category_label, tune, blocks, watch_url, sort_order, published, created_at, updated_at')
       .eq('published', true)
       .order('sort_order'),
     supabase

@@ -8,6 +8,7 @@ import { FootBrand, Masthead, MoreFromScoutBase, OtherBooks } from './SiteChrome
 import { blocksToPlainText } from '@/lib/blocks';
 import { appName, brand } from '@/lib/brand';
 import { diagramsFor } from '@/lib/diagrams';
+import { watchLink } from '@/lib/watch';
 import type { Item, Kind, Tag } from '@/lib/types';
 
 /**
@@ -168,6 +169,7 @@ export function Book({
               <div className="lyrics">
                 <Blocks blocks={item.blocks} diagrams={diagramsFor(item.slug)} />
               </div>
+              <WatchLink href={item.watch_url} />
             </article>
           ))
         )}
@@ -202,5 +204,22 @@ export function Book({
         </div>
       </footer>
     </>
+  );
+}
+
+/** Opens the animation on the other site; it needs a signal, unlike the rest of the book. */
+function WatchLink({ href }: { href: string | null }) {
+  const link = watchLink(href);
+  if (!link) return null;
+  return (
+    <a className="watch" href={link.href} target="_blank" rel="noopener noreferrer">
+      <span className="watch-play" aria-hidden="true">
+        ▶
+      </span>
+      <span>
+        Watch it tied on {link.site}
+        <span className="watch-note">Opens their site · needs a signal</span>
+      </span>
+    </a>
   );
 }

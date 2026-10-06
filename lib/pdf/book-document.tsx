@@ -1,10 +1,11 @@
 import { Fragment } from 'react';
-import { Document, Image, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
+import { Document, Image, Link, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
 import { inlineRuns } from '../blocks';
 import { appName, brand } from '../brand';
 import { diagramsFor, stepDrawings, type Drawing, type Overview } from '../diagrams';
 import { countParts } from '../kinds';
 import { PdfDiagram } from './diagram';
+import { watchLink } from '../watch';
 import type { Block, Item, Kind } from '../types';
 
 export type PdfFormat = 'a4' | 'booklet';
@@ -172,6 +173,7 @@ function makeStyles(format: PdfFormat, compact = false) {
     // punchline would otherwise fail the whole export.
     italic: { fontFamily: INTER, fontStyle: 'italic', color: MUTED },
     note: { fontSize: b * 8.5, fontStyle: 'italic', lineHeight: 1.5, color: MUTED },
+    watch: { fontSize: b * 8.5, lineHeight: 1.5, color: MUTED, textDecoration: 'none' },
     shout: { fontFamily: POPPINS, fontWeight: 700, fontSize: b * 12.5, lineHeight: 1.35, color: INK },
 
     box: {
@@ -701,6 +703,7 @@ export function BookDocument({
               <View style={is.body}>
                 <ItemBody blocks={e.item.blocks} slug={e.item.slug} s={is} />
               </View>
+              <WatchLine href={e.item.watch_url} s={is} />
               <View style={s.itemGap} />
               <PageMarker onPage={(p) => onItemPage(id, 'end', p)} />
             </View>
@@ -724,5 +727,16 @@ export function BookDocument({
         </Page>
       ) : null}
     </Document>
+  );
+}
+
+/** On paper the address is printed in full, for anyone reading it without a link to tap. */
+function WatchLine({ href, s }: { href: string | null; s: Styles }) {
+  const link = watchLink(href);
+  if (!link) return null;
+  return (
+    <Link src={link.href} style={s.watch}>
+      Watch it tied on {link.site}: {link.short}
+    </Link>
   );
 }
