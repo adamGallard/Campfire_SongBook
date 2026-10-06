@@ -1303,6 +1303,11 @@ a.chip {
   font-weight: 600;
 }
 
+.intro-points a {
+  color: var(--accent);
+  font-weight: 600;
+}
+
 /* Collapsed: the title becomes the affordance to bring it back. */
 [data-intro='hidden'] .intro-body,
 [data-intro='hidden'] .intro-when-shown,
