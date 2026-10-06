@@ -23,3 +23,21 @@ on conflict (slug) do update set
   title = excluded.title, tag = excluded.tag, kind = excluded.kind,
   category_label = excluded.category_label, tune = excluded.tune,
   blocks = excluded.blocks, sort_order = excluded.sort_order;
+
+-- Watch it tied: each knot and lashing's animation on Animated Knots, who have
+-- said yes to us linking to them. Needs the watch_url migration first.
+update public.items set watch_url = v.url
+from (values
+  ('clove-hitch', 'https://www.animatedknots.com/clove-hitch-knot-rope-end'),
+  ('round-turn-and-two-half-hitches', 'https://www.animatedknots.com/round-turn-two-half-hitches-knot'),
+  ('timber-hitch', 'https://www.animatedknots.com/timber-hitch-knot'),
+  ('reef-knot', 'https://www.animatedknots.com/square-knot'),
+  ('sheet-bend', 'https://www.animatedknots.com/sheet-bend-knot'),
+  ('bowline', 'https://www.animatedknots.com/bowline-knot'),
+  ('square-lashing', 'https://www.animatedknots.com/square-lashing-knot'),
+  ('diagonal-lashing', 'https://www.animatedknots.com/diagonal-lashing-knot'),
+  ('shear-lashing', 'https://www.animatedknots.com/shear-lashing-knot'),
+  ('round-lashing', 'https://www.animatedknots.com/round-lashing-knot'),
+  ('tripod-lashing', 'https://www.animatedknots.com/tripod-lashing-knot')
+) as v(slug, url)
+where items.slug = v.slug;

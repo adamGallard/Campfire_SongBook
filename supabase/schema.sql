@@ -119,11 +119,14 @@ create table public.items (
   category_label  text,
   tune            text,
   blocks          jsonb not null default '[]'::jsonb,
+  -- An animation of it being tied, elsewhere: "Watch it tied on Animated Knots".
+  watch_url       text,
   sort_order      integer not null default 0,
   published       boolean not null default true,
   created_at      timestamptz not null default now(),
   updated_at      timestamptz not null default now(),
   constraint items_blocks_is_array check (jsonb_typeof(blocks) = 'array'),
+  constraint items_watch_url_https check (watch_url is null or (watch_url ~ '^https://[^\s<>"]+$' and length(watch_url) <= 500)),
   constraint items_tag_fkey foreign key (kind, tag) references public.tags(kind, slug) on update cascade
 );
 

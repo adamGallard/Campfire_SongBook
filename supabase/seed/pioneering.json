@@ -6,6 +6,7 @@
     "tag": "hitch",
     "category": "Hitch · Cubs and up",
     "cast": "Also called the builder's hitch",
+    "watch_url": "https://www.animatedknots.com/clove-hitch-knot-rope-end",
     "blocks": [
       {
         "type": "verse",
@@ -43,6 +44,7 @@
     "tag": "hitch",
     "category": "Hitch · Scouts and up",
     "cast": "For guy lines, and tying to a post or a ring",
+    "watch_url": "https://www.animatedknots.com/round-turn-two-half-hitches-knot",
     "blocks": [
       {
         "type": "verse",
@@ -75,6 +77,7 @@
     "tag": "hitch",
     "category": "Hitch · Scouts and up",
     "cast": "For dragging a log, and for starting a diagonal lashing",
+    "watch_url": "https://www.animatedknots.com/timber-hitch-knot",
     "blocks": [
       {
         "type": "verse",
@@ -103,6 +106,7 @@
     "tag": "binding",
     "category": "Binding · Joeys and up",
     "cast": "Also called the square knot",
+    "watch_url": "https://www.animatedknots.com/square-knot",
     "blocks": [
       {
         "type": "verse",
@@ -138,6 +142,7 @@
     "tag": "bend",
     "category": "Joining ropes · Cubs and up",
     "cast": "Joins two ropes, even of different thickness",
+    "watch_url": "https://www.animatedknots.com/sheet-bend-knot",
     "blocks": [
       {
         "type": "verse",
@@ -170,6 +175,7 @@
     "tag": "loop",
     "category": "Loop · Scouts and up",
     "cast": "A loop that will not slip",
+    "watch_url": "https://www.animatedknots.com/bowline-knot",
     "blocks": [
       {
         "type": "verse",
@@ -199,6 +205,7 @@
     "tag": "right-angle",
     "category": "Right angles · Scouts and up",
     "cast": "Two spars crossing at right angles",
+    "watch_url": "https://www.animatedknots.com/square-lashing-knot",
     "blocks": [
       {
         "type": "verse",
@@ -233,6 +240,7 @@
     "tag": "right-angle",
     "category": "Right angles · Scouts and up",
     "cast": "Two spars that cross but do not touch, or want to spring apart",
+    "watch_url": "https://www.animatedknots.com/diagonal-lashing-knot",
     "blocks": [
       {
         "type": "verse",
@@ -258,6 +266,7 @@
     "tag": "parallel",
     "category": "Side by side · Scouts and up",
     "cast": "Two spars side by side, opened into an A",
+    "watch_url": "https://www.animatedknots.com/shear-lashing-knot",
     "blocks": [
       {
         "type": "verse",
@@ -283,6 +292,7 @@
     "tag": "parallel",
     "category": "Side by side · Scouts and up",
     "cast": "Joins two spars to make a longer one",
+    "watch_url": "https://www.animatedknots.com/round-lashing-knot",
     "blocks": [
       {
         "type": "verse",
@@ -307,6 +317,7 @@
     "tag": "three",
     "category": "Three spars · Scouts and up",
     "cast": "Also called the figure-of-eight lashing",
+    "watch_url": "https://www.animatedknots.com/tripod-lashing-knot",
     "blocks": [
       {
         "type": "verse",

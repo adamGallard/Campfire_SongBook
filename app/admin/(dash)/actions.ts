@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdmin } from '@/lib/auth';
 import { parseBody, sanitizeBlocks, slugify } from '@/lib/blocks';
+import { cleanWatchUrl } from '@/lib/watch';
 
 /**
  * Every action re-checks the admin. RLS on the database would refuse these
@@ -53,7 +54,7 @@ export async function saveItem(
   const blocks = sanitizeBlocks(parseBody(body));
   if (!blocks.length) return { error: 'It needs some words.' };
 
-  const values = {
+  const values: Record<string, unknown> = {
     title,
     kind,
     tag,
@@ -62,6 +63,16 @@ export async function saveItem(
     blocks,
     published,
   };
+
+  // Only the Pioneering form has the field; a Campfire save leaves it alone.
+  const watch = formData.get('watch_url');
+  if (watch !== null) {
+    try {
+      values.watch_url = cleanWatchUrl(String(watch));
+    } catch (e) {
+      return { error: (e as Error).message };
+    }
+  }
 
   if (id) {
     const { error } = await supabase.from('items').update(values).eq('id', id);
