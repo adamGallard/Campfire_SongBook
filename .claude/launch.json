@@ -4,8 +4,21 @@
     {
       "name": "songbook",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
       "port": 3000
+    },
+    {
+      "name": "bushcraft",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": [
+        "/c",
+        "set NEXT_PUBLIC_BOOK=bushcraft&& npm run dev"
+      ],
+      "port": 3007,
+      "autoPort": true
     }
   ]
 }

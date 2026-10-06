@@ -42,7 +42,7 @@ export const viewport: Viewport = {
  * Applies the saved mode before first paint so a leader who chose daylight
  * mode does not get a faceful of dark blue when the page loads. With nothing
  * saved, each book opens in its own default: night round the fire, day for
- * pioneering.
+ * pioneering and bushcraft.
  */
 const noFlash = `
 try {

@@ -1,5 +1,7 @@
 // Which book this deploy is; see lib/brand.ts.
-const book = process.env.NEXT_PUBLIC_BOOK === 'pioneering' ? 'pioneering' : 'campfire';
+const book = ['pioneering', 'bushcraft'].includes(process.env.NEXT_PUBLIC_BOOK)
+  ? process.env.NEXT_PUBLIC_BOOK
+  : 'campfire';
 
 /**
  * Each book's icons and offline notice live in their own folder, but every

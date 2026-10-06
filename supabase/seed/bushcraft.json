@@ -1,0 +1,625 @@
+[
+  {
+    "kind": "fire",
+    "num": 1,
+    "title": "Fire safety",
+    "tag": "basics",
+    "category": "Before you start · Read this first",
+    "cast": "Check, clear, prepare, and put it out cold",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "Every method in this section ends in a real fire, and practice throws off hot dust and embers that can blow into dry grass. Treat every session as if the fire could get away, because it can."
+      },
+      {
+        "type": "safety",
+        "heading": "Safety check",
+        "items": [
+          "Check the fire danger rating and any fire bans with your state fire service: in Queensland, the Queensland Fire Department. On a Total Fire Ban day there are no open fires at all, friction fires included.",
+          "At High fire danger and above, think hard about whether to practise at all.",
+          "Parks, forests, councils and campgrounds may ban fires, or allow them only in their own fireplaces. Some need a permit.",
+          "On private land, ask the landowner first."
+        ]
+      },
+      {
+        "type": "box",
+        "heading": "Choose the site",
+        "items": [
+          "An existing fire pit, or bare soil or sand.",
+          "Leaves, grass and bark cleared for 3 m all round.",
+          "No low or dead branches overhead.",
+          "Well away from tents, gear, cars and buildings.",
+          "Not on a windy day: wind carries embers.",
+          "Never against a tree, on peat or among roots, which can smoulder underground for days."
+        ]
+      },
+      {
+        "type": "kit",
+        "heading": "You need",
+        "items": [
+          {
+            "qty": null,
+            "item": "Water: at least 10 litres, ready before you start"
+          },
+          {
+            "qty": 1,
+            "item": "Shovel or trowel"
+          },
+          {
+            "qty": 1,
+            "item": "First aid kit, for blisters, cuts and small burns"
+          }
+        ]
+      },
+      {
+        "type": "box",
+        "heading": "Look after each other",
+        "items": [
+          "Tie back long hair and loose clothing. Wear natural fibres near flame: synthetics melt onto skin.",
+          "Carve away from your body, and keep everyone else out of arm's reach of a knife.",
+          "Younger Scouts are watched by an adult the whole time.",
+          "Never leave a fire, even for a moment."
+        ]
+      },
+      {
+        "type": "steps",
+        "heading": "Put it out cold",
+        "items": [
+          "Drown the fire with water until the hissing stops.",
+          "Stir the ashes and embers with a stick.",
+          "Drown it again.",
+          "Hold the back of your hand close over the ashes. If you feel any warmth, start again from step 1.",
+          "Leave only when the site is cold to touch."
+        ]
+      },
+      {
+        "type": "note",
+        "text": "Use water, not soil. Soil keeps buried coals hot for hours, and people have been badly burned stepping on a covered fire the next morning."
+      },
+      {
+        "type": "safety",
+        "heading": "If it gets away",
+        "items": [
+          "If you cannot put it out straight away, get everyone clear and call 000."
+        ]
+      },
+      {
+        "type": "box",
+        "heading": "Practice checklist",
+        "items": [
+          "Fire danger rating and bans checked",
+          "Site cleared for 3 m, water and shovel ready",
+          "Tinder, kindling and fuel gathered",
+          "Spindle, hearth and ember catcher ready",
+          "Ember made and blown to flame",
+          "Fire drowned, stirred and cold to touch"
+        ]
+      },
+      {
+        "type": "note",
+        "text": "From the Fire Starter Guide by Ben Maden (Baloo), Belmont Scouts."
+      }
+    ]
+  },
+  {
+    "kind": "fire",
+    "num": 2,
+    "title": "Tinder, kindling and fuel",
+    "tag": "basics",
+    "category": "Before you start · Gather it first",
+    "cast": "What to collect before you make an ember",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "Friction methods rub wood on wood until the hot dust smoulders into an ember. Percussion methods strike sparks onto something that catches them. Either way, the ember goes into a bundle of tinder and is blown into flame, so have everything gathered before you start: an ember will not wait while you look for sticks."
+      },
+      {
+        "type": "box",
+        "heading": "Wood for spindles and hearths",
+        "items": [
+          "Dead, dry wood that is still standing, soft enough to dent with a thumbnail.",
+          "Nothing that has been lying on damp ground.",
+          "Most eucalypts are too hard or too oily.",
+          "Good Australian choices: grass tree flower stalks, lantana, cottonwood hibiscus, macaranga, kurrajong, figs and umbrella tree.",
+          "Introduced softwoods work too: willow, poplar, cedar and camphor laurel."
+        ]
+      },
+      {
+        "type": "box",
+        "heading": "Tinder",
+        "items": [
+          "A nest of fine, dry, fluffy fibre about the size of your fist.",
+          "Paperbark rubbed between your hands, shredded stringybark, dry grass, or palm or coconut fibre."
+        ]
+      },
+      {
+        "type": "box",
+        "heading": "Kindling and fuel by size",
+        "items": [
+          "Sticks as thin as pencil lead",
+          "Pencil-thick",
+          "Thumb-thick",
+          "Wrist-thick, to keep it going"
+        ]
+      },
+      {
+        "type": "note",
+        "text": "Gather twice as much as you think you need."
+      },
+      {
+        "type": "note",
+        "text": "Learn your local plants. Test woods and tinders at home before you rely on them, and keep a dry kit of a proven spindle, hearth and tinder in your pack."
+      },
+      {
+        "type": "note",
+        "text": "From the Fire Starter Guide by Ben Maden (Baloo), Belmont Scouts."
+      }
+    ]
+  },
+  {
+    "kind": "fire",
+    "num": 3,
+    "title": "Bow drill",
+    "tag": "friction",
+    "category": "Friction · Learn this one first",
+    "cast": "A bow spins the spindle for you",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "A cord on a bow is wrapped round a spindle. Sawing the bow back and forth spins the spindle fast, while a block in your other hand presses it into a hearth board. The bow does much of the work, so this is the easiest friction method, and the one to learn first: once you can make an ember with it, the others come faster."
+      },
+      {
+        "type": "kit",
+        "heading": "You need",
+        "items": [
+          {
+            "qty": 1,
+            "item": "Bow: a stiff, slightly curved stick about as long as your arm"
+          },
+          {
+            "qty": 1,
+            "item": "Cord: strong cord, paracord or a leather thong, tied to each end of the bow and left a little slack"
+          },
+          {
+            "qty": 1,
+            "item": "Spindle, about 20 cm long and thumb-thick, straight and dry. Round the bottom end and point the top"
+          },
+          {
+            "qty": 1,
+            "item": "Bearing block that fits in your palm: hardwood, stone or shell, with a small socket for the spindle"
+          },
+          {
+            "qty": 1,
+            "item": "Hearth board, about 2 cm thick and wider than the spindle, of softwood you can dent with a thumbnail"
+          },
+          {
+            "qty": 1,
+            "item": "Ember catcher: a leaf, a piece of bark or a wood chip"
+          },
+          {
+            "qty": 1,
+            "item": "Knife, for the socket and the notch"
+          },
+          {
+            "qty": 1,
+            "item": "Tinder bundle, ready before you start"
+          }
+        ]
+      },
+      {
+        "type": "safety",
+        "heading": "Before you start",
+        "items": [
+          "Read **Fire safety** first, and check the fire danger rating and any fire bans.",
+          "Water and a shovel at hand, and the ground cleared for 3 m all round."
+        ]
+      },
+      {
+        "type": "steps",
+        "heading": "How to do it",
+        "items": [
+          "Carve a small socket in the bearing block. Grease it with a little wax, fat, a leaf, or oil from your skin or hair, so the top of the spindle turns freely.",
+          "Cut a small starter hollow in the hearth board, about 1 cm in from the edge.",
+          "Twist the spindle into the bow cord so the cord wraps once round it, with the spindle on the outside of the cord. It should be tight enough not to slip.",
+          "Kneel on your right knee with your left foot on the hearth board, beside the hollow. Left-handers, swap sides.",
+          "Put the round end of the spindle in the hollow and the pointed end in the bearing block. Hold the block in your left hand and brace your left wrist hard against your left shin, so the spindle stays upright.",
+          "Hold the end of the bow in your right hand and saw it back and forth with long, smooth strokes, using the whole length of the cord.",
+          "Keep going until the hollow is burned black and as wide as the spindle.",
+          "Cut a V notch from the edge of the board into the centre of the burned hole, about an eighth of the circle, like a slice of pizza.",
+          "Put the ember catcher under the notch and start bowing again, building up speed and pressing down steadily.",
+          "Watch the dust. Fine, dark brown to black powder and thick smoke mean you are close. Pale, coarse dust means you need more speed or more pressure.",
+          "When heavy smoke pours out and the notch is full, give 10 to 20 hard strokes, then stop.",
+          "Lift the spindle away gently. If the dust keeps smoking on its own, you have an ember. Let it grow for a few seconds, then tip it into your tinder bundle and blow it to flame."
+        ]
+      },
+      {
+        "type": "box",
+        "heading": "If it goes wrong",
+        "items": [
+          "**Cord slips:** tighten the cord, or roughen the spindle.",
+          "**Spindle pops out:** lock your wrist against your shin and keep the spindle upright.",
+          "**Shiny, glazed hole:** the wood is too hard, or needs more pressure. Scrape off the glaze and add a pinch of sand.",
+          "**Plenty of smoke, no ember:** the notch is too small, or does not reach the centre of the hole."
+        ]
+      },
+      {
+        "type": "note",
+        "text": "From the Fire Starter Guide by Ben Maden (Baloo), Belmont Scouts."
+      }
+    ]
+  },
+  {
+    "kind": "fire",
+    "num": 4,
+    "title": "Hand drill",
+    "tag": "friction",
+    "category": "Friction · The hardest on your hands",
+    "cast": "Two sticks and the palms of your hands",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "A long, straight spindle is spun back and forth between your palms, drilling into a softwood hearth board until the hot dust forms an ember. It needs less kit than any other method, just two pieces of wood, but it is the hardest work and only goes well with the right plants. In Australia, dry grass tree (_Xanthorrhoea_) flower stalks are the classic choice."
+      },
+      {
+        "type": "kit",
+        "heading": "You need",
+        "items": [
+          {
+            "qty": 1,
+            "item": "Spindle, 60 to 90 cm long and about finger-thick, straight, smooth and free of knots: a dry grass tree flower stalk or a dead lantana stem"
+          },
+          {
+            "qty": 1,
+            "item": "Hearth board of softwood, 1.5 to 2 cm thick and a few centimetres wide: the dry base of a grass tree stalk, cottonwood or hibiscus"
+          },
+          {
+            "qty": 1,
+            "item": "Ember catcher: a dry leaf, a piece of bark or a thin wood chip"
+          },
+          {
+            "qty": 1,
+            "item": "Knife, for the hollow and the notch"
+          },
+          {
+            "qty": 1,
+            "item": "Tinder bundle, ready before you start"
+          }
+        ]
+      },
+      {
+        "type": "safety",
+        "heading": "Before you start",
+        "items": [
+          "Read **Fire safety** first, and check the fire danger rating and any fire bans.",
+          "Water and a shovel at hand, and the ground cleared for 3 m all round."
+        ]
+      },
+      {
+        "type": "steps",
+        "heading": "How to do it",
+        "items": [
+          "Carve a small hollow in the hearth board, about 5 mm in from one edge.",
+          "Kneel with one foot on the board to hold it steady, the hollow close to you.",
+          "Stand the spindle in the hollow and hold the top of it between flat palms.",
+          "Rub your palms back and forth, pressing down as you go. Your hands will travel down the spindle.",
+          "When they reach the bottom, move them back to the top fast and keep going: the spindle cools quickly at the swap.",
+          "Keep drilling until the hollow is burned black and as wide as the spindle.",
+          "Cut a V notch from the edge of the board into the centre of the burned hole, about an eighth of the circle.",
+          "Put the ember catcher under the notch and drill again, slowly at first, then faster and harder.",
+          "Keep going as dark dust fills the notch and smoke rises. When the dust keeps smoking on its own after you stop, you have an ember.",
+          "Lift the board away carefully, and let the ember sit for a few seconds to firm up.",
+          "Tip it into the middle of the tinder bundle, fold the tinder loosely round it, and blow gently and steadily until it bursts into flame.",
+          "Put the burning bundle in your fire lay and feed it kindling, smallest first."
+        ]
+      },
+      {
+        "type": "box",
+        "heading": "Tips",
+        "items": [
+          "Work in pairs: one drills, and the other takes over at the top without a break.",
+          "Use the whole length of your palms.",
+          "Stop and rest if blisters start. A little spit on your hands helps the grip."
+        ]
+      },
+      {
+        "type": "note",
+        "text": "From the Fire Starter Guide by Ben Maden (Baloo), Belmont Scouts."
+      }
+    ]
+  },
+  {
+    "kind": "fire",
+    "num": 5,
+    "title": "Fire plough",
+    "tag": "friction",
+    "category": "Friction · Takes strength",
+    "cast": "Also called the fire board",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "A blunt stick is pushed hard and fast up and down a groove in a flat softwood board, until the dust piled at the end of the groove starts to smoulder. It needs no cord, and it is traditional across the Pacific Islands, but it takes strength and stamina."
+      },
+      {
+        "type": "kit",
+        "heading": "You need",
+        "items": [
+          {
+            "qty": 1,
+            "item": "Fire board of dry softwood, 30 to 45 cm long and 5 to 10 cm wide. Cottonwood hibiscus works very well"
+          },
+          {
+            "qty": 1,
+            "item": "Plough stick, about 30 cm long and thumb-thick, of the same wood or a little harder, carved to a blunt, rounded chisel point"
+          },
+          {
+            "qty": 1,
+            "item": "Knife, for the groove"
+          },
+          {
+            "qty": 1,
+            "item": "Tinder bundle, ready before you start"
+          }
+        ]
+      },
+      {
+        "type": "safety",
+        "heading": "Before you start",
+        "items": [
+          "Read **Fire safety** first, and check the fire danger rating and any fire bans.",
+          "Water and a shovel at hand, and the ground cleared for 3 m all round."
+        ]
+      },
+      {
+        "type": "steps",
+        "heading": "How to do it",
+        "items": [
+          "Carve a straight, shallow groove 15 to 20 cm long down the middle of the board.",
+          "Kneel on one knee with the board running lengthways between your legs, and pin the far end with your foot.",
+          "Hold the plough stick in both hands like a dagger, thumbs on top, at about 45 degrees to the board.",
+          "Push it firmly along the groove and back. Start with slow, heavy strokes to polish the groove.",
+          "As dust piles up at the end of the groove, shorten your strokes a little and speed up. Do not push the pile away.",
+          "Keep going hard and fast. When the pile is dark and smoking, give a final burst of strokes.",
+          "Stop and look. If the dust keeps smoking on its own, you have an ember.",
+          "Tip it into your tinder bundle and blow it to flame."
+        ]
+      },
+      {
+        "type": "box",
+        "heading": "Tips",
+        "items": [
+          "Keep your arms fairly straight, and drive from your shoulders and body weight, not your wrists.",
+          "Keep every stroke the same length, so the dust gathers in one spot."
+        ]
+      },
+      {
+        "type": "note",
+        "text": "From the Fire Starter Guide by Ben Maden (Baloo), Belmont Scouts."
+      }
+    ]
+  },
+  {
+    "kind": "fire",
+    "num": 6,
+    "title": "Fire saw",
+    "tag": "friction",
+    "category": "Friction · Traditional",
+    "cast": "A hardwood edge sawn across softwood",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "A hard wooden edge is sawn across a split piece of softwood or bamboo, and the hot dust drops through the cut onto tinder underneath. It is a traditional Aboriginal method, often worked with the edge of a hardwood spear-thrower against a softwood log or shield."
+      },
+      {
+        "type": "kit",
+        "heading": "You need",
+        "items": [
+          {
+            "qty": 1,
+            "item": "Base: a dry softwood log or branch, 30 to 50 cm long, split lengthways. Split, dry bamboo works too"
+          },
+          {
+            "qty": 1,
+            "item": "Small wedge, to hold the split open"
+          },
+          {
+            "qty": 1,
+            "item": "Saw: a piece of hardwood with a straight, fairly sharp edge"
+          },
+          {
+            "qty": null,
+            "item": "A handful of fine, dry tinder"
+          }
+        ]
+      },
+      {
+        "type": "safety",
+        "heading": "Before you start",
+        "items": [
+          "Read **Fire safety** first, and check the fire danger rating and any fire bans.",
+          "Water and a shovel at hand, and the ground cleared for 3 m all round."
+        ]
+      },
+      {
+        "type": "steps",
+        "heading": "How to do it",
+        "items": [
+          "Split the base lengthways, and hold the split slightly open with the wedge.",
+          "Push a small bundle of tinder into the split, right under where you will saw.",
+          "Hold the base steady on the ground with your feet, or have a partner hold it.",
+          "Lay the saw across the base at right angles, over the tinder.",
+          "Saw back and forth with firm, fast strokes. A groove will form and fill with hot dust.",
+          "Keep sawing as the smoke builds. As the groove cuts through, hot dust falls into the tinder below.",
+          "When the tinder starts to smoke, lift it out carefully with the ember, fold it round, and blow it to flame."
+        ]
+      },
+      {
+        "type": "box",
+        "heading": "Tips",
+        "items": [
+          "Keep the saw at the same angle and pressure on every stroke.",
+          "With bamboo, cut a small slot across the top piece so the ember can drop through to the tinder."
+        ]
+      },
+      {
+        "type": "note",
+        "text": "From the Fire Starter Guide by Ben Maden (Baloo), Belmont Scouts."
+      }
+    ]
+  },
+  {
+    "kind": "fire",
+    "num": 7,
+    "title": "Pump drill",
+    "tag": "friction",
+    "category": "Friction · Make it first",
+    "cast": "A flywheel keeps the spindle spinning",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "A spindle with a heavy flywheel, and a crossbar joined to its top by a cord. Pushing the crossbar down spins the spindle, and the flywheel's momentum winds the cord back up for the next push. It takes time to make, but once made it is very efficient and lasts for many fires."
+      },
+      {
+        "type": "kit",
+        "heading": "You need",
+        "items": [
+          {
+            "qty": 1,
+            "item": "Spindle, 60 to 75 cm long and thumb-thick, straight, with the top notched or split to hold the cord"
+          },
+          {
+            "qty": 1,
+            "item": "Flywheel: a heavy disc of wood or stone with a hole in the middle, fixed tight about a third of the way up the spindle"
+          },
+          {
+            "qty": 1,
+            "item": "Crossbar: a flat piece of wood 40 to 50 cm long, with a hole in the middle wider than the spindle so it slides freely"
+          },
+          {
+            "qty": 1,
+            "item": "Cord, tied from one end of the crossbar, through the top of the spindle, to the other end"
+          },
+          {
+            "qty": 1,
+            "item": "Hearth board, as for the bow drill"
+          },
+          {
+            "qty": 1,
+            "item": "Ember catcher: a leaf, a piece of bark or a wood chip"
+          },
+          {
+            "qty": 1,
+            "item": "Tinder bundle, ready before you start"
+          }
+        ]
+      },
+      {
+        "type": "safety",
+        "heading": "Before you start",
+        "items": [
+          "Read **Fire safety** first, and check the fire danger rating and any fire bans.",
+          "Water and a shovel at hand, and the ground cleared for 3 m all round."
+        ]
+      },
+      {
+        "type": "steps",
+        "heading": "How to do it",
+        "items": [
+          "Put the drill together: the flywheel fixed on the spindle, the crossbar threaded over the spindle, and the cord running from each end of the crossbar to the top of the spindle.",
+          "Cut a starter hollow near one edge of the hearth board.",
+          "Stand the spindle's tip in the hollow, and hold the board steady with your foot or knee.",
+          "Twist the spindle by hand so the cord winds round it, lifting the crossbar near the top.",
+          "Push the crossbar down smoothly. The cord unwinds and spins the spindle.",
+          "Ease off at the bottom. The flywheel keeps spinning, winds the cord back on, and lifts the crossbar.",
+          "Push down again as the crossbar rises, and settle into a steady rhythm.",
+          "Burn in the hole, cut the V notch, put the ember catcher under it, and drill until you have an ember, as for the **bow drill**.",
+          "Tip the ember into your tinder bundle and blow it to flame."
+        ]
+      },
+      {
+        "type": "box",
+        "heading": "Tips",
+        "items": [
+          "The flywheel must be centred and balanced, or the drill wobbles.",
+          "A heavier flywheel keeps spinning longer, but takes more effort to start."
+        ]
+      },
+      {
+        "type": "note",
+        "text": "From the Fire Starter Guide by Ben Maden (Baloo), Belmont Scouts."
+      }
+    ]
+  },
+  {
+    "kind": "fire",
+    "num": 8,
+    "title": "Flint and steel",
+    "tag": "percussion",
+    "category": "Sparks · Needs char made first",
+    "cast": "Sparks from steel onto char",
+    "blocks": [
+      {
+        "type": "verse",
+        "text": "A piece of high-carbon steel is struck against a hard, sharp-edged stone. It shaves off tiny specks of hot metal, which land on charred material and make it glow. People have lit fires this way for thousands of years."
+      },
+      {
+        "type": "kit",
+        "heading": "You need",
+        "items": [
+          {
+            "qty": 1,
+            "item": "Striker of high-carbon steel, such as a C-shaped striker or the back of an old file. Stainless steel will not work"
+          },
+          {
+            "qty": 1,
+            "item": "Stone with a sharp edge: flint, chert, quartzite or quartz"
+          },
+          {
+            "qty": null,
+            "item": "Char cloth, or charred punky wood or fungus, kept dry in a sealed tin"
+          },
+          {
+            "qty": 1,
+            "item": "Tinder bundle, ready before you start"
+          }
+        ]
+      },
+      {
+        "type": "note",
+        "text": "Make char beforehand by heating the material in a sealed tin with a small hole in the lid."
+      },
+      {
+        "type": "safety",
+        "heading": "Before you start",
+        "items": [
+          "Read **Fire safety** first, and check the fire danger rating and any fire bans.",
+          "Water and a shovel at hand, and the ground cleared for 3 m all round."
+        ]
+      },
+      {
+        "type": "steps",
+        "heading": "How to do it",
+        "items": [
+          "Hold the stone in your weaker hand, with a sharp edge facing out.",
+          "Lay a piece of char on top of the stone, just behind the edge, and hold it under your thumb.",
+          "Hold the striker in your other hand.",
+          "Strike down along the edge of the stone with a quick, glancing blow. Sparks will fly.",
+          "Keep striking until a spark lands on the char and makes a small glowing spot.",
+          "Blow on it gently to spread the glow.",
+          "Put the glowing char in your tinder bundle, fold it round, and blow it to flame."
+        ]
+      },
+      {
+        "type": "box",
+        "heading": "Tips",
+        "items": [
+          "Strike with a flick of the wrist, not with force.",
+          "A fresh, sharp edge on the stone throws far more sparks."
+        ]
+      },
+      {
+        "type": "note",
+        "text": "From the Fire Starter Guide by Ben Maden (Baloo), Belmont Scouts."
+      }
+    ]
+  }
+]

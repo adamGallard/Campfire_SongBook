@@ -3,7 +3,8 @@
 //   node scripts/icons.mjs
 //
 // The artwork is the ScoutBase design system's filled app icons
-// (scoutbase-campfire-filled.svg, scoutbase-pioneering-filled.svg): the master
+// (scoutbase-campfire-filled.svg, scoutbase-pioneering-filled.svg,
+// scoutbase-bushcraft-filled.svg): the master
 // mark's tent, pole and pennant in white on the app's colour, with the app's
 // glyph where the three figures sit. Keep the geometry as it is here; the
 // design system says never to redraw a glyph, and to use the filled icon at
@@ -51,6 +52,18 @@ const BOOKS = {
         <path d="M-72 -60 L-48 -84"/>
         <path d="M48 -84 L72 -60"/>
         <path d="M48 -60 L72 -84"/>
+      </g>`,
+  },
+  bushcraft: {
+    tile: '#7C4A1E', // app-bushcraft
+    // An axe bitten into a log, the log's end ring showing.
+    glyph: (tile) => `
+      <g transform="translate(18 0) scale(1.25)">
+        <path d="M-38 -76 L40 -162" fill="none" stroke="${INK}" stroke-width="18" stroke-linecap="round"/>
+        <path d="M-40.7 -99.9 L-62.1 -76.1 L-26.4 -44 L-13.5 -13.6 L26.7 -58.2 L-5 -67.8 Z" fill="${INK}" stroke="${INK}" stroke-width="6" stroke-linejoin="round"/>
+        <rect x="-140" y="-56" width="230" height="54" rx="27" fill="${INK}" stroke="${tile}" stroke-width="10"/>
+        <circle cx="76" cy="-29" r="22" fill="${tile}" stroke="${INK}" stroke-width="8"/>
+        <circle cx="76" cy="-29" r="8" fill="none" stroke="${INK}" stroke-width="6"/>
       </g>`,
   },
 };

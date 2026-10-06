@@ -1,18 +1,22 @@
 /**
  * Which book this deploy is, and everything that differs between them.
  *
- * One codebase and one database serve two books: Campfire (songs, skits,
- * yarns, applause) and Pioneering (knots, lashings, builds, camp gadgets).
- * Each is its own Vercel project with its own domain, told apart by
+ * One codebase and one database serve three books: Campfire (songs, skits,
+ * yarns, applause), Pioneering (knots, lashings, builds, camp gadgets) and
+ * Bushcraft (fire lighting, and the skills to live well in the bush). Each is
+ * its own Vercel project with its own domain, told apart by
  * NEXT_PUBLIC_BOOK. It is read at build time, so the pre-built pages, icons,
  * manifest and colours are all the right book's.
  *
  * Sections, tags and items are not here: they live in the database, where each
  * section (`kinds.book`) says which book it belongs to.
  */
-export type BookSlug = 'campfire' | 'pioneering';
+export type BookSlug = 'campfire' | 'pioneering' | 'bushcraft';
 
-export const BOOK: BookSlug = process.env.NEXT_PUBLIC_BOOK === 'pioneering' ? 'pioneering' : 'campfire';
+const SLUGS: BookSlug[] = ['campfire', 'pioneering', 'bushcraft'];
+const env = process.env.NEXT_PUBLIC_BOOK as BookSlug | undefined;
+
+export const BOOK: BookSlug = env && SLUGS.includes(env) ? env : 'campfire';
 
 export interface Brand {
   slug: BookSlug;
@@ -25,7 +29,7 @@ export interface Brand {
   url: string;
   /** One line for a link to this book from the other books' footers. */
   blurb: string;
-  /** Campfire is read round a real fire; pioneering happens by day. */
+  /** Campfire is read round a real fire; pioneering and bushcraft happen by day. */
   defaultMode: 'night' | 'day';
   /** Splash-screen ground behind the icon when it opens from a home screen. */
   background: string;
@@ -117,6 +121,38 @@ const BRANDS: Record<BookSlug, Brand> = {
     submit: {
       lede: 'Know a knot, a lashing or a build that belongs in the book? Send it in and a leader will check it before it joins the book.',
       description: 'Send a knot, lashing, build or camp gadget in for a leader to check.',
+    },
+  },
+  bushcraft: {
+    slug: 'bushcraft',
+    name: 'Bushcraft',
+    shortName: 'SB Bushcraft',
+    url: 'https://bushcraft.scoutbase.app',
+    blurb: 'Fire without matches, and the skills to live well in the bush.',
+    description:
+      'Bushcraft for Scout groups, step by step: fire without matches, and the skills to live well in the bush. Search every step, and print cards for your next camp.',
+    defaultMode: 'day',
+    background: '#F7FAF8',
+    countSuffix: '',
+    intro: {
+      title: 'A bushcraft book for Scout groups',
+      lede: 'Skills for living well in the bush, starting with fire: how to light one without matches or lighters, and how to keep it safe. Pick a section above.',
+      search:
+        'looks inside every step and kit list, not just the titles — so "hearth board" finds every method that uses one.',
+      night: 'is easier on the eyes in a tent or by the fire',
+      plan: 'pick the skills for your camp or meeting, put them in order, and print them as A4 sheets or a booklet.',
+    },
+    plan: {
+      label: 'Plan a session',
+      lede: 'Pick the skills for your camp or meeting, put them in order, then print them as A4 sheets or as a booklet to fold and staple.',
+      description:
+        'Pick the bushcraft skills for your camp or meeting, put them in order, and print them as A4 sheets or a folded A5 booklet.',
+      pdfTitle: 'Bushcraft Book',
+      coverKicker: 'Practise often · put it out cold',
+    },
+    submit: {
+      lede: 'Know a bushcraft skill that belongs in the book? Send it in and a leader will check it before it joins the book.',
+      description: 'Send a bushcraft skill in for a leader to check.',
     },
   },
 };
