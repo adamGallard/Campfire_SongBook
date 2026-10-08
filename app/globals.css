@@ -1,6 +1,6 @@
 /* Design tokens from the ScoutBase design system. Each book takes its own
    app colour as the accent (Campfire orange, Pioneering blue, Bushcraft
-   brown), set by the data-book attribute the layout puts on <html>;
+   brown, Games cyan), set by the data-book attribute the layout puts on <html>;
    everything else is shared.
    ScoutBase green stays for success states and for the link back to
    ScoutBase itself. Night mode swaps the same roles onto navy. */
@@ -70,6 +70,17 @@
   --app-hover: #5c3a15; /* app-bushcraft-hover */
   --app-soft: #d9a066; /* app-bushcraft-soft: accent text on navy only */
   --app-wash: #faf4ec; /* app-bushcraft-wash */
+}
+
+/* Games: lake cyan. White text on app-games passes AA (about 5.4:1), so it
+   serves for text and for fills under white text. */
+[data-book='games'] {
+  --app: #0e7490; /* app-games */
+  --app-rgb: 14, 116, 144;
+  --app-text: #0e7490; /* app-games */
+  --app-hover: #155e75; /* app-games-hover */
+  --app-soft: #22d3ee; /* app-games-soft: accent text on navy only */
+  --app-wash: #ecfeff; /* app-games-wash */
 }
 
 [data-mode='day'] {
@@ -546,7 +557,7 @@ a.chip {
   font: 500 14px/1 var(--font-inter), sans-serif;
 }
 
-/* Step-by-step blocks (Pioneering and Bushcraft) ------------------------ */
+/* Step-by-step blocks (Pioneering, Bushcraft and Games) ------------------------ */
 .step-list {
   list-style: none;
   display: grid;

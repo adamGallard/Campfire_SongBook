@@ -64,6 +64,17 @@ const WORDING: Record<string, { sub: string; subHint: string; body: string; pill
   },
 };
 
+// Games has eight sections that all read the same way.
+const GAMES_WORDING = {
+  sub: 'Players and space',
+  subHint: '8 or more · hall or field',
+  body: 'How to play it',
+  pill: 'Tag · Cubs and Scouts',
+};
+for (const kind of ['active', 'quiet', 'relay', 'wide', 'water', 'challenge', 'skills', 'drama']) {
+  WORDING[kind] = GAMES_WORDING;
+}
+
 export function ItemForm({
   action,
   kinds,

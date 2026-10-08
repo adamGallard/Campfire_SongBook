@@ -19,6 +19,16 @@
       ],
       "port": 3007,
       "autoPort": true
+    },
+    {
+      "name": "games",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": [
+        "/c",
+        "set NEXT_PUBLIC_BOOK=games&& npm run dev"
+      ],
+      "port": 3008,
+      "autoPort": true
     }
   ]
 }

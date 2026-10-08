@@ -1,7 +1,7 @@
--- ScoutBase Campfire, Pioneering and Bushcraft — full schema as applied to
--- the `campfire-songbook` Supabase project, which the books share. Run this
+-- ScoutBase Campfire, Pioneering, Bushcraft and Games — full schema as applied
+-- to the `campfire-songbook` Supabase project, which the books share. Run this
 -- against an empty database to recreate it, then load the seeds in
--- supabase/seed (songs, skits, yarns, applause; pioneering; bushcraft).
+-- supabase/seed (songs, skits, yarns, applause; pioneering; bushcraft; games).
 --
 -- Applied as migrations:
 --   20260912003502_create_songbook_schema
@@ -15,7 +15,8 @@
 --   20260913_add_applause_tags / kinds_carry_their_own_wording
 --   20260915_add_yarns_section
 --   20260915_raise_submission_body_limit
---   20260926_add_books, 20261006_add_watch_url, 20261006_add_bushcraft
+--   20260926_add_books, 20261006_add_watch_url, 20261006_add_bushcraft,
+--   20261008_add_games
 --   (supabase/migrations)
 
 -- Books ------------------------------------------------------------------
@@ -30,7 +31,8 @@ create table public.books (
 insert into public.books (slug, name, sort_order) values
   ('campfire',   'Campfire',   1),
   ('pioneering', 'Pioneering', 2),
-  ('bushcraft',  'Bushcraft',  3);
+  ('bushcraft',  'Bushcraft',  3),
+  ('games',      'Games',      4);
 
 -- Sections of the book -----------------------------------------------------
 -- Each kind carries its own wording, because deriving copy off the section
@@ -76,6 +78,33 @@ insert into public.kinds (slug, label, heading, singular, plural, lede, sort_ord
    'Fire without matches or lighters. Read fire safety first, then start with the bow drill: once you can make an ember with it, the others come faster.',
    1, false, 'bushcraft');
 
+-- Games has eight sections, all switched off until their first items are checked.
+insert into public.kinds (slug, label, heading, singular, plural, lede, sort_order, enabled, book) values
+  ('active', 'Active', 'Active games', 'active game', 'active games',
+   'Tag, chasing and circle games to burn off energy. A good way to start a meeting.',
+   1, false, 'games'),
+  ('quiet', 'Quiet', 'Quiet games', 'quiet game', 'quiet games',
+   'Listening, watching and remembering games to settle everyone down.',
+   2, false, 'games'),
+  ('relay', 'Relays', 'Relays', 'relay', 'relays',
+   'Team races, from knot relays to water relays. Make the teams even first.',
+   3, false, 'games'),
+  ('wide', 'Wide games', 'Wide games', 'wide game', 'wide games',
+   'Bigger games with teams and roles, played over a field or a campsite. Agree the boundaries first.',
+   4, false, 'games'),
+  ('water', 'Water', 'Water games', 'water game', 'water games',
+   'Wet games for camp and hot days. Have towels, sunscreen and water to drink ready.',
+   5, false, 'games'),
+  ('challenge', 'Challenges', 'Team challenges', 'team challenge', 'team challenges',
+   'Problems a patrol has to solve together. Talk about how it went afterwards.',
+   6, false, 'games'),
+  ('skills', 'Skills', 'Skills games', 'skills game', 'skills games',
+   'Games that practise knots, compasses, Morse code and codes.',
+   7, false, 'games'),
+  ('drama', 'Drama', 'Drama games', 'drama game', 'drama games',
+   'Improvised drama games, for skits and for fun.',
+   8, false, 'games');
+
 -- Tags (the filter chips), scoped per kind: "Loud" means nothing to a skit.
 create table public.tags (
   slug        text not null,
@@ -116,7 +145,24 @@ insert into public.tags (kind, slug, label, sort_order) values
   ('gadget', 'site',    'Around the site', 2),
   ('fire', 'basics',     'Before you start', 1),
   ('fire', 'friction',   'Friction', 2),
-  ('fire', 'percussion', 'Sparks', 3);
+  ('fire', 'percussion', 'Sparks', 3),
+  ('active', 'hall', 'Indoors', 1),
+  ('active', 'outdoors', 'Outdoors', 2),
+  ('active', 'anywhere', 'Anywhere', 3),
+  ('quiet', 'hall', 'Indoors', 1),
+  ('quiet', 'anywhere', 'Anywhere', 2),
+  ('relay', 'hall', 'Indoors', 1),
+  ('relay', 'outdoors', 'Outdoors', 2),
+  ('relay', 'anywhere', 'Anywhere', 3),
+  ('wide', 'outdoors', 'Outdoors', 1),
+  ('water', 'outdoors', 'Outdoors', 1),
+  ('challenge', 'hall', 'Indoors', 1),
+  ('challenge', 'outdoors', 'Outdoors', 2),
+  ('challenge', 'anywhere', 'Anywhere', 3),
+  ('skills', 'hall', 'Indoors', 1),
+  ('skills', 'outdoors', 'Outdoors', 2),
+  ('skills', 'anywhere', 'Anywhere', 3),
+  ('drama', 'hall', 'Indoors', 1);
 
 -- Items (songs, skits, applause) -------------------------------------------
 -- `blocks` holds the body as structured JSON rather than HTML, so nothing a

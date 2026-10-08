@@ -16,8 +16,8 @@ export default async function AdminsPage() {
         <h2 className="section-title">Who can manage the books</h2>
         <p className="muted-line" style={{ marginBottom: 0 }}>
           Anyone on this list can sign in and edit the book or review submissions, in Campfire,
-          Pioneering and Bushcraft alike: the books share one list. Removing an address takes
-          effect immediately.
+          Pioneering, Bushcraft and Games alike: the books share one list. Removing an address
+          takes effect immediately.
         </p>
       </div>
 

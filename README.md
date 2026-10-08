@@ -1,6 +1,6 @@
-# ScoutBase Campfire, Pioneering and Bushcraft
+# ScoutBase Campfire, Pioneering, Bushcraft and Games
 
-One codebase and one database, three books:
+One codebase and one database, four books:
 
 - **ScoutBase Campfire** — songs, skits, yarns and applause, read round a fire.
 - **ScoutBase Pioneering** — knots, lashings, builds and camp gadgets, step by
@@ -9,10 +9,13 @@ One codebase and one database, three books:
 - **ScoutBase Bushcraft** — fire lighting without matches, and in time the rest
   of living well in the bush, in the same step-by-step style. Daylight by
   default, in Bushcraft brown, at `bushcraft.scoutbase.app`.
+- **ScoutBase Games** — active and quiet games, relays, wide games, water games
+  and team challenges, with kit lists and safety checks. Daylight by default, in
+  Games cyan, at `games.scoutbase.app`.
 
 Each book is its own Vercel project deploying this repo, told apart by
 `NEXT_PUBLIC_BOOK` (see [The books](#the-books)). Everything below applies to
-both unless it says otherwise.
+all of them unless it says otherwise.
 
 A campfire book for Scout groups: songs, skits, yarns and applause cheers,
 with night/daylight reading modes and big type for reading round an actual fire
@@ -67,7 +70,7 @@ Environment variables:
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Publishable (anon) key — safe in the browser |
 | `SUBMISSION_SALT` | Any random string; salts the IP hash used for rate limiting |
-| `NEXT_PUBLIC_BOOK` | `campfire` (the default when unset), `pioneering` or `bushcraft` |
+| `NEXT_PUBLIC_BOOK` | `campfire` (the default when unset), `pioneering`, `bushcraft` or `games` |
 
 ## Deploying
 
@@ -100,12 +103,12 @@ is shared: one login manages them all, each on its own site.
 
 The accent colour follows the book: the layout puts `data-book` on `<html>`,
 and `app/globals.css` sets the `--app-*` tokens from the ScoutBase design
-system for it (`app-campfire…`, `app-pioneering…`, `app-bushcraft…`).
+system for it (`app-campfire…`, `app-pioneering…`, `app-bushcraft…`, `app-games…`).
 
 Icons and the offline notice live per book in `public/icons/<book>/` and
 `public/offline/<book>.html`, and `next.config.mjs` serves this deploy's set at
 the plain addresses (`/icon.svg`, `/favicon.ico`, `/icons/icon-192.png`,
-`/offline.html`), so the manifest and service worker are the same for both.
+`/offline.html`), so the manifest and service worker are the same for every book.
 
 ### Setting up the Pioneering site
 
@@ -154,6 +157,34 @@ The same steps as Pioneering, for the third book:
 More sections (shelters, water, tools…) are a row in `kinds` and their tags,
 plus a `WORDING` entry in `app/submit/SubmitForm.tsx`, as for any section.
 
+### Setting up the Games site
+
+The same steps again, for the fourth book:
+
+1. Apply `supabase/migrations/20261008_add_games.sql` to the shared database.
+   It adds the book and its eight sections (Active, Quiet, Relays, Wide games,
+   Water, Challenges, Skills, Drama), all switched off, with "Indoors",
+   "Outdoors" and "Anywhere" filter chips. Nothing on the other three sites
+   changes.
+2. Load `supabase/seed/games.sql`: 159 games, rewritten in the book's own words
+   from the folders kept by Belmont Scouts' Cub and Scout sections, and
+   credited on every page (a named website, a Belmont leader, or "the original
+   author is not known"). Have leaders check them (flame, contact and water
+   games especially), then
+   `update public.kinds set enabled = true where book = 'games';`, or switch
+   sections on one at a time.
+3. In Vercel, add a fourth project from this repo with the same three variables
+   plus `NEXT_PUBLIC_BOOK=games`, and the domain `games.scoutbase.app`.
+4. In Cloudflare DNS, a `CNAME` named `games` to the target Vercel shows, proxy
+   **off**.
+5. In Supabase → Authentication → URL Configuration, add
+   `https://games.scoutbase.app/**` under Redirect URLs.
+
+Games not yet written up, because the source only gave a title: Banana Boom,
+Marker Up, BoBo Tigi, Overs and Unders, Andy's Coming, Red Rover, Night at the
+Museum, Nest Snatch, Raid the Nest, Stuck in the Mud, Blind Square and
+Blindfold Compass Walk. Add them in the admin once someone has the rules.
+
 ## Offline
 
 The book is used round a fire, often with no signal, so it keeps working
@@ -188,7 +219,8 @@ master mark's tent, pole and pennant in white on the app colour, with the
 app's glyph where the three figures sit. Campfire is a flame on crossed logs
 on Campfire orange (`app-campfire`, #EA580C); Pioneering is a trestle with
 square lashings on Pioneering blue (`app-pioneering`, #1D4ED8); Bushcraft is an
-axe bitten into a log on Bushcraft brown (`app-bushcraft`, #7C4A1E). The same
+axe bitten into a log on Bushcraft brown (`app-bushcraft`, #7C4A1E); Games is
+a die showing five on Games cyan (`app-games`, #0E7490). The same
 drawing is used at every size, favicons included, as the design system asks.
 
 `scripts/icons.mjs` draws them all and writes every size into `public/icons/<book>/`:
@@ -300,7 +332,7 @@ alongside). Each has a latin-ext fallback so macrons and other accents print.
 `supabase/schema.sql` recreates the whole schema, and changes since it was
 first written are also kept as files in `supabase/migrations`. Each section has
 a seed in `supabase/seed` — `songs`, `skits`, `yarns` and `applause`, and
-`pioneering` and `bushcraft` for those whole books — as a `.sql` file to load and a
+`pioneering`, `bushcraft` and `games` for those whole books — as a `.sql` file to load and a
 `.json` file with the same content in the block format, which is the easier
 one to edit by hand.
 
