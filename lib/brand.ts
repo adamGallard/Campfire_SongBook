@@ -192,8 +192,8 @@ const BRANDS: Record<BookSlug, Brand> = {
 
 export const brand: Brand = BRANDS[BOOK];
 
-/** The other books, for linking to from this one. */
-export const otherBrands: Brand[] = Object.values(BRANDS).filter((b) => b.slug !== BOOK);
+/** Every book, in footer order, for the list of handbooks in each footer. */
+export const allBrands: Brand[] = SLUGS.map((slug) => BRANDS[slug]);
 
 /** "ScoutBase Campfire" */
 export const appName = `ScoutBase ${brand.name}`;

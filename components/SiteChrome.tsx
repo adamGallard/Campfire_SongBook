@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { ReadingToggles } from './ReadingPrefs';
-import { BOOK, appName, brand, otherBrands } from '@/lib/brand';
+import { BOOK, allBrands, appName, brand } from '@/lib/brand';
 import campfireIcon from '@/public/icons/campfire/icon-192.png';
 import pioneeringIcon from '@/public/icons/pioneering/icon-192.png';
 import bushcraftIcon from '@/public/icons/bushcraft/icon-192.png';
@@ -42,46 +42,60 @@ export function FootBrand() {
 }
 
 /**
- * For anyone who finds the book and wonders what else ScoutBase does.
- * The description is ScoutBase's own, from www.scoutbase.app.
+ * Every ScoutBase handbook, each under its own icon, with this one marked,
+ * then a link to ScoutBase itself for anyone curious about the other tools.
+ * The ScoutBase description is its own, from www.scoutbase.app.
  */
-export function MoreFromScoutBase() {
+export function Handbooks() {
   return (
-    <div className="sb-more">
-      <span className="sb-more-mark">
-        <Image src={scoutbaseMark} alt="" width={22} height={22} style={{ objectFit: 'contain' }} />
-      </span>
-      <div>
-        <p className="sb-more-title">More from ScoutBase</p>
-        <p className="sb-more-text">
-          The all-in-one platform for Scout Groups: youth records, parent communication,
-          attendance, events and reporting, in one secure place.
-        </p>
-        <a className="sb-more-link" href="https://www.scoutbase.app">
-          Visit scoutbase.app
-        </a>
-      </div>
-    </div>
-  );
-}
-
-/** Links to the other ScoutBase books, each with its own icon. */
-export function OtherBooks() {
-  return (
-    <nav className="sb-books" aria-label="Other ScoutBase books">
-      <p className="sb-more-title">Also from ScoutBase</p>
+    <nav className="sb-books" aria-label="ScoutBase handbooks">
+      <p className="sb-more-title">The ScoutBase handbooks</p>
       <ul>
-        {otherBrands.map((b) => (
-          <li key={b.slug}>
-            <a className="sb-book" href={b.url}>
+        {allBrands.map((b) => {
+          const inner = (
+            <>
               <Image src={ICONS[b.slug]} alt="" width={34} height={34} className="brand-icon" />
               <span>
                 <span className="sb-book-name">ScoutBase {b.name}</span>
                 <span className="sb-book-blurb">{b.blurb}</span>
               </span>
-            </a>
-          </li>
-        ))}
+              {b.slug === BOOK ? <span className="sb-book-here">You are here</span> : null}
+            </>
+          );
+          return (
+            <li key={b.slug}>
+              {b.slug === BOOK ? (
+                <div className="sb-book is-current" aria-current="true">
+                  {inner}
+                </div>
+              ) : (
+                <a className="sb-book" href={b.url}>
+                  {inner}
+                </a>
+              )}
+            </li>
+          );
+        })}
+        <li>
+          <a className="sb-book" href="https://www.scoutbase.app">
+            <span className="sb-book-mark">
+              <Image
+                src={scoutbaseMark}
+                alt=""
+                width={22}
+                height={22}
+                style={{ objectFit: 'contain' }}
+              />
+            </span>
+            <span>
+              <span className="sb-book-name">ScoutBase</span>
+              <span className="sb-book-blurb">
+                The all-in-one platform for Scout Groups: youth records, parent communication,
+                attendance, events and reporting, in one secure place. Visit scoutbase.app
+              </span>
+            </span>
+          </a>
+        </li>
       </ul>
     </nav>
   );
@@ -118,8 +132,7 @@ export function Footer() {
           Joeys, Cubs, Scouts, Venturers and Rovers — learning, leading and living life to the
           fullest.
         </p>
-        <OtherBooks />
-        <MoreFromScoutBase />
+        <Handbooks />
         <p className="footlinks">
           <Link href="/">The book</Link>
           <Link href="/plan">{brand.plan.label}</Link>

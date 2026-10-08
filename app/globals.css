@@ -783,49 +783,12 @@ a.chip {
   max-width: 52ch;
 }
 
-/* A pointer to the rest of ScoutBase, for anyone curious about the other tools. */
-.sb-more {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  margin: 18px 0 0;
-  padding: 14px 16px;
-  max-width: 52ch;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  background: var(--inset);
-}
-
-.sb-more-mark {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: none;
-  width: 34px;
-  height: 34px;
-  border-radius: 999px;
-  background: #fff;
-}
-
+/* The ScoutBase handbooks, each under its own icon, then ScoutBase itself. */
 .sb-more-title {
   font: 700 14px/1.3 var(--font-poppins), sans-serif;
   color: var(--text-strong);
 }
 
-.sb-more-text {
-  margin-top: 4px;
-  font: 400 13.5px/1.55 var(--font-inter), sans-serif;
-  color: var(--muted);
-}
-
-.sb-more-link {
-  display: inline-block;
-  margin-top: 8px;
-  font: 600 14px/1.4 var(--font-inter), sans-serif;
-  color: var(--sb-link);
-}
-
-/* The other books, each under its own icon. */
 .sb-books {
   margin: 18px 0 0;
   max-width: 52ch;
@@ -852,6 +815,38 @@ a.chip {
 .sb-book:hover,
 .sb-book:focus-visible {
   border-color: var(--text-strong);
+}
+
+/* This book: not a link, marked so nobody wonders where they are. */
+.sb-book.is-current {
+  border-color: var(--app);
+  background: var(--app-wash);
+  cursor: default;
+}
+
+[data-mode='night'] .sb-book.is-current {
+  background: transparent;
+}
+
+.sb-book-here {
+  margin-left: auto;
+  flex: none;
+  font: 700 11px/1.2 var(--font-inter), sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--app-text);
+}
+
+.sb-book-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid var(--border);
 }
 
 .sb-book-name {
