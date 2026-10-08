@@ -1,5 +1,5 @@
 // Which book this deploy is; see lib/brand.ts.
-const book = ['pioneering', 'bushcraft'].includes(process.env.NEXT_PUBLIC_BOOK)
+const book = ['pioneering', 'bushcraft', 'games'].includes(process.env.NEXT_PUBLIC_BOOK)
   ? process.env.NEXT_PUBLIC_BOOK
   : 'campfire';
 

@@ -4,7 +4,7 @@
 //
 // The artwork is the ScoutBase design system's filled app icons
 // (scoutbase-campfire-filled.svg, scoutbase-pioneering-filled.svg,
-// scoutbase-bushcraft-filled.svg): the master
+// scoutbase-bushcraft-filled.svg, scoutbase-games-filled.svg): the master
 // mark's tent, pole and pennant in white on the app's colour, with the app's
 // glyph where the three figures sit. Keep the geometry as it is here; the
 // design system says never to redraw a glyph, and to use the filled icon at
@@ -64,6 +64,21 @@ const BOOKS = {
         <rect x="-140" y="-56" width="230" height="54" rx="27" fill="${INK}" stroke="${tile}" stroke-width="10"/>
         <circle cx="76" cy="-29" r="22" fill="${tile}" stroke="${INK}" stroke-width="8"/>
         <circle cx="76" cy="-29" r="8" fill="none" stroke="${INK}" stroke-width="6"/>
+      </g>`,
+  },
+  games: {
+    tile: '#0E7490', // app-games
+    // A die showing five.
+    glyph: (tile) => `
+      <g transform="translate(0 -75) scale(1.08)">
+        <rect x="-64" y="-64" width="128" height="128" rx="26" fill="${INK}" stroke="${tile}" stroke-width="10"/>
+        <g fill="${tile}">
+          <circle cx="-34" cy="-34" r="13"/>
+          <circle cx="34" cy="-34" r="13"/>
+          <circle cx="0" cy="0" r="13"/>
+          <circle cx="-34" cy="34" r="13"/>
+          <circle cx="34" cy="34" r="13"/>
+        </g>
       </g>`,
   },
 };

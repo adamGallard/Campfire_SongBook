@@ -1,5 +1,5 @@
 /*
- * ScoutBase Campfire, Pioneering and Bushcraft service worker: keeps the book readable
+ * ScoutBase Campfire, Pioneering, Bushcraft and Games service worker: keeps the book readable
  * with no signal. Each book is its own site, so each has its own worker and
  * caches; the icon and offline addresses below are the same in both, and
  * next.config.mjs points them at the right book's files.

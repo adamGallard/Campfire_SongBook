@@ -28,6 +28,13 @@ const BUSHCRAFT_HELP = (
   </>
 );
 
+const GAMES_HELP = (
+  <>
+    Number the steps <code>1.</code>, <code>2.</code>, <code>3.</code>. Put <code>You need:</code>{' '}
+    over a list of kit, and <code>Safety:</code> over anything to check first.
+  </>
+);
+
 const SCRIPT_HELP = (
   <>
     Use <code>**Scout 1:**</code> for a speaker, <code>_(actions)_</code> in italics, and{' '}
@@ -188,6 +195,37 @@ Tips:
     help: BUSHCRAFT_HELP,
   },
 };
+
+// Games has eight sections that all read the same way.
+const GAMES_WORDING: Wording = {
+  title: 'Steal the Bacon',
+  tagQuestion: 'Where can it be played?',
+  sub: 'Players and space',
+  subHint: '8 or more · hall or field',
+  body: 'How to play it',
+  bodyHint: `Two teams race for an object in the middle. Say in a sentence what the game is.
+
+You need:
+- 1 × Small object, as the bacon
+- 2 × Ropes, to mark each side
+
+Safety:
+- Anything to check first, such as contact or water.
+
+How to play:
+1. Number each team off.
+2. Call a number. Both players with it run out.
+3. …
+
+Variations:
+- A harder or easier way to play it.
+
+Note: Where you found the game, or who taught it to you.`,
+  help: GAMES_HELP,
+};
+for (const kind of ['active', 'quiet', 'relay', 'wide', 'water', 'challenge', 'skills', 'drama']) {
+  WORDING[kind] = GAMES_WORDING;
+}
 
 export function SubmitForm({
   kinds,

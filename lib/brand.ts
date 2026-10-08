@@ -1,9 +1,10 @@
 /**
  * Which book this deploy is, and everything that differs between them.
  *
- * One codebase and one database serve three books: Campfire (songs, skits,
- * yarns, applause), Pioneering (knots, lashings, builds, camp gadgets) and
- * Bushcraft (fire lighting, and the skills to live well in the bush). Each is
+ * One codebase and one database serve four books: Campfire (songs, skits,
+ * yarns, applause), Pioneering (knots, lashings, builds, camp gadgets),
+ * Bushcraft (fire lighting, and the skills to live well in the bush) and
+ * Games (active, quiet, relay, wide, water and team games). Each is
  * its own Vercel project with its own domain, told apart by
  * NEXT_PUBLIC_BOOK. It is read at build time, so the pre-built pages, icons,
  * manifest and colours are all the right book's.
@@ -11,9 +12,9 @@
  * Sections, tags and items are not here: they live in the database, where each
  * section (`kinds.book`) says which book it belongs to.
  */
-export type BookSlug = 'campfire' | 'pioneering' | 'bushcraft';
+export type BookSlug = 'campfire' | 'pioneering' | 'bushcraft' | 'games';
 
-const SLUGS: BookSlug[] = ['campfire', 'pioneering', 'bushcraft'];
+const SLUGS: BookSlug[] = ['campfire', 'pioneering', 'bushcraft', 'games'];
 const env = process.env.NEXT_PUBLIC_BOOK as BookSlug | undefined;
 
 export const BOOK: BookSlug = env && SLUGS.includes(env) ? env : 'campfire';
@@ -29,7 +30,7 @@ export interface Brand {
   url: string;
   /** One line for a link to this book from the other books' footers. */
   blurb: string;
-  /** Campfire is read round a real fire; pioneering and bushcraft happen by day. */
+  /** Campfire is read round a real fire; pioneering, bushcraft and games happen by day. */
   defaultMode: 'night' | 'day';
   /** Splash-screen ground behind the icon when it opens from a home screen. */
   background: string;
@@ -155,12 +156,44 @@ const BRANDS: Record<BookSlug, Brand> = {
       description: 'Send a bushcraft skill in for a leader to check.',
     },
   },
+  games: {
+    slug: 'games',
+    name: 'Games',
+    shortName: 'SB Games',
+    url: 'https://games.scoutbase.app',
+    blurb: 'Active, quiet, relay and team games for the hall and the field.',
+    description:
+      'Games for Scout groups, step by step: active and quiet games, relays, wide games, water games and team challenges. Search every game, check the kit, and print cards for your next meeting.',
+    defaultMode: 'day',
+    background: '#F7FAF8',
+    countSuffix: '',
+    intro: {
+      title: 'A games book for Scout groups',
+      lede: 'Games for every part of a meeting: something to burn off energy, something to settle everyone down, relays, wide games and challenges for a patrol. Pick a section above.',
+      search:
+        'looks inside every game and kit list, not just the titles, so "balloons" finds every game that needs them.',
+      night: 'is easier on the eyes in a dark hall or a tent',
+      plan: 'pick the games for your meeting or camp, put them in order, and print them as A4 sheets or a booklet.',
+    },
+    plan: {
+      label: 'Plan a meeting',
+      lede: 'Pick the games for your meeting or camp, put them in order, then print them as A4 sheets or as a booklet to fold and staple.',
+      description:
+        'Pick the games for your meeting or camp, put them in order, and print them as A4 sheets or a folded A5 booklet.',
+      pdfTitle: 'Games Book',
+      coverKicker: 'Play fair · play often',
+    },
+    submit: {
+      lede: 'Know a game that belongs in the book? Send it in and a leader will check it before it joins the book.',
+      description: 'Send a game in for a leader to check.',
+    },
+  },
 };
 
 export const brand: Brand = BRANDS[BOOK];
 
-/** The other books, for linking to from this one. */
-export const otherBrands: Brand[] = Object.values(BRANDS).filter((b) => b.slug !== BOOK);
+/** Every book, in footer order, for the list of handbooks in each footer. */
+export const allBrands: Brand[] = SLUGS.map((slug) => BRANDS[slug]);
 
 /** "ScoutBase Campfire" */
 export const appName = `ScoutBase ${brand.name}`;
