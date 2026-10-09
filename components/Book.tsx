@@ -40,6 +40,8 @@ export function Book({
   const [tag, setTag] = useState('all');
   const [extra, setExtra] = useState(NO_FILTERS);
   const [moreOpen, setMoreOpen] = useState(false);
+  // The randomiser: when set, the list narrows to this one item.
+  const [pickId, setPickId] = useState<string | null>(null);
 
   const haystacks = useMemo(
     () =>
@@ -71,7 +73,19 @@ export function Book({
     });
   }, [inKind, query, tag, extra, haystacks]);
 
+  const picked = pickId ? visible.find((i) => i.id === pickId) : undefined;
+  const shown = picked ? [picked] : visible;
+
+  /** Draws from whatever the search and filters leave, and never the same one twice running. */
+  function pickRandom() {
+    const pool = visible.length > 1 ? visible.filter((i) => i.id !== pickId) : visible;
+    if (!pool.length) return;
+    setPickId(pool[Math.floor(Math.random() * pool.length)].id);
+    window.scrollTo({ top: 0 });
+  }
+
   function switchKind(slug: string) {
+    setPickId(null);
     setKind(slug);
     setTag('all');
     setExtra(NO_FILTERS);
@@ -115,6 +129,11 @@ export function Book({
           ) : null}
 
           <div className="hero-actions">
+            {active && visible.length > 0 ? (
+              <button type="button" className="ghost-btn" onClick={pickRandom}>
+                <span aria-hidden="true">🎲</span> Random {active.singular}
+              </button>
+            ) : null}
             <Link href="/plan" className="ghost-btn">
               {brand.plan.label}
             </Link>
@@ -135,7 +154,10 @@ export function Book({
             className="search"
             type="search"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setPickId(null);
+            }}
             placeholder={`Search a ${active?.singular ?? 'page'} or a line…`}
             aria-label={`Search ${active?.label ?? ''}`}
           />
@@ -145,7 +167,10 @@ export function Book({
                 type="button"
                 className="chip"
                 aria-pressed={tag === 'all'}
-                onClick={() => setTag('all')}
+                onClick={() => {
+                  setTag('all');
+                  setPickId(null);
+                }}
               >
                 All {inKind.length}
               </button>
@@ -155,7 +180,10 @@ export function Book({
                   type="button"
                   className="chip"
                   aria-pressed={tag === t.slug}
-                  onClick={() => setTag(t.slug)}
+                  onClick={() => {
+                    setTag(t.slug);
+                    setPickId(null);
+                  }}
                 >
                   {t.label}
                 </button>
@@ -171,7 +199,10 @@ export function Book({
             </div>
           ) : null}
           {moreOpen && anyAvailable(available) ? (
-            <FilterPanel id="more-filters" available={available} value={extra} onChange={(patch) => setExtra((prev) => ({ ...prev, ...patch }))} />
+            <FilterPanel id="more-filters" available={available} value={extra} onChange={(patch) => {
+                setExtra((prev) => ({ ...prev, ...patch }));
+                setPickId(null);
+              }} />
           ) : null}
         </div>
       </div>
@@ -184,10 +215,28 @@ export function Book({
             No {active.singular} matches that. Try a shorter word.
           </p>
         ) : (
-          visible.map((item, i) => (
+          <>
+            {picked ? (
+              <div className="pick-bar" role="status">
+                <p>
+                  Picked at random from {visible.length} {visible.length === 1 ? active.singular : active.plural}.
+                </p>
+                <div className="pick-actions">
+                  {visible.length > 1 ? (
+                    <button type="button" className="chip" onClick={pickRandom}>
+                      Pick another
+                    </button>
+                  ) : null}
+                  <button type="button" className="chip" onClick={() => setPickId(null)}>
+                    Show all
+                  </button>
+                </div>
+              </div>
+            ) : null}
+            {shown.map((item, i) => (
             <article className="card" key={item.id} id={item.slug}>
               <div className="card-head">
-                <span className="num">{i + 1}</span>
+                <span className="num">{picked ? '★' : i + 1}</span>
                 <span className="pill">{item.category_label ?? item.tag}</span>
               </div>
               <h2>{item.title}</h2>
@@ -197,7 +246,8 @@ export function Book({
               </div>
               <WatchLink href={item.watch_url} />
             </article>
-          ))
+            ))}
+          </>
         )}
       </main>
 
