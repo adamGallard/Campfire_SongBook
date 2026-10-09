@@ -1,3 +1,5 @@
+import type { Age, GroupSize } from './filters';
+
 /**
  * An item body is a list of blocks rather than HTML. Public submissions flow
  * into the same shape, so nothing a stranger types is ever rendered as markup.
@@ -67,6 +69,10 @@ export interface Item {
   blocks: Block[];
   /** An animation of it being tied, on another site. Pioneering only. */
   watch_url: string | null;
+  /** Who it is for, where the section filters by it (Games). */
+  age: Age | null;
+  /** The group sizes it suits; empty or null means any. */
+  group_sizes: GroupSize[] | null;
   sort_order: number;
   published: boolean;
   created_at: string;

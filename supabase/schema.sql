@@ -16,7 +16,7 @@
 --   20260915_add_yarns_section
 --   20260915_raise_submission_body_limit
 --   20260926_add_books, 20261006_add_watch_url, 20261006_add_bushcraft,
---   20261008_add_games
+--   20261008_add_games, 20261009_add_item_filters
 --   (supabase/migrations)
 
 -- Books ------------------------------------------------------------------
@@ -178,6 +178,9 @@ create table public.items (
   blocks          jsonb not null default '[]'::jsonb,
   -- An animation of it being tied, elsewhere: "Watch it tied on Animated Knots".
   watch_url       text,
+  -- Games' extra filters: who it is for, and the group sizes it suits. Null: not set.
+  age             text check (age is null or age in ('cubs', 'scouts', 'both')),
+  group_sizes     text[] check (group_sizes is null or group_sizes <@ array['small', 'patrol', 'large']),
   sort_order      integer not null default 0,
   published       boolean not null default true,
   created_at      timestamptz not null default now(),

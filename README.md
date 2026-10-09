@@ -180,6 +180,16 @@ The same steps again, for the fourth book:
 5. In Supabase → Authentication → URL Configuration, add
    `https://games.scoutbase.app/**` under Redirect URLs.
 
+Games also has three extra filters under "More filters": **Age** (Cubs or
+Scouts; a game for both shows under each), **Group** (2 to 5, a Six or Patrol,
+or the whole group; a game with no sizes is never hidden) and **No kit
+needed** (worked out from the kit list). They come from two optional columns on
+`items`, `age` and `group_sizes`, which are null for the other books and then
+show no chips. Apply `supabase/migrations/20261009_add_item_filters.sql`, then
+`supabase/seed/games-filters.sql` to fill them in for games already loaded
+(`games.sql` sets them for a fresh load). Leaders set them per game in the
+admin editor.
+
 Games not yet written up, because the source only gave a title: Banana Boom,
 Marker Up, BoBo Tigi, Overs and Unders, Andy's Coming, Red Rover, Night at the
 Museum, Nest Snatch, Raid the Nest, Stuck in the Mud, Blind Square and

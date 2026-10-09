@@ -7,6 +7,7 @@ import { SubmitButton } from './ConfirmButton';
 import { parseBody } from '@/lib/blocks';
 import { BOOK } from '@/lib/brand';
 import { diagramsFor } from '@/lib/diagrams';
+import { AGE_OPTIONS, SIZE_OPTIONS } from '@/lib/filters';
 import type { Item, Kind, Tag } from '@/lib/types';
 import type { ItemFormResult } from '@/app/admin/(dash)/actions';
 
@@ -211,6 +212,44 @@ export function ItemForm({
           placeholder={words.subHint}
         />
       </label>
+
+      {BOOK === 'games' ? (
+        <div className="field-row">
+          <label className="field">
+            <span className="field-label">
+              Age <span className="optional">optional</span>
+            </span>
+            <select name="age" className="input" defaultValue={item?.age ?? ''}>
+              <option value="">Not set</option>
+              {AGE_OPTIONS.map((a) => (
+                <option key={a.slug} value={a.slug}>
+                  {a.label}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <fieldset className="field">
+            <legend className="field-label">
+              Group sizes it suits <span className="optional">optional</span>
+            </legend>
+            <input type="hidden" name="group_sizes_present" value="1" />
+            <div className="check-row">
+              {SIZE_OPTIONS.map((o) => (
+                <label key={o.slug} className="check">
+                  <input
+                    type="checkbox"
+                    name="group_sizes"
+                    value={o.slug}
+                    defaultChecked={item?.group_sizes?.includes(o.slug) ?? false}
+                  />{' '}
+                  {o.label}
+                </label>
+              ))}
+            </div>
+          </fieldset>
+        </div>
+      ) : null}
 
       <label className="field">
         <span className="field-label">{words.body}</span>
