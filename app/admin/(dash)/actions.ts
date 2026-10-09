@@ -64,6 +64,17 @@ export async function saveItem(
     published,
   };
 
+  // Only the Games form has these; saves from the other books leave them alone.
+  if (formData.get('group_sizes_present') !== null) {
+    const age = String(formData.get('age') ?? '');
+    values.age = ['cubs', 'scouts', 'both'].includes(age) ? age : null;
+    const sizes = formData
+      .getAll('group_sizes')
+      .map(String)
+      .filter((v) => ['small', 'patrol', 'large'].includes(v));
+    values.group_sizes = sizes.length ? sizes : null;
+  }
+
   // Only the Pioneering form has the field; a Campfire save leaves it alone.
   const watch = formData.get('watch_url');
   if (watch !== null) {

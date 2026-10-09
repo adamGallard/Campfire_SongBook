@@ -6,6 +6,10 @@
     "tag": "hall",
     "category": "Warm-up · Cubs",
     "cast": "Whole pack · hall or field",
+    "age": "cubs",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -43,6 +47,11 @@
     "tag": "anywhere",
     "category": "Circle · Cubs",
     "cast": "8 or more · hall or field",
+    "age": "cubs",
+    "group_sizes": [
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -78,6 +87,10 @@
     "tag": "hall",
     "category": "Team game · Cubs",
     "cast": "Two teams · hall",
+    "age": "cubs",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -130,6 +143,12 @@
     "tag": "anywhere",
     "category": "Tag · Cubs",
     "cast": "Any number · hall or field",
+    "age": "cubs",
+    "group_sizes": [
+      "small",
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -161,6 +180,12 @@
     "tag": "hall",
     "category": "Contact game · Cubs",
     "cast": "Pairs · hall with mats",
+    "age": "cubs",
+    "group_sizes": [
+      "small",
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -212,6 +237,10 @@
     "tag": "hall",
     "category": "Team game · Cubs",
     "cast": "Two teams · hall",
+    "age": "cubs",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -265,6 +294,10 @@
     "tag": "hall",
     "category": "Listening · Cubs and Scouts",
     "cast": "Whole pack · hall or field",
+    "age": "both",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -309,6 +342,10 @@
     "tag": "hall",
     "category": "Team game · Cubs",
     "cast": "Two teams · hall",
+    "age": "cubs",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -351,6 +388,12 @@
     "tag": "hall",
     "category": "Chasing · Cubs",
     "cast": "Any number · hall",
+    "age": "cubs",
+    "group_sizes": [
+      "small",
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -400,6 +443,10 @@
     "tag": "hall",
     "category": "Ball game · Cubs",
     "cast": "One Six in the middle · hall",
+    "age": "cubs",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -445,6 +492,10 @@
     "tag": "hall",
     "category": "Passing · Cubs",
     "cast": "Whole pack in a circle · hall",
+    "age": "cubs",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -484,6 +535,10 @@
     "tag": "hall",
     "category": "Floor game · Cubs",
     "cast": "Two teams · hall",
+    "age": "cubs",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -523,6 +578,10 @@
     "tag": "anywhere",
     "category": "Circle running · Cubs",
     "cast": "Pack in pairs · hall or field",
+    "age": "cubs",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -552,6 +611,10 @@
     "tag": "anywhere",
     "category": "Chasing · Cubs",
     "cast": "Two teams · hall or field",
+    "age": "cubs",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -580,6 +643,10 @@
     "tag": "hall",
     "category": "Ball game · Cubs",
     "cast": "Whole pack in a circle · hall",
+    "age": "cubs",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -621,6 +688,10 @@
     "tag": "anywhere",
     "category": "Ball skills · Cubs",
     "cast": "Patrols in pairs · hall or field",
+    "age": "cubs",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -663,6 +734,10 @@
     "tag": "hall",
     "category": "Running and listening · Cubs",
     "cast": "Whole pack · hall",
+    "age": "cubs",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -691,6 +766,10 @@
     "tag": "anywhere",
     "category": "Duel · Cubs",
     "cast": "Pairs in a circle · hall or field",
+    "age": "cubs",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -726,6 +805,10 @@
     "tag": "anywhere",
     "category": "Listening · Cubs",
     "cast": "Whole pack · hall or field",
+    "age": "cubs",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -754,6 +837,10 @@
     "tag": "anywhere",
     "category": "Dodging · Cubs and Scouts",
     "cast": "Whole pack · hall or field",
+    "age": "both",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -806,6 +893,10 @@
     "tag": "hall",
     "category": "Seated game · Cubs",
     "cast": "Two teams · hall",
+    "age": "cubs",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -848,6 +939,10 @@
     "tag": "anywhere",
     "category": "Ribbon snatching · Cubs",
     "cast": "Sixes · hall or field",
+    "age": "cubs",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -891,6 +986,10 @@
     "tag": "hall",
     "category": "Chairs · Cubs",
     "cast": "Whole pack · hall",
+    "age": "cubs",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -937,6 +1036,11 @@
     "tag": "anywhere",
     "category": "Running race · Cubs",
     "cast": "Pairs · hall or field",
+    "age": "cubs",
+    "group_sizes": [
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -965,6 +1069,10 @@
     "tag": "hall",
     "category": "Snatching · Cubs",
     "cast": "Sixes · hall",
+    "age": "cubs",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -1007,6 +1115,10 @@
     "tag": "outdoors",
     "category": "Team game · Cubs and Scouts",
     "cast": "Two teams · field",
+    "age": "both",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -1057,6 +1169,10 @@
     "tag": "hall",
     "category": "Ball game · Cubs",
     "cast": "Two teams · hall",
+    "age": "cubs",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -1099,6 +1215,12 @@
     "tag": "anywhere",
     "category": "Chain tag · Cubs and Scouts",
     "cast": "Any number · hall or field",
+    "age": "both",
+    "group_sizes": [
+      "small",
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -1131,6 +1253,11 @@
     "tag": "anywhere",
     "category": "Chain tag · Scouts",
     "cast": "Odd number · hall or field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -1167,6 +1294,11 @@
     "tag": "anywhere",
     "category": "Freeze tag · Scouts",
     "cast": "Pairs · hall or field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -1195,6 +1327,10 @@
     "tag": "anywhere",
     "category": "Chasing game · Scouts",
     "cast": "Patrols · hall or field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -1234,6 +1370,10 @@
     "tag": "outdoors",
     "category": "Chasing game · Scouts",
     "cast": "Two teams · hall or field",
+    "age": "scouts",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -1264,6 +1404,12 @@
     "tag": "anywhere",
     "category": "Reaction game · Scouts",
     "cast": "Any number · hall or field",
+    "age": "scouts",
+    "group_sizes": [
+      "small",
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -1304,6 +1450,10 @@
     "tag": "anywhere",
     "category": "Snatching game · Cubs and Scouts",
     "cast": "Two teams · hall or field",
+    "age": "both",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -1355,6 +1505,10 @@
     "tag": "outdoors",
     "category": "Team game · Scouts",
     "cast": "14 or more · field",
+    "age": "scouts",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -1394,6 +1548,12 @@
     "tag": "hall",
     "category": "Running game · Scouts",
     "cast": "Any number · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "small",
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -1427,6 +1587,10 @@
     "tag": "hall",
     "category": "Ball game · Cubs and Scouts",
     "cast": "Two teams · hall",
+    "age": "both",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -1480,6 +1644,11 @@
     "tag": "anywhere",
     "category": "Circle game · Scouts",
     "cast": "A circle of 8 or more · hall or field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -1519,6 +1688,12 @@
     "tag": "outdoors",
     "category": "Dodging game · Scouts",
     "cast": "Any number · field",
+    "age": "scouts",
+    "group_sizes": [
+      "small",
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -1559,6 +1734,11 @@
     "tag": "hall",
     "category": "Circle game · Scouts",
     "cast": "A circle of 8 or more · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -1611,6 +1791,10 @@
     "tag": "outdoors",
     "category": "Team game · Scouts",
     "cast": "Four teams · field",
+    "age": "scouts",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -1653,6 +1837,12 @@
     "tag": "anywhere",
     "category": "Duel · Scouts",
     "cast": "Pairs · hall or field",
+    "age": "scouts",
+    "group_sizes": [
+      "small",
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -1688,6 +1878,10 @@
     "tag": "hall",
     "category": "Ball game · Scouts",
     "cast": "Two teams · hall or field",
+    "age": "scouts",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -1725,6 +1919,10 @@
     "tag": "hall",
     "category": "Chasing game · Scouts",
     "cast": "Two teams · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -1767,6 +1965,10 @@
     "tag": "outdoors",
     "category": "Team game · Scouts",
     "cast": "Two teams · field or hall",
+    "age": "scouts",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -1813,6 +2015,10 @@
     "tag": "hall",
     "category": "Running game · Scouts",
     "cast": "10 or more · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -1841,6 +2047,10 @@
     "tag": "anywhere",
     "category": "Running game · Scouts",
     "cast": "10 or more · hall or field",
+    "age": "scouts",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -1869,6 +2079,10 @@
     "tag": "hall",
     "category": "Tag · Scouts",
     "cast": "8 or more · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -1911,6 +2125,12 @@
     "tag": "hall",
     "category": "Movement game · Scouts",
     "cast": "Any number · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "small",
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -1949,6 +2169,12 @@
     "tag": "outdoors",
     "category": "Running game · Scouts",
     "cast": "Any number · hall or field",
+    "age": "scouts",
+    "group_sizes": [
+      "small",
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -1978,6 +2204,12 @@
     "tag": "hall",
     "category": "Movement game · Scouts",
     "cast": "Any number · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "small",
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -2023,6 +2255,12 @@
     "tag": "outdoors",
     "category": "Ball game · Scouts",
     "cast": "Any number · hall or field",
+    "age": "scouts",
+    "group_sizes": [
+      "small",
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -2060,6 +2298,10 @@
     "tag": "hall",
     "category": "Crawling tag · Scouts",
     "cast": "10 or more · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -2095,6 +2337,11 @@
     "tag": "hall",
     "category": "Listening · Cubs",
     "cast": "6 or more · hall",
+    "age": "cubs",
+    "group_sizes": [
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -2141,6 +2388,11 @@
     "tag": "hall",
     "category": "Observation · Cubs",
     "cast": "9 or more · hall",
+    "age": "cubs",
+    "group_sizes": [
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -2180,6 +2432,10 @@
     "tag": "anywhere",
     "category": "Listening · Cubs",
     "cast": "Pack in a circle · hall or field",
+    "age": "cubs",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -2218,6 +2474,10 @@
     "tag": "anywhere",
     "category": "Silent game · Cubs",
     "cast": "Pack in a circle · hall or field",
+    "age": "cubs",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -2256,6 +2516,10 @@
     "tag": "hall",
     "category": "Pulling apart · Cubs",
     "cast": "Whole pack · hall",
+    "age": "cubs",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -2291,6 +2555,12 @@
     "tag": "hall",
     "category": "Blindfold game · Cubs",
     "cast": "One at a time · hall",
+    "age": "cubs",
+    "group_sizes": [
+      "small",
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -2339,6 +2609,12 @@
     "tag": "anywhere",
     "category": "Memory · Cubs and Scouts",
     "cast": "Any number · hall or field",
+    "age": "both",
+    "group_sizes": [
+      "small",
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -2394,6 +2670,10 @@
     "tag": "hall",
     "category": "Blindfold game · Cubs",
     "cast": "Pack in a circle · hall",
+    "age": "cubs",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -2439,6 +2719,10 @@
     "tag": "hall",
     "category": "Observation · Cubs",
     "cast": "Pack in Sixes · hall",
+    "age": "cubs",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -2480,6 +2764,10 @@
     "tag": "hall",
     "category": "Swapping game · Cubs",
     "cast": "Whole pack · hall",
+    "age": "cubs",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -2523,6 +2811,10 @@
     "tag": "anywhere",
     "category": "Table game · Cubs",
     "cast": "2, 4 or 8 players · table",
+    "age": "cubs",
+    "group_sizes": [
+      "small"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -2566,6 +2858,11 @@
     "tag": "anywhere",
     "category": "Imagination · Scouts",
     "cast": "Any size patrol · anywhere",
+    "age": "scouts",
+    "group_sizes": [
+      "small",
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -2604,6 +2901,10 @@
     "tag": "anywhere",
     "category": "Knot relay · Cubs",
     "cast": "Sixes · hall or field",
+    "age": "cubs",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -2657,6 +2958,10 @@
     "tag": "anywhere",
     "category": "Running relay · Cubs",
     "cast": "Sixes · hall or field",
+    "age": "cubs",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -2686,6 +2991,10 @@
     "tag": "outdoors",
     "category": "Water relay · Cubs",
     "cast": "Sixes · field",
+    "age": "cubs",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -2731,6 +3040,10 @@
     "tag": "hall",
     "category": "Relay · Cubs",
     "cast": "Sixes · hall",
+    "age": "cubs",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -2772,6 +3085,10 @@
     "tag": "hall",
     "category": "Building relay · Cubs",
     "cast": "Sixes · hall",
+    "age": "cubs",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -2810,6 +3127,10 @@
     "tag": "hall",
     "category": "Throwing relay · Cubs",
     "cast": "Sixes · hall",
+    "age": "cubs",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -2851,6 +3172,10 @@
     "tag": "hall",
     "category": "Pairs relay · Cubs",
     "cast": "Pairs in Sixes · hall",
+    "age": "cubs",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -2888,6 +3213,10 @@
     "tag": "outdoors",
     "category": "Team race · Cubs",
     "cast": "Teams of four · field",
+    "age": "cubs",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -2938,6 +3267,10 @@
     "tag": "outdoors",
     "category": "Hopping relay · Cubs and Scouts",
     "cast": "Two teams · field",
+    "age": "both",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -2980,6 +3313,10 @@
     "tag": "anywhere",
     "category": "Ball relay · Cubs and Scouts",
     "cast": "Two teams · hall or field",
+    "age": "both",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -3018,6 +3355,10 @@
     "tag": "outdoors",
     "category": "Relay · Cubs and Scouts",
     "cast": "Two teams · field",
+    "age": "both",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -3064,6 +3405,10 @@
     "tag": "outdoors",
     "category": "Team race · Scouts",
     "cast": "Patrols · field or hall",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -3092,6 +3437,10 @@
     "tag": "hall",
     "category": "Relay · Scouts",
     "cast": "Patrols (equal numbers) · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -3131,6 +3480,10 @@
     "tag": "anywhere",
     "category": "Paper plane relay · Scouts",
     "cast": "Patrols · hall or field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -3177,6 +3530,10 @@
     "tag": "hall",
     "category": "Relay · Scouts",
     "cast": "Patrols · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -3227,6 +3584,10 @@
     "tag": "outdoors",
     "category": "Relay · Scouts",
     "cast": "Patrols · field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -3287,6 +3648,11 @@
     "tag": "outdoors",
     "category": "Message relay · Scouts",
     "cast": "Teams · field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -3324,6 +3690,10 @@
     "tag": "outdoors",
     "category": "Team race · Scouts",
     "cast": "Patrols · field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -3351,6 +3721,10 @@
     "tag": "anywhere",
     "category": "Ball relay · Scouts",
     "cast": "Patrols · hall or field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -3396,6 +3770,10 @@
     "tag": "outdoors",
     "category": "Water relay · Scouts",
     "cast": "Patrols · field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -3438,6 +3816,10 @@
     "tag": "outdoors",
     "category": "Water relay · Scouts",
     "cast": "Patrols · field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -3481,6 +3863,10 @@
     "tag": "outdoors",
     "category": "Search relay · Scouts",
     "cast": "Patrols · field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -3519,6 +3905,10 @@
     "tag": "outdoors",
     "category": "Jumping relay · Scouts",
     "cast": "Patrols · field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -3548,6 +3938,10 @@
     "tag": "outdoors",
     "category": "Relay · Scouts",
     "cast": "Patrols · field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -3590,6 +3984,10 @@
     "tag": "anywhere",
     "category": "Relay · Scouts",
     "cast": "Pairs in patrols · hall or field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -3625,6 +4023,10 @@
     "tag": "outdoors",
     "category": "Field game · Scouts",
     "cast": "Two teams, 8 or more · large field or bush",
+    "age": "scouts",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -3696,6 +4098,10 @@
     "tag": "outdoors",
     "category": "Field game · Scouts",
     "cast": "Two teams · large field",
+    "age": "scouts",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -3753,6 +4159,10 @@
     "tag": "outdoors",
     "category": "Field game · Scouts",
     "cast": "3 teams of equal size · field",
+    "age": "scouts",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -3806,6 +4216,10 @@
     "tag": "outdoors",
     "category": "Field game · Cubs",
     "cast": "The whole pack · large field",
+    "age": "cubs",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -3865,6 +4279,10 @@
     "tag": "outdoors",
     "category": "Team challenge · Cubs",
     "cast": "6 to 8 per team · field",
+    "age": "cubs",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -3930,6 +4348,10 @@
     "tag": "outdoors",
     "category": "Team challenge · Cubs",
     "cast": "2 or 3 per line, up to 3 lines · field",
+    "age": "cubs",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -3996,6 +4418,10 @@
     "tag": "outdoors",
     "category": "Water relay · Cubs",
     "cast": "Sixes · field",
+    "age": "cubs",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -4059,6 +4485,10 @@
     "tag": "outdoors",
     "category": "Water relay · Cubs",
     "cast": "Up to 12 per team · field",
+    "age": "cubs",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -4117,6 +4547,10 @@
     "tag": "outdoors",
     "category": "Water relay · Cubs",
     "cast": "Up to 12 per team · field",
+    "age": "cubs",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -4167,6 +4601,10 @@
     "tag": "outdoors",
     "category": "Water relay · Cubs",
     "cast": "Up to 12 per team · field",
+    "age": "cubs",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -4217,6 +4655,10 @@
     "tag": "outdoors",
     "category": "Water game · Cubs",
     "cast": "Two Sixes · field",
+    "age": "cubs",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -4279,6 +4721,10 @@
     "tag": "outdoors",
     "category": "Water game · Cubs",
     "cast": "Sixes · field",
+    "age": "cubs",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -4329,6 +4775,10 @@
     "tag": "outdoors",
     "category": "Water game · Cubs",
     "cast": "Sixes · large open field",
+    "age": "cubs",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -4386,6 +4836,10 @@
     "tag": "outdoors",
     "category": "Water carrying · Cubs",
     "cast": "Sixes · field",
+    "age": "cubs",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -4439,6 +4893,10 @@
     "tag": "outdoors",
     "category": "Water game · Scouts",
     "cast": "Two teams · shallow water",
+    "age": "scouts",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -4483,6 +4941,11 @@
     "tag": "anywhere",
     "category": "Untangle · Cubs and Scouts",
     "cast": "8 to 12 per group · hall or field",
+    "age": "both",
+    "group_sizes": [
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -4519,6 +4982,10 @@
     "tag": "hall",
     "category": "Cooperation · Cubs",
     "cast": "Sixes · hall",
+    "age": "cubs",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -4561,6 +5028,10 @@
     "tag": "outdoors",
     "category": "Cooperation · Scouts",
     "cast": "Patrols · field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -4599,6 +5070,10 @@
     "tag": "outdoors",
     "category": "Cooperation · Scouts",
     "cast": "Patrols · field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -4654,6 +5129,10 @@
     "tag": "outdoors",
     "category": "Planning and building · Scouts",
     "cast": "Patrols · field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -4705,6 +5184,10 @@
     "tag": "outdoors",
     "category": "Pioneering challenge · Scouts",
     "cast": "A patrol · field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -4763,6 +5246,10 @@
     "tag": "anywhere",
     "category": "Design challenge · Scouts",
     "cast": "4 to 6 per team · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -4830,6 +5317,10 @@
     "tag": "hall",
     "category": "Challenge · Scouts",
     "cast": "A patrol · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -4880,6 +5371,10 @@
     "tag": "hall",
     "category": "Teamwork challenge · Scouts",
     "cast": "Four Scouts per team · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -4926,6 +5421,10 @@
     "tag": "anywhere",
     "category": "Teamwork challenge · Scouts",
     "cast": "A patrol · hall or field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -4976,6 +5475,11 @@
     "tag": "anywhere",
     "category": "Knotting challenge · Scouts",
     "cast": "Teams · hall or field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -5014,6 +5518,10 @@
     "tag": "anywhere",
     "category": "Teamwork and knots · Scouts",
     "cast": "A patrol · hall or river",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -5078,6 +5586,10 @@
     "tag": "hall",
     "category": "Cooperation · Scouts",
     "cast": "5 or 6 per team · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -5123,6 +5635,12 @@
     "tag": "anywhere",
     "category": "Trust activity · Scouts",
     "cast": "Pairs or groups · hall or field",
+    "age": "scouts",
+    "group_sizes": [
+      "small",
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -5169,6 +5687,11 @@
     "tag": "anywhere",
     "category": "Trust activity · Scouts",
     "cast": "A circle · hall or field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -5203,6 +5726,10 @@
     "tag": "hall",
     "category": "Communication · Scouts",
     "cast": "A patrol · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -5253,6 +5780,10 @@
     "tag": "anywhere",
     "category": "Communication challenge · Scouts",
     "cast": "3 to 5 per team · hall or field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -5324,6 +5855,10 @@
     "tag": "outdoors",
     "category": "Group challenge · Scouts",
     "cast": "A patrol or two · field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -5370,6 +5905,10 @@
     "tag": "hall",
     "category": "Teamwork challenge · Scouts",
     "cast": "A patrol · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -5419,6 +5958,10 @@
     "tag": "anywhere",
     "category": "Teamwork challenge · Scouts",
     "cast": "A patrol · hall or field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -5458,6 +6001,10 @@
     "tag": "anywhere",
     "category": "Teamwork challenge · Scouts",
     "cast": "A patrol in a circle · hall or field",
+    "age": "scouts",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -5496,6 +6043,10 @@
     "tag": "hall",
     "category": "Silent communication · Scouts",
     "cast": "Two patrols · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -5544,6 +6095,10 @@
     "tag": "outdoors",
     "category": "Teamwork challenge · Scouts",
     "cast": "A patrol · field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -5597,6 +6152,10 @@
     "tag": "outdoors",
     "category": "Teamwork challenge · Scouts",
     "cast": "A patrol · field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -5650,6 +6209,10 @@
     "tag": "outdoors",
     "category": "Problem solving · Scouts",
     "cast": "8 to 15 · field",
+    "age": "scouts",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -5717,6 +6280,10 @@
     "tag": "anywhere",
     "category": "Cooperation · Scouts",
     "cast": "A patrol · hall or field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -5768,6 +6335,10 @@
     "tag": "anywhere",
     "category": "Silent communication · Scouts",
     "cast": "A patrol · anywhere",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -5794,6 +6365,10 @@
     "tag": "hall",
     "category": "Circle challenge · Scouts",
     "cast": "A circle · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -5832,6 +6407,10 @@
     "tag": "hall",
     "category": "Teamwork challenge · Scouts",
     "cast": "Patrols · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -5886,6 +6465,10 @@
     "tag": "anywhere",
     "category": "Cooperation · Scouts",
     "cast": "A patrol · hall or field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -5934,6 +6517,10 @@
     "tag": "anywhere",
     "category": "Cooperation · Scouts",
     "cast": "A patrol · hall or field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -5960,6 +6547,10 @@
     "tag": "outdoors",
     "category": "Signalling · Scouts",
     "cast": "A patrol · field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -5988,6 +6579,10 @@
     "tag": "hall",
     "category": "Communication · Scouts",
     "cast": "Two groups · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -6017,6 +6612,10 @@
     "tag": "hall",
     "category": "Communication · Scouts",
     "cast": "Patrols · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -6065,6 +6664,11 @@
     "tag": "anywhere",
     "category": "Memory challenge · Scouts",
     "cast": "6 to 12 · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -6097,6 +6701,12 @@
     "tag": "outdoors",
     "category": "Trust · Scouts",
     "cast": "Pairs · field",
+    "age": "scouts",
+    "group_sizes": [
+      "small",
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -6146,6 +6756,12 @@
     "tag": "anywhere",
     "category": "Knotting · Cubs",
     "cast": "Pairs · anywhere",
+    "age": "cubs",
+    "group_sizes": [
+      "small",
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -6195,6 +6811,12 @@
     "tag": "anywhere",
     "category": "Word game · Cubs",
     "cast": "Any number · anywhere",
+    "age": "cubs",
+    "group_sizes": [
+      "small",
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -6241,6 +6863,10 @@
     "tag": "hall",
     "category": "Compass game · Cubs",
     "cast": "Pack · hall",
+    "age": "cubs",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -6278,6 +6904,10 @@
     "tag": "outdoors",
     "category": "Compass game · Cubs",
     "cast": "Pack · hall or field",
+    "age": "cubs",
+    "group_sizes": [
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -6336,6 +6966,10 @@
     "tag": "anywhere",
     "category": "Signalling · Cubs",
     "cast": "Groups of four · hall or outdoors",
+    "age": "cubs",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -6393,6 +7027,10 @@
     "tag": "hall",
     "category": "Code game · Cubs",
     "cast": "Sixes · den",
+    "age": "cubs",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -6446,6 +7084,10 @@
     "tag": "outdoors",
     "category": "Knotting race · Scouts",
     "cast": "Pairs or patrols · field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -6488,6 +7130,10 @@
     "tag": "outdoors",
     "category": "Pioneering relay · Scouts",
     "cast": "A patrol · field",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -6544,6 +7190,11 @@
     "tag": "hall",
     "category": "Improvisation · Scouts",
     "cast": "A patrol or troop · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "patrol",
+      "large"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -6609,6 +7260,10 @@
     "tag": "hall",
     "category": "Improvisation · Scouts",
     "cast": "Two players · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "small"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -6637,6 +7292,10 @@
     "tag": "hall",
     "category": "Improvisation · Scouts",
     "cast": "Four players · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "small"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -6665,6 +7324,11 @@
     "tag": "hall",
     "category": "Improvisation · Scouts",
     "cast": "A group · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "small",
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -6693,6 +7357,11 @@
     "tag": "hall",
     "category": "Improvisation · Scouts",
     "cast": "A group · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "small",
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -6732,6 +7401,10 @@
     "tag": "hall",
     "category": "Improvisation · Scouts",
     "cast": "Two players and an audience · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "small"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -6759,6 +7432,11 @@
     "tag": "hall",
     "category": "Improvisation · Scouts",
     "cast": "A group · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "small",
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -6787,6 +7465,11 @@
     "tag": "hall",
     "category": "Improvisation · Scouts",
     "cast": "Groups · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "small",
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -6814,6 +7497,11 @@
     "tag": "hall",
     "category": "Improvisation · Scouts",
     "cast": "A group · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "small",
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",
@@ -6842,6 +7530,11 @@
     "tag": "hall",
     "category": "Prompts · Scouts",
     "cast": "A group · hall",
+    "age": "scouts",
+    "group_sizes": [
+      "small",
+      "patrol"
+    ],
     "blocks": [
       {
         "type": "verse",

@@ -413,6 +413,33 @@ a.chip {
   font-weight: 400;
 }
 
+.chip-more {
+  border-style: dashed;
+}
+
+/* Age, group size and kit, tucked away until asked for. */
+.more-filters {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.chip-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.chip-group-label {
+  flex: none;
+  width: 3.4rem;
+  font: 600 11px/1.2 var(--font-inter), sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
 /* Song cards ------------------------------------------------------------ */
 .list {
   display: flex;
@@ -1411,6 +1438,12 @@ fieldset.field {
   display: flex;
   flex-direction: column;
   gap: 4px;
+}
+
+.check-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
 }
 
 .check {
