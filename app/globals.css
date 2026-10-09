@@ -338,6 +338,26 @@ a {
   background: rgba(255, 255, 255, 0.14);
 }
 
+/* The randomiser's banner above the one item it picked. */
+.pick-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  flex-wrap: wrap;
+}
+
+.pick-bar p {
+  margin: 0;
+  font: 400 14px/1.5 var(--font-inter), sans-serif;
+  color: var(--muted);
+}
+
+.pick-actions {
+  display: flex;
+  gap: 8px;
+}
+
 /* Search bar ------------------------------------------------------------ */
 .searchbar {
   position: sticky;
