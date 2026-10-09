@@ -3,6 +3,15 @@
 import { useEffect, useMemo, useRef, useState, type DragEvent } from 'react';
 import { blocksToPlainText, slugify } from '@/lib/blocks';
 import { appName, brand } from '@/lib/brand';
+import {
+  FilterPanel,
+  MoreFiltersButton,
+  NO_FILTERS,
+  activeCount,
+  anyAvailable,
+  availableFilters,
+  matchesFilters,
+} from './FilterChips';
 import { countParts, inBookOrder, sectionsTogether } from '@/lib/kinds';
 // Type-only: the PDF code itself is loaded on demand, so the page stays light.
 import type { PdfFormat } from '@/lib/pdf/book-document';
@@ -101,6 +110,9 @@ function Fold({
 export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Kind[]; tags: Tag[] }) {
   const [choices, setChoices] = useState<Choices>(DEFAULTS);
   const [query, setQuery] = useState('');
+  const [where, setWhere] = useState('all');
+  const [extra, setExtra] = useState(NO_FILTERS);
+  const [moreOpen, setMoreOpen] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [announcement, setAnnouncement] = useState('');
@@ -201,14 +213,36 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
     [items],
   );
 
+  // Tags are per section, but where several sections share one (Games' Indoors,
+  // Outdoors and Anywhere) it can filter the whole planner at once.
+  const sharedTags = useMemo(() => {
+    const seen = new Map<string, Set<string>>();
+    for (const t of tags) {
+      if (!kinds.some((k) => k.slug === t.kind)) continue;
+      seen.set(t.label, (seen.get(t.label) ?? new Set()).add(t.kind));
+    }
+    return [...seen]
+      .filter(([, inKinds]) => inKinds.size > 1)
+      .map(([label]) => label);
+  }, [tags, kinds]);
+
+  const available = useMemo(() => availableFilters(items), [items]);
+  const filtering = where !== 'all' || activeCount(extra) > 0;
+
   const sections = useMemo(() => {
     const q = query.trim().toLowerCase();
+    const label = (i: Item) => tags.find((t) => t.kind === i.kind && t.slug === i.tag)?.label;
     return kinds.map((kind) => {
       const all = items.filter((i) => i.kind === kind.slug);
-      const visible = q ? all.filter((i) => (haystacks.get(i.id) ?? '').includes(q)) : all;
+      const visible = all.filter(
+        (i) =>
+          (!q || (haystacks.get(i.id) ?? '').includes(q)) &&
+          (where === 'all' || label(i) === where) &&
+          matchesFilters(i, extra),
+      );
       return { kind, all, visible };
     });
-  }, [items, kinds, query, haystacks]);
+  }, [items, kinds, tags, query, where, extra, haystacks]);
 
   const chosenKinds = kinds.filter((k) => chosen.some((i) => i.kind === k.slug));
   const defaultTitle =
@@ -347,7 +381,7 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
 
   const nothingMatches = sections.every((s) => s.visible.length === 0);
   // A search opens every section with a match, so a folded one cannot hide results.
-  const searching = query.trim() !== '';
+  const searching = query.trim() !== '' || filtering;
   const howOpen = !folded.has('how');
   const howSummary = [
     choices.format === 'booklet' ? 'A5 booklet' : 'A4 pages',
@@ -468,8 +502,49 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
           aria-label="Search the book"
         />
 
+        {sharedTags.length > 0 || anyAvailable(available) ? (
+          <div className="chips" role="group" aria-label="Filter">
+            {sharedTags.length > 0 ? (
+              <>
+                <button
+                  type="button"
+                  className="chip"
+                  aria-pressed={where === 'all'}
+                  onClick={() => setWhere('all')}
+                >
+                  All
+                </button>
+                {sharedTags.map((label) => (
+                  <button
+                    key={label}
+                    type="button"
+                    className="chip"
+                    aria-pressed={where === label}
+                    onClick={() => setWhere(label)}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </>
+            ) : null}
+            {anyAvailable(available) ? (
+              <MoreFiltersButton
+                open={moreOpen}
+                count={activeCount(extra)}
+                onToggle={() => setMoreOpen((open) => !open)}
+                controls="plan-more-filters"
+              />
+            ) : null}
+          </div>
+        ) : null}
+        {moreOpen && anyAvailable(available) ? (
+          <FilterPanel id="plan-more-filters" available={available} value={extra} onChange={(patch) => setExtra((prev) => ({ ...prev, ...patch }))} />
+        ) : null}
+
         {nothingMatches ? (
-          <p className="empty">Nothing matches that. Try a shorter word.</p>
+          <p className="empty">
+            Nothing matches that. Try a shorter word{filtering ? ' or fewer filters' : ''}.
+          </p>
         ) : null}
 
         {sections.map(({ kind, all, visible }) => {
@@ -501,7 +576,7 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
                     type="button"
                     className="small-btn"
                     onClick={() => setMany(visible, true)}
-                    aria-label={`Tick all ${query ? 'matching ' : ''}${kind.plural}`}
+                    aria-label={`Tick all ${searching ? 'matching ' : ''}${kind.plural}`}
                   >
                     All
                   </button>
@@ -509,7 +584,7 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
                     type="button"
                     className="small-btn"
                     onClick={() => setMany(visible, false)}
-                    aria-label={`Untick all ${query ? 'matching ' : ''}${kind.plural}`}
+                    aria-label={`Untick all ${searching ? 'matching ' : ''}${kind.plural}`}
                   >
                     None
                   </button>

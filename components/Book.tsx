@@ -8,7 +8,15 @@ import { FootBrand, Handbooks, Masthead } from './SiteChrome';
 import { blocksToPlainText } from '@/lib/blocks';
 import { appName, brand } from '@/lib/brand';
 import { diagramsFor } from '@/lib/diagrams';
-import { AGE_CHIPS, SIZE_OPTIONS, matchesAge, matchesSize, needsKit } from '@/lib/filters';
+import {
+  FilterPanel,
+  MoreFiltersButton,
+  NO_FILTERS,
+  activeCount,
+  anyAvailable,
+  availableFilters,
+  matchesFilters,
+} from './FilterChips';
 import { watchLink } from '@/lib/watch';
 import type { Item, Kind, Tag } from '@/lib/types';
 
@@ -30,9 +38,7 @@ export function Book({
   const [kind, setKind] = useState(kinds[0]?.slug ?? '');
   const [query, setQuery] = useState('');
   const [tag, setTag] = useState('all');
-  const [age, setAge] = useState('all');
-  const [size, setSize] = useState('all');
-  const [noKit, setNoKit] = useState(false);
+  const [extra, setExtra] = useState(NO_FILTERS);
   const [moreOpen, setMoreOpen] = useState(false);
 
   const haystacks = useMemo(
@@ -54,35 +60,21 @@ export function Book({
   );
 
   // The extra filters only appear where a section's items carry the data.
-  const hasAge = useMemo(() => inKind.some((i) => i.age), [inKind]);
-  const hasSize = useMemo(() => inKind.some((i) => i.group_sizes?.length), [inKind]);
-  const hasKitChoice = useMemo(() => {
-    const withKit = inKind.filter((i) => needsKit(i.blocks)).length;
-    return withKit > 0 && withKit < inKind.length;
-  }, [inKind]);
-  const extraCount = (age !== 'all' ? 1 : 0) + (size !== 'all' ? 1 : 0) + (noKit ? 1 : 0);
+  const available = useMemo(() => availableFilters(inKind), [inKind]);
 
   const visible = useMemo(() => {
     const q = query.trim().toLowerCase();
     return inKind.filter((i) => {
       const matchTag = tag === 'all' || i.tag === tag;
       const matchQuery = !q || (haystacks.get(i.id) ?? '').includes(q);
-      return (
-        matchTag &&
-        matchQuery &&
-        matchesAge(i.age, age) &&
-        matchesSize(i.group_sizes, size) &&
-        (!noKit || !needsKit(i.blocks))
-      );
+      return matchTag && matchQuery && matchesFilters(i, extra);
     });
-  }, [inKind, query, tag, age, size, noKit, haystacks]);
+  }, [inKind, query, tag, extra, haystacks]);
 
   function switchKind(slug: string) {
     setKind(slug);
     setTag('all');
-    setAge('all');
-    setSize('all');
-    setNoKit(false);
+    setExtra(NO_FILTERS);
     setQuery('');
     window.scrollTo({ top: 0 });
   }
@@ -168,77 +160,18 @@ export function Book({
                   {t.label}
                 </button>
               ))}
-              {hasAge || hasSize || hasKitChoice ? (
-                <button
-                  type="button"
-                  className="chip chip-more"
-                  aria-expanded={moreOpen}
-                  aria-controls="more-filters"
-                  onClick={() => setMoreOpen((open) => !open)}
-                >
-                  More filters{extraCount ? ` · ${extraCount}` : ''}
-                </button>
+              {anyAvailable(available) ? (
+                <MoreFiltersButton
+                  open={moreOpen}
+                  count={activeCount(extra)}
+                  onToggle={() => setMoreOpen((open) => !open)}
+                  controls="more-filters"
+                />
               ) : null}
             </div>
           ) : null}
-          {moreOpen && (hasAge || hasSize || hasKitChoice) ? (
-            <div id="more-filters" className="more-filters">
-              {hasAge ? (
-                <div className="chip-group" role="group" aria-label="Age">
-                  <span className="chip-group-label">Age</span>
-                  <div className="chips">
-                    <button type="button" className="chip" aria-pressed={age === 'all'} onClick={() => setAge('all')}>
-                      Any
-                    </button>
-                    {AGE_CHIPS.map((a) => (
-                      <button
-                        key={a.slug}
-                        type="button"
-                        className="chip"
-                        aria-pressed={age === a.slug}
-                        onClick={() => setAge(a.slug)}
-                      >
-                        {a.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ) : null}
-              {hasSize ? (
-                <div className="chip-group" role="group" aria-label="Group size">
-                  <span className="chip-group-label">Group</span>
-                  <div className="chips">
-                    <button type="button" className="chip" aria-pressed={size === 'all'} onClick={() => setSize('all')}>
-                      Any
-                    </button>
-                    {SIZE_OPTIONS.map((o) => (
-                      <button
-                        key={o.slug}
-                        type="button"
-                        className="chip"
-                        aria-pressed={size === o.slug}
-                        onClick={() => setSize(o.slug)}
-                      >
-                        {o.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ) : null}
-              {hasKitChoice ? (
-                <div className="chip-group" role="group" aria-label="Kit">
-                  <span className="chip-group-label">Kit</span>
-                  <div className="chips">
-                    <button type="button" className="chip" aria-pressed={!noKit} onClick={() => setNoKit(false)}>
-                      Any
-                    </button>
-                    <button type="button" className="chip" aria-pressed={noKit} onClick={() => setNoKit(true)}>
-                      No kit needed
-                    </button>
-                  </div>
-                </div>
-              ) : null}
-            </div>
+          {moreOpen && anyAvailable(available) ? (
+            <FilterPanel id="more-filters" available={available} value={extra} onChange={(patch) => setExtra((prev) => ({ ...prev, ...patch }))} />
           ) : null}
         </div>
       </div>
