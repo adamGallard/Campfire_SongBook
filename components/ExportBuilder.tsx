@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState, type DragEvent } from 'react';
 import { blocksToPlainText, slugify } from '@/lib/blocks';
 import { appName, brand } from '@/lib/brand';
 import {
+  type ExtraFilters,
   FilterPanel,
   MoreFiltersButton,
   NO_FILTERS,
@@ -116,6 +117,7 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [announcement, setAnnouncement] = useState('');
+  const [filterNote, setFilterNote] = useState('');
   const [folded, setFolded] = useState<Set<string>>(() => new Set());
   /** The row being dragged, and the gap it would drop into (0 is the top). */
   const [drag, setDrag] = useState<{ id: string; gap: number } | null>(null);
@@ -180,6 +182,35 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
     }
   }
 
+  /**
+   * Applying a filter takes any ticked game it hides out of the pick, so the
+   * running order only ever holds games that match. Clearing a filter ticks
+   * nothing back: it only widens what is showing.
+   */
+  function changeFilters(nextWhere: string, nextExtra: ExtraFilters) {
+    setWhere(nextWhere);
+    setExtra(nextExtra);
+    if (nextWhere === 'all' && activeCount(nextExtra) === 0) {
+      setFilterNote('');
+      return;
+    }
+    const keep = choices.selected.filter((id) => {
+      const item = byId.get(id);
+      return !item || ((nextWhere === 'all' || whereOf(item) === nextWhere) && matchesFilters(item, nextExtra));
+    });
+    const dropped = choices.selected.length - keep.length;
+    if (dropped === 0) {
+      setFilterNote('');
+      return;
+    }
+    update({ selected: keep });
+    const note = `${dropped} ticked ${dropped === 1 ? 'game' : 'games'} that did not match the filters ${
+      dropped === 1 ? 'was' : 'were'
+    } unticked.`;
+    setFilterNote(note);
+    setAnnouncement(note);
+  }
+
   const selected = useMemo(() => new Set(choices.selected), [choices.selected]);
 
   /** The ticked items, in the order they will print. */
@@ -227,22 +258,22 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
   }, [tags, kinds]);
 
   const available = useMemo(() => availableFilters(items), [items]);
+  const whereOf = (i: Item) => tags.find((t) => t.kind === i.kind && t.slug === i.tag)?.label;
   const filtering = where !== 'all' || activeCount(extra) > 0;
 
   const sections = useMemo(() => {
     const q = query.trim().toLowerCase();
-    const label = (i: Item) => tags.find((t) => t.kind === i.kind && t.slug === i.tag)?.label;
     return kinds.map((kind) => {
       const all = items.filter((i) => i.kind === kind.slug);
       const visible = all.filter(
         (i) =>
           (!q || (haystacks.get(i.id) ?? '').includes(q)) &&
-          (where === 'all' || label(i) === where) &&
+          (where === 'all' || whereOf(i) === where) &&
           matchesFilters(i, extra),
       );
       return { kind, all, visible };
     });
-  }, [items, kinds, tags, query, where, extra, haystacks]);
+  }, [items, kinds, tags, query, where, extra, haystacks]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const chosenKinds = kinds.filter((k) => chosen.some((i) => i.kind === k.slug));
   const defaultTitle =
@@ -510,7 +541,7 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
                   type="button"
                   className="chip"
                   aria-pressed={where === 'all'}
-                  onClick={() => setWhere('all')}
+                  onClick={() => changeFilters('all', extra)}
                 >
                   All
                 </button>
@@ -520,7 +551,7 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
                     type="button"
                     className="chip"
                     aria-pressed={where === label}
-                    onClick={() => setWhere(label)}
+                    onClick={() => changeFilters(label, extra)}
                   >
                     {label}
                   </button>
@@ -538,8 +569,10 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
           </div>
         ) : null}
         {moreOpen && anyAvailable(available) ? (
-          <FilterPanel id="plan-more-filters" available={available} value={extra} onChange={(patch) => setExtra((prev) => ({ ...prev, ...patch }))} />
+          <FilterPanel id="plan-more-filters" available={available} value={extra} onChange={(patch) => changeFilters(where, { ...extra, ...patch })} />
         ) : null}
+
+        {filterNote ? <p className="muted-line filter-note">{filterNote}</p> : null}
 
         {nothingMatches ? (
           <p className="empty">
