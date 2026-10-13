@@ -195,5 +195,21 @@ export const brand: Brand = BRANDS[BOOK];
 /** Every book, in footer order, for the list of handbooks in each footer. */
 export const allBrands: Brand[] = SLUGS.map((slug) => BRANDS[slug]);
 
+export function brandFor(slug: BookSlug): Brand {
+  return BRANDS[slug];
+}
+
+export function isBookSlug(value: string): value is BookSlug {
+  return (SLUGS as string[]).includes(value);
+}
+
+/**
+ * A page on a book's own site: a plain path on this deploy, a full address on
+ * another. Each book signs in separately, since each has its own domain.
+ */
+export function bookHref(slug: BookSlug, path: string): string {
+  return slug === BOOK ? path : `${BRANDS[slug].url}${path}`;
+}
+
 /** "ScoutBase Campfire" */
 export const appName = `ScoutBase ${brand.name}`;

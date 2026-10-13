@@ -3,7 +3,8 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { requireAdmin } from '@/lib/auth';
+import { requireAdmin, requireAllBooksAdmin } from '@/lib/auth';
+import { isBookSlug, type BookSlug } from '@/lib/brand';
 import { parseBody, sanitizeBlocks, slugify } from '@/lib/blocks';
 import { cleanWatchUrl } from '@/lib/watch';
 
@@ -268,36 +269,96 @@ export async function reopenSubmission(formData: FormData) {
   revalidatePath('/admin/submissions');
 }
 
-/** Add another leader to the admin allowlist. */
+/**
+ * The books a form gave an admin: null for every book, or the ticked ones.
+ * Returns a string when the choice makes no sense.
+ */
+function chosenBooks(formData: FormData): BookSlug[] | null | string {
+  if (formData.get('all_books') === 'on') return null;
+  const books = formData.getAll('books').map(String).filter(isBookSlug);
+  if (!books.length) return 'Tick at least one book, or All books.';
+  return [...new Set(books)];
+}
+
+function refreshAdmins() {
+  revalidatePath('/admin/admins');
+  revalidatePath('/admin/all');
+}
+
+/** Add another leader to the admin allowlist, for some books or all of them. */
 export async function addAdmin(_prev: ItemFormResult, formData: FormData): Promise<ItemFormResult> {
-  const supabase = await adminClient();
+  await requireAllBooksAdmin();
+  const supabase = await createClient();
 
   const email = String(formData.get('email') ?? '').trim().toLowerCase();
   const note = String(formData.get('note') ?? '').trim();
+  const books = chosenBooks(formData);
 
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
     return { error: 'That does not look like an email address.' };
   }
+  if (typeof books === 'string') return { error: books };
 
-  const { error } = await supabase.from('admins').insert({ email, note: note || null });
+  const { error } = await supabase.from('admins').insert({ email, note: note || null, books });
   if (error) {
     return {
       error: error.code === '23505' ? 'That address is already an admin.' : error.message,
     };
   }
 
-  revalidatePath('/admin/admins');
+  refreshAdmins();
+  return {};
+}
+
+/** Change which books an admin looks after. */
+export async function setAdminBooks(
+  _prev: ItemFormResult,
+  formData: FormData,
+): Promise<ItemFormResult> {
+  const me = await requireAllBooksAdmin();
+  const supabase = await createClient();
+
+  const email = String(formData.get('email') ?? '').trim().toLowerCase();
+  const books = chosenBooks(formData);
+  if (!email) return { error: 'Missing address.' };
+  if (typeof books === 'string') return { error: books };
+
+  // Narrowing your own access would lock you out of this page.
+  if (email === me.email.toLowerCase()) return { error: 'You cannot change your own access.' };
+
+  const { error } = await supabase.from('admins').update({ books }).ilike('email', email);
+  if (error) return { error: error.message };
+
+  refreshAdmins();
   return {};
 }
 
 export async function removeAdmin(formData: FormData) {
-  const supabase = await adminClient();
-  const admin = await requireAdmin();
+  const admin = await requireAllBooksAdmin();
+  const supabase = await createClient();
   const email = String(formData.get('email') ?? '').trim().toLowerCase();
 
   // Refuse to let someone lock themselves out.
   if (!email || email === admin.email.toLowerCase()) return;
 
   await supabase.from('admins').delete().ilike('email', email);
-  revalidatePath('/admin/admins');
+  refreshAdmins();
+}
+
+/**
+ * Switch a section on or off, in any book. This site's pages refresh now;
+ * the other books' sites pick it up within a minute (they revalidate every 60s).
+ */
+export async function setSectionEnabled(formData: FormData) {
+  await requireAllBooksAdmin();
+  const supabase = await createClient();
+  const slug = String(formData.get('slug') ?? '');
+  const enabled = formData.get('enabled') === '1';
+  if (!slug) return;
+
+  await supabase.from('kinds').update({ enabled }).eq('slug', slug);
+  revalidatePath('/');
+  revalidatePath('/plan');
+  revalidatePath('/submit');
+  revalidatePath('/admin/all');
 }

@@ -32,6 +32,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               Submissions {pending > 0 ? <span className="badge">{pending}</span> : null}
             </Link>
             <Link href="/admin/admins">Admins</Link>
+            {admin.allBooks ? <Link href="/admin/all">All books</Link> : null}
             <Link href="/admin/account">Account</Link>
             <Link href="/">View site</Link>
             <form action={signOut}>
