@@ -16,7 +16,7 @@
 --   20260915_add_yarns_section
 --   20260915_raise_submission_body_limit
 --   20260926_add_books, 20261006_add_watch_url, 20261006_add_bushcraft,
---   20261008_add_games, 20261009_add_item_filters
+--   20261008_add_games, 20261009_add_item_filters, 20261013_admins_per_book
 --   (supabase/migrations)
 
 -- Books ------------------------------------------------------------------
@@ -222,9 +222,12 @@ create index submissions_rate_idx on public.submissions (ip_hash, created_at des
 -- Admin allowlist ----------------------------------------------------------
 -- Keyed by email so an allowlisted leader becomes an admin on first sign-in,
 -- rather than needing an account to exist before one can be granted.
+-- `books` lists the books an admin looks after; null means every book, and
+-- only an every-book admin can change this list.
 create table public.admins (
   email      text primary key,
   note       text,
+  books      text[] constraint admins_books_not_empty check (books is null or cardinality(books) > 0),
   created_at timestamptz not null default now()
 );
 
@@ -248,6 +251,67 @@ as $$
     where lower(a.email) = lower(coalesce((select auth.jwt() ->> 'email'), ''))
   );
 $$;
+
+-- Can the signed-in user manage this book?
+create or replace function private.can_manage(p_book text)
+returns boolean
+language sql
+stable
+security definer
+set search_path = ''
+as $$
+  select exists (
+    select 1
+    from public.admins a
+    where lower(a.email) = lower(coalesce((select auth.jwt() ->> 'email'), ''))
+      and (a.books is null or p_book = any (a.books))
+  );
+$$;
+
+-- Is the signed-in user an every-book admin?
+create or replace function private.is_owner()
+returns boolean
+language sql
+stable
+security definer
+set search_path = ''
+as $$
+  select exists (
+    select 1
+    from public.admins a
+    where lower(a.email) = lower(coalesce((select auth.jwt() ->> 'email'), ''))
+      and a.books is null
+  );
+$$;
+
+-- The book a section belongs to, for the policies on items, tags and submissions.
+create or replace function private.kind_book(p_kind text)
+returns text
+language sql
+stable
+security definer
+set search_path = ''
+as $$
+  select k.book from public.kinds k where k.slug = p_kind;
+$$;
+
+-- The first-time sign-in checks the address is on the list before creating an
+-- account, which anon cannot read directly.
+create or replace function public.admin_email_exists(p_email text)
+returns boolean
+language sql
+stable
+security definer
+set search_path = ''
+as $$
+  select exists (
+    select 1 from public.admins a
+    where lower(a.email) = lower(btrim(coalesce(p_email, '')))
+  );
+$$;
+
+revoke all on function public.admin_email_exists(text) from public;
+grant execute on function public.admin_email_exists(text) to anon, authenticated;
 
 create or replace function public.touch_updated_at()
 returns trigger
@@ -275,32 +339,40 @@ alter table public.admins      enable row level security;
 create policy books_public_read on public.books
   for select to anon, authenticated using (true);
 create policy books_admin_write on public.books
-  for all to authenticated using (private.is_admin()) with check (private.is_admin());
+  for all to authenticated using (private.is_owner()) with check (private.is_owner());
 
 create policy tags_public_read on public.tags
   for select to anon, authenticated using (true);
 create policy tags_admin_write on public.tags
-  for all to authenticated using (private.is_admin()) with check (private.is_admin());
+  for all to authenticated
+  using (private.can_manage(private.kind_book(kind)))
+  with check (private.can_manage(private.kind_book(kind)));
 
 create policy kinds_public_read on public.kinds
   for select to anon, authenticated using (true);
 create policy kinds_admin_write on public.kinds
-  for all to authenticated using (private.is_admin()) with check (private.is_admin());
+  for all to authenticated
+  using (private.can_manage(book)) with check (private.can_manage(book));
 
 create policy items_public_read on public.items
   for select to anon, authenticated using (published);
 create policy items_admin_all on public.items
-  for all to authenticated using (private.is_admin()) with check (private.is_admin());
+  for all to authenticated
+  using (private.can_manage(private.kind_book(kind)))
+  with check (private.can_manage(private.kind_book(kind)));
 
 -- No anon policy at all: the public can neither read nor write submissions
 -- directly. Inserts go through submit_song() below.
 create policy submissions_admin_all on public.submissions
-  for all to authenticated using (private.is_admin()) with check (private.is_admin());
+  for all to authenticated
+  using (private.can_manage(private.kind_book(kind)))
+  with check (private.can_manage(private.kind_book(kind)));
 
+-- Any admin can see who the admins are; only an every-book admin changes the list.
 create policy admins_read on public.admins
   for select to authenticated using (private.is_admin());
 create policy admins_write on public.admins
-  for all to authenticated using (private.is_admin()) with check (private.is_admin());
+  for all to authenticated using (private.is_owner()) with check (private.is_owner());
 
 -- Public submission entry point --------------------------------------------
 -- A function rather than a table grant, so anon never holds insert rights and

@@ -99,7 +99,8 @@ fallback, but get the settings right.)
 the wording, the default reading mode and the PDF cover. Sections belong to a
 book in the database (`kinds.book`), so each site shows, plans, takes
 submissions for and administers only its own book's sections. The admin list
-is shared: one login manages them all, each on its own site.
+is shared, and each admin looks after every book or only some of them (see
+[Admin access](#admin-access)).
 
 The accent colour follows the book: the layout puts `data-book` on `<html>`,
 and `app/globals.css` sets the `--app-*` tokens from the ScoutBase design
@@ -369,7 +370,9 @@ reach anything it shouldn't, even if application code has a bug.
   all-powerful credential to leak.
 - **Admin access is an email allowlist** in the `admins` table, checked against
   the verified email in the session — never against anything the browser sends.
-  Removing an address takes effect on the next request.
+  Removing an address takes effect on the next request. An admin limited to
+  some books (`admins.books`) is held to them by the policies themselves
+  (`private.can_manage()`), not only by the pages.
 - **Submitter IPs are not stored**, only a salted SHA-256 hash, used solely for
   rate limiting.
 - **Nothing is rendered with `dangerouslySetInnerHTML`.** Blocks are rendered as
@@ -390,10 +393,27 @@ Two tables decide access, and they are separate on purpose:
 So an account that is not on the allowlist can sign in and still see only
 "Not an admin".
 
-**Adding an admin**: sign in, go to **Admins**, add their address. They then use
-**First time here?** on the sign-in page to choose their own password — that
-flow refuses any address not already on the allowlist, so strangers cannot
-register. You cannot remove yourself.
+Each admin looks after **every book** or **some of them** (`admins.books`, null
+for every book). An admin for some books can edit content and review
+submissions in those books only, on each book's own site; signing in to another
+book's admin says which books they do look after. Only an admin for every book
+can change the admin list, and every admin from before this change looks after
+every book. Apply `supabase/migrations/20261013_admins_per_book.sql` **before**
+deploying the code that reads `admins.books`, or nobody can sign in.
+
+**All books** (`/admin/all`, in the admin bar for admins of every book) shows
+every book at once, on whichever site you are signed in to: what is showing,
+waiting and decided in each book, every submission waiting for review (oldest
+first, linking to the book's own site to review it), every section with a
+switch to turn it on or off, recent decisions, and the admin list. A section
+switched on from another book's site appears there within a minute.
+
+**Adding an admin**: sign in as an admin for every book, open **All books**,
+and add their address with the books they look after (or All books). Change
+their books later with **Change books**. They then use **First time here?** on
+the sign-in page to choose their own password — that flow refuses any address
+not already on the allowlist, so strangers cannot register. You cannot remove
+yourself or change your own books.
 
 **Changing your password**: **Account** in the admin bar. Uses the active
 session, so it sends no email and works even with the mail quota exhausted.

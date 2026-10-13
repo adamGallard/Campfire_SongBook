@@ -1,10 +1,11 @@
 import Link from 'next/link';
+import { getAdmin } from '@/lib/auth';
 import { createClient } from '@/lib/supabase/server';
 import { bookKindSlugs } from '@/lib/scope';
 
 export default async function AdminHome() {
   const supabase = await createClient();
-  // Counts for this book only; the other book has its own admin.
+  // Counts for this book only; the All books page has the rest.
   const slugs = await bookKindSlugs(supabase);
   const items = () => supabase.from('items').select('id', { count: 'exact', head: true }).in('kind', slugs);
   const subs = () => supabase.from('submissions').select('id', { count: 'exact', head: true }).in('kind', slugs);
@@ -18,6 +19,7 @@ export default async function AdminHome() {
   ]);
 
   const pendingCount = pending.count ?? 0;
+  const admin = await getAdmin();
 
   return (
     <main className="wrap list">
@@ -50,6 +52,20 @@ export default async function AdminHome() {
           </Link>
         </div>
       </div>
+
+      {admin?.allBooks ? (
+        <div className="card">
+          <h2 className="section-title">All books</h2>
+          <p className="muted-line">
+            Submissions, sections and admins across Campfire, Pioneering, Bushcraft and Games.
+          </p>
+          <div className="row-actions">
+            <Link href="/admin/all" className="small-btn">
+              Open the All books page
+            </Link>
+          </div>
+        </div>
+      ) : null}
     </main>
   );
 }

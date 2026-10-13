@@ -1813,3 +1813,193 @@ fieldset.field {
   font: 400 12px/1.3 var(--font-inter), sans-serif;
   color: var(--muted);
 }
+
+/* All books admin ------------------------------------------------------- */
+/* Each book's colour, for dots, stripes and tags on a page that shows all
+   four. The soft variants are for navy; the base app colours for daylight. */
+[data-tag='campfire'] { --tag: #fb923c; }
+[data-tag='pioneering'] { --tag: #60a5fa; }
+[data-tag='bushcraft'] { --tag: #d9a066; }
+[data-tag='games'] { --tag: #22d3ee; }
+[data-tag='all'] { --tag: var(--leaf); }
+[data-mode='day'] [data-tag='campfire'] { --tag: #ea580c; }
+[data-mode='day'] [data-tag='pioneering'] { --tag: #1d4ed8; }
+[data-mode='day'] [data-tag='bushcraft'] { --tag: #7c4a1e; }
+[data-mode='day'] [data-tag='games'] { --tag: #0e7490; }
+[data-mode='day'] [data-tag='all'] { --tag: var(--green); }
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 18px;
+  box-shadow: var(--shadow);
+  color: var(--text);
+  text-decoration: none;
+}
+
+a.stat:hover {
+  border-color: var(--accent);
+}
+
+.stat-value {
+  font: 800 32px/1 var(--font-poppins), sans-serif;
+  color: var(--text-strong);
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-label {
+  font: 600 14px/1.3 var(--font-inter), sans-serif;
+}
+
+.stat-note {
+  font: 400 12.5px/1.4 var(--font-inter), sans-serif;
+  color: var(--muted);
+}
+
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.book-card {
+  border-top: 4px solid var(--tag);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.book-card .row-actions {
+  margin-top: auto;
+}
+
+.book-card .badge {
+  margin-left: 6px;
+}
+
+.book-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.book-name {
+  font: 700 20px/1.2 var(--font-poppins), sans-serif;
+  color: var(--text-strong);
+}
+
+.book-facts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+  font: 400 14px/1.45 var(--font-inter), sans-serif;
+  color: var(--text);
+}
+
+.book-facts strong {
+  color: var(--text-strong);
+  font-variant-numeric: tabular-nums;
+}
+
+.faint {
+  color: var(--muted);
+}
+
+.book-dot {
+  flex: none;
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-top: 6px;
+  border-radius: 999px;
+  background: var(--tag, var(--border-strong));
+}
+
+.section-group + .section-group {
+  margin-top: 18px;
+}
+
+.group-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font: 600 12px/1.3 var(--font-inter), sans-serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border);
+}
+
+.group-title .book-dot {
+  margin-top: 0;
+}
+
+.access-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.access-tag {
+  font: 600 11.5px/1 var(--font-inter), sans-serif;
+  padding: 5px 9px 5px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  border-left: 4px solid var(--tag);
+  color: var(--text);
+}
+
+.admin-row {
+  flex-wrap: wrap;
+}
+
+.access-edit > summary {
+  list-style: none;
+}
+
+.access-edit > summary::-webkit-details-marker {
+  display: none;
+}
+
+.access-edit[open] {
+  flex-basis: 100%;
+}
+
+.access-edit[open] > summary {
+  margin-bottom: 10px;
+}
+
+.access-form {
+  border: 1px solid var(--border);
+  background: var(--inset);
+  border-radius: 18px;
+  padding: 16px;
+}
+
+.book-check input {
+  accent-color: var(--tag);
+}
+
+.book-check[aria-disabled='true'] {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.admin-row .row-actions:has(.access-edit[open]) {
+  flex-basis: 100%;
+}
