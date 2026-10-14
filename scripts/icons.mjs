@@ -10,6 +10,10 @@
 // design system says never to redraw a glyph, and to use the filled icon at
 // 32px and below.
 //
+// OAS is the exception: the design system has no OAS icon yet, so its
+// mountains are drawn here in the same style as a stand-in. Swap in the
+// design system's glyph when there is one.
+//
 // Each book's files go in public/icons/<book>/. A deploy serves its own book's
 // set at the plain addresses (/icon.svg, /favicon.ico, /icons/icon-192.png…)
 // through the rewrites in next.config.mjs.
@@ -79,6 +83,16 @@ const BOOKS = {
           <circle cx="-34" cy="34" r="13"/>
           <circle cx="34" cy="34" r="13"/>
         </g>
+      </g>`,
+  },
+  oas: {
+    tile: '#4D7C0F', // stand-in until the design system has an OAS colour
+    // Two peaks, the taller one snow-capped.
+    glyph: (tile) => `
+      <g transform="scale(1.22)">
+        <path d="M-132 -4 L-62 -104 L8 -4 Z" fill="${INK}" stroke="${tile}" stroke-width="9" stroke-linejoin="round"/>
+        <path d="M-46 -4 L42 -150 L130 -4 Z" fill="${INK}" stroke="${tile}" stroke-width="9" stroke-linejoin="round"/>
+        <path d="M13 -102 L28 -90 L42 -106 L56 -90 L71 -102" fill="none" stroke="${tile}" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
       </g>`,
   },
 };

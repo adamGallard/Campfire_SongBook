@@ -65,10 +65,12 @@ export function Intro() {
           <li>
             <strong>{brand.plan.label}</strong>: {brand.intro.plan}
           </li>
-          <li>
-            <strong>Know one we are missing?</strong> Send it in — a leader reads everything before
-            it appears here.
-          </li>
+          {brand.source === 'database' ? (
+            <li>
+              <strong>Know one we are missing?</strong> Send it in — a leader reads everything before
+              it appears here.
+            </li>
+          ) : null}
         </ul>
       </div>
     </aside>

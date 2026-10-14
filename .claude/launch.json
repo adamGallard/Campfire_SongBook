@@ -29,6 +29,16 @@
       ],
       "port": 3008,
       "autoPort": true
+    },
+    {
+      "name": "oas",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": [
+        "/c",
+        "set NEXT_PUBLIC_BOOK=oas&& npm run dev"
+      ],
+      "port": 3009,
+      "autoPort": true
     }
   ]
 }

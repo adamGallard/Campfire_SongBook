@@ -1,6 +1,6 @@
-# ScoutBase Campfire, Pioneering, Bushcraft and Games
+# ScoutBase Campfire, Pioneering, Bushcraft, Games and OAS
 
-One codebase and one database, four books:
+One codebase, five books, four of them sharing one database:
 
 - **ScoutBase Campfire** — songs, skits, yarns and applause, read round a fire.
 - **ScoutBase Pioneering** — knots, lashings, builds and camp gadgets, step by
@@ -12,6 +12,12 @@ One codebase and one database, four books:
 - **ScoutBase Games** — active and quiet games, relays, wide games, water games
   and team challenges, with kit lists and safety checks. Daylight by default, in
   Games cyan, at `games.scoutbase.app`.
+- **ScoutBase OAS** — every statement in Scouts Australia's Outdoor Adventure
+  Skills, with its guidance, to search and filter by stream, stage, activity and
+  plan–do–review, and print as a checklist. Read from Scouts | Terrain rather
+  than the database, and not launched yet: see
+  [Setting up the OAS site](#setting-up-the-oas-site). Daylight by default, in
+  eucalypt green, at `oas.scoutbase.app`.
 
 Each book is its own Vercel project deploying this repo, told apart by
 `NEXT_PUBLIC_BOOK` (see [The books](#the-books)). Everything below applies to
@@ -70,7 +76,7 @@ Environment variables:
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Publishable (anon) key — safe in the browser |
 | `SUBMISSION_SALT` | Any random string; salts the IP hash used for rate limiting |
-| `NEXT_PUBLIC_BOOK` | `campfire` (the default when unset), `pioneering`, `bushcraft` or `games` |
+| `NEXT_PUBLIC_BOOK` | `campfire` (the default when unset), `pioneering`, `bushcraft`, `games` or `oas` |
 
 ## Deploying
 
@@ -104,7 +110,8 @@ is shared, and each admin looks after every book or only some of them (see
 
 The accent colour follows the book: the layout puts `data-book` on `<html>`,
 and `app/globals.css` sets the `--app-*` tokens from the ScoutBase design
-system for it (`app-campfire…`, `app-pioneering…`, `app-bushcraft…`, `app-games…`).
+system for it (`app-campfire…`, `app-pioneering…`, `app-bushcraft…`, `app-games…`;
+OAS has stand-ins until the design system has an OAS colour).
 
 Icons and the offline notice live per book in `public/icons/<book>/` and
 `public/offline/<book>.html`, and `next.config.mjs` serves this deploy's set at
@@ -196,6 +203,60 @@ Marker Up, BoBo Tigi, Overs and Unders, Andy's Coming, Red Rover, Night at the
 Museum, Nest Snatch, Raid the Nest, Stuck in the Mud, Blind Square and
 Blindfold Compass Walk. Add them in the admin once someone has the rules.
 
+### Setting up the OAS site
+
+The fifth book is not made of sections and items. `lib/oas.ts` reads Scouts
+Australia's own Outdoor Adventure Skills templates from
+`templates.terrain.scouts.com.au` (the files Scouts | Terrain is built from, and
+where ScoutBase syncs its OAS reference from) when the page is built: nine
+streams, 162 stages and about 2,500 statements. Next keeps each template for a
+day before asking Terrain again, so a change Scouts Australia make shows within
+a day without a deploy. Nothing from the templates is kept in this repo or the
+database.
+
+If Terrain cannot be read, or a template is not shaped the way `lib/oas.ts`
+expects (a new part beside Plan, Do and Review, say), the build fails rather
+than ship half a book; a background refresh that fails keeps the last good copy.
+
+The page (`components/OasBook.tsx`) shows the streams to choose from, then the
+statements stage by stage, each opening to its guidance. It filters by stage,
+part (Plan, Do, Review) and, in a stream that branches from Stage 4, by
+activity: the whole path a Scout follows, such as Life Saving then Swift Water
+Rescue. The search looks in the guidance too. The filters are kept in the
+address, so a link opens on them:
+`/?stream=aquatics&activity=swift-water-rescue&stage=7&part=do&q=rescue`.
+**Print a checklist** prints what is on screen through the browser, with a box
+to tick by each statement, and the guidance if it is showing. Guidance that
+mentions knots or fires links to Pioneering or Bushcraft.
+
+It has no planner, submission form or admin: on this deploy `next.config.mjs`
+sends `/plan`, `/submit`, `/admin` and `/auth` to the book, and the footer leaves
+those links out.
+
+**Not before permission.** The statements and guidance are The Scout
+Association of Australia's. Its Policy and Rules lets members share extracts,
+but republishing a work whole needs written permission from National
+Headquarters, so the site does not go live until that permission is in writing.
+Until then `oas` is `listed: false` in `lib/brand.ts`, which keeps it out of the
+other books' footers. Then:
+
+1. Set `listed: true` for `oas` in `lib/brand.ts`, so every book's footer links
+   to it, and add any attribution wording Scouts Australia ask for to the
+   footer and print heading in `components/OasBook.tsx`.
+2. In Vercel, add a fifth project from this repo with the same three variables
+   plus `NEXT_PUBLIC_BOOK=oas`, and the domain `oas.scoutbase.app`. The OAS
+   page does not read the database, but the planner page is still built and
+   does.
+3. In Cloudflare DNS, a `CNAME` named `oas` to the target Vercel shows, proxy
+   **off**.
+4. No Supabase redirect URL is needed: the OAS site has no sign-in.
+5. In ScoutBase, add it to `HANDBOOKS` in `src/constants/links.js`, with an
+   `oas` mark in `SubBrandIcon.jsx` and `--sb-app-oas…` colours in `App.css`.
+
+The OAS colour (#4D7C0F) and its icon (two peaks, one snow-capped) are
+stand-ins drawn in the design system's style; swap in the design system's own
+when it has an OAS entry.
+
 ## Offline
 
 The book is used round a fire, often with no signal, so it keeps working
@@ -231,7 +292,8 @@ app's glyph where the three figures sit. Campfire is a flame on crossed logs
 on Campfire orange (`app-campfire`, #EA580C); Pioneering is a trestle with
 square lashings on Pioneering blue (`app-pioneering`, #1D4ED8); Bushcraft is an
 axe bitten into a log on Bushcraft brown (`app-bushcraft`, #7C4A1E); Games is
-a die showing five on Games cyan (`app-games`, #0E7490). The same
+a die showing five on Games cyan (`app-games`, #0E7490); OAS is two
+mountains, the taller snow-capped, on a stand-in eucalypt green (#4D7C0F). The same
 drawing is used at every size, favicons included, as the design system asks.
 
 `scripts/icons.mjs` draws them all and writes every size into `public/icons/<book>/`:

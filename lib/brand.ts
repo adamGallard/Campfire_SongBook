@@ -1,26 +1,39 @@
 /**
  * Which book this deploy is, and everything that differs between them.
  *
- * One codebase and one database serve four books: Campfire (songs, skits,
- * yarns, applause), Pioneering (knots, lashings, builds, camp gadgets),
- * Bushcraft (fire lighting, and the skills to live well in the bush) and
- * Games (active, quiet, relay, wide, water and team games). Each is
- * its own Vercel project with its own domain, told apart by
- * NEXT_PUBLIC_BOOK. It is read at build time, so the pre-built pages, icons,
- * manifest and colours are all the right book's.
+ * One codebase serves five books: Campfire (songs, skits, yarns, applause),
+ * Pioneering (knots, lashings, builds, camp gadgets), Bushcraft (fire
+ * lighting, and the skills to live well in the bush), Games (active, quiet,
+ * relay, wide, water and team games) and OAS (Scouts Australia's Outdoor
+ * Adventure Skills). Each is its own Vercel project with its own domain, told
+ * apart by NEXT_PUBLIC_BOOK. It is read at build time, so the pre-built pages,
+ * icons, manifest and colours are all the right book's.
  *
- * Sections, tags and items are not here: they live in the database, where each
- * section (`kinds.book`) says which book it belongs to.
+ * Sections, tags and items are not here: the first four books' live in the
+ * database, where each section (`kinds.book`) says which book it belongs to.
+ * The OAS book has none of those; it reads Scouts Australia's own templates
+ * (lib/oas.ts).
  */
-export type BookSlug = 'campfire' | 'pioneering' | 'bushcraft' | 'games';
+export type BookSlug = 'campfire' | 'pioneering' | 'bushcraft' | 'games' | 'oas';
 
-const SLUGS: BookSlug[] = ['campfire', 'pioneering', 'bushcraft', 'games'];
+const SLUGS: BookSlug[] = ['campfire', 'pioneering', 'bushcraft', 'games', 'oas'];
 const env = process.env.NEXT_PUBLIC_BOOK as BookSlug | undefined;
 
 export const BOOK: BookSlug = env && SLUGS.includes(env) ? env : 'campfire';
 
 export interface Brand {
   slug: BookSlug;
+  /**
+   * Where the content comes from. `database`: sections and items in Postgres,
+   * which leaders edit and the public send in. `terrain`: Scouts Australia's
+   * OAS templates, read-only, so the book has no planner, submissions or admin.
+   */
+  source: 'database' | 'terrain';
+  /**
+   * Linked from the other books' footers. A book stays unlisted until it is
+   * ready to launch; its own site still lists itself.
+   */
+  listed: boolean;
   /** The app name after "ScoutBase". */
   name: string;
   /** Home-screen name, which has to fit under an icon. */
@@ -62,6 +75,8 @@ export interface Brand {
 const BRANDS: Record<BookSlug, Brand> = {
   campfire: {
     slug: 'campfire',
+    source: 'database',
+    listed: true,
     name: 'Campfire',
     shortName: 'SB Campfire',
     url: 'https://campfire.scoutbase.app',
@@ -94,6 +109,8 @@ const BRANDS: Record<BookSlug, Brand> = {
   },
   pioneering: {
     slug: 'pioneering',
+    source: 'database',
+    listed: true,
     name: 'Pioneering',
     shortName: 'SB Pioneering',
     url: 'https://pioneering.scoutbase.app',
@@ -126,6 +143,8 @@ const BRANDS: Record<BookSlug, Brand> = {
   },
   bushcraft: {
     slug: 'bushcraft',
+    source: 'database',
+    listed: true,
     name: 'Bushcraft',
     shortName: 'SB Bushcraft',
     url: 'https://bushcraft.scoutbase.app',
@@ -158,6 +177,8 @@ const BRANDS: Record<BookSlug, Brand> = {
   },
   games: {
     slug: 'games',
+    source: 'database',
+    listed: true,
     name: 'Games',
     shortName: 'SB Games',
     url: 'https://games.scoutbase.app',
@@ -188,12 +209,57 @@ const BRANDS: Record<BookSlug, Brand> = {
       description: 'Send a game in for a leader to check.',
     },
   },
+  oas: {
+    slug: 'oas',
+    source: 'terrain',
+    // Not linked from the other books until Scouts Australia have said yes to
+    // the statements being shown here; see README, "Setting up the OAS site".
+    listed: false,
+    name: 'OAS',
+    shortName: 'SB OAS',
+    url: 'https://oas.scoutbase.app',
+    blurb: 'Every Outdoor Adventure Skills statement, to search and filter.',
+    description:
+      'Every Outdoor Adventure Skills statement for Scouts Australia, stage by stage. Search them all, filter by stream, stage and activity, and print a checklist.',
+    defaultMode: 'day',
+    background: '#F7FAF8',
+    countSuffix: '',
+    intro: {
+      title: 'The Outdoor Adventure Skills, to search and filter',
+      lede: "Every “I can” statement in Scouts Australia's Outdoor Adventure Skills, with the guidance that goes with it, stage by stage. Pick a stream above, or search them all.",
+      search:
+        'looks inside every statement and its guidance, in every stream, so "knot" finds every stage that asks for one.',
+      night: 'is easier on the eyes in a tent or by the fire',
+      plan: 'print whatever is on screen as a checklist, with or without the guidance.',
+    },
+    plan: {
+      label: 'Print a checklist',
+      lede: 'Print the statements on screen as a checklist to tick off.',
+      description: 'Print the Outdoor Adventure Skills statements on screen as a checklist.',
+      pdfTitle: 'Outdoor Adventure Skills',
+      coverKicker: 'Plan · Do · Review',
+    },
+    submit: {
+      lede: 'The statements come from Scouts Australia, so there is nothing to send in.',
+      description: 'The statements come from Scouts Australia, so there is nothing to send in.',
+    },
+  },
 };
 
 export const brand: Brand = BRANDS[BOOK];
 
-/** Every book, in footer order, for the list of handbooks in each footer. */
-export const allBrands: Brand[] = SLUGS.map((slug) => BRANDS[slug]);
+/**
+ * The books whose content lives in the database, in footer order: the ones the
+ * admin pages manage and an admin can be given.
+ */
+export const allBrands: Brand[] = SLUGS.map((slug) => BRANDS[slug]).filter(
+  (b) => b.source === 'database',
+);
+
+/** The list of handbooks in each footer: every launched book, and always this one. */
+export const footerBrands: Brand[] = SLUGS.map((slug) => BRANDS[slug]).filter(
+  (b) => b.listed || b.slug === BOOK,
+);
 
 export function brandFor(slug: BookSlug): Brand {
   return BRANDS[slug];

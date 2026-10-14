@@ -1,6 +1,6 @@
 /* Design tokens from the ScoutBase design system. Each book takes its own
    app colour as the accent (Campfire orange, Pioneering blue, Bushcraft
-   brown, Games cyan), set by the data-book attribute the layout puts on <html>;
+   brown, Games cyan, OAS green), set by the data-book attribute the layout puts on <html>;
    everything else is shared.
    ScoutBase green stays for success states and for the link back to
    ScoutBase itself. Night mode swaps the same roles onto navy. */
@@ -81,6 +81,19 @@
   --app-hover: #155e75; /* app-games-hover */
   --app-soft: #22d3ee; /* app-games-soft: accent text on navy only */
   --app-wash: #ecfeff; /* app-games-wash */
+}
+
+/* OAS: eucalypt green. Not in the design system yet, so these are stand-ins
+   picked to sit apart from the other books and from ScoutBase green. White
+   text on it passes AA (about 5:1), so it serves for text and for fills under
+   white text. */
+[data-book='oas'] {
+  --app: #4d7c0f;
+  --app-rgb: 77, 124, 15;
+  --app-text: #4d7c0f;
+  --app-hover: #3f6212;
+  --app-soft: #a3e635; /* accent text on navy only */
+  --app-wash: #f7fee7;
 }
 
 [data-mode='day'] {
@@ -2002,4 +2015,349 @@ a.stat:hover {
 
 .admin-row .row-actions:has(.access-edit[open]) {
   flex-basis: 100%;
+}
+
+/* OAS book (components/OasBook.tsx) -------------------------------------- */
+/* "Activity" needs a little more room than Games' "Age" and "Group". */
+[data-book='oas'] .chip-group-label {
+  width: 4.6rem;
+}
+
+.oas-search-row {
+  display: flex;
+  gap: 8px;
+}
+
+.oas-search-row .search {
+  flex: 1;
+  min-width: 0;
+}
+
+.oas-search-row .chip {
+  min-height: 46px;
+}
+
+.oas-stage-chip {
+  min-width: 40px;
+  padding-inline: 0;
+}
+
+.oas-chips-wrap {
+  flex-wrap: wrap;
+}
+
+/* A label beside chips that wrap stays level with the first row. */
+.oas-group-wrap {
+  align-items: flex-start;
+}
+
+.oas-group-wrap .chip-group-label {
+  padding-top: 14px;
+}
+
+.oas-filter-note {
+  font: 400 13.5px/1.5 var(--font-inter), sans-serif;
+  color: var(--muted);
+}
+
+.oas-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  flex-wrap: wrap;
+}
+
+.oas-toolbar p {
+  font: 400 14px/1.5 var(--font-inter), sans-serif;
+  color: var(--muted);
+}
+
+.oas-toolbar-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* The landing view: a card per stream. */
+.oas-group-title {
+  font: 700 18px/1.3 var(--font-poppins), sans-serif;
+  color: var(--text-strong);
+  letter-spacing: -0.01em;
+  margin: 6px 0 10px;
+}
+
+.oas-stream-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+.oas-stream {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 16px 18px;
+  box-shadow: var(--shadow);
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.oas-stream:hover {
+  border-color: var(--accent);
+}
+
+.oas-stream-title {
+  font: 700 19px/1.2 var(--font-poppins), sans-serif;
+  color: var(--text-strong);
+}
+
+.oas-stream-desc {
+  font: 400 14px/1.55 var(--font-inter), sans-serif;
+  color: var(--muted);
+}
+
+.oas-stream-meta {
+  font: 600 12.5px/1.5 var(--font-inter), sans-serif;
+  color: var(--accent);
+}
+
+.oas-try {
+  margin-top: 6px;
+}
+
+/* A stage: its statements under Plan, Do and Review. */
+.oas-stage-count {
+  margin-left: auto;
+  font: 400 13px/1 var(--font-inter), sans-serif;
+  color: var(--muted);
+}
+
+.oas-part {
+  margin-top: 18px;
+}
+
+.oas-part-head {
+  font: 600 10.5px/1 var(--font-inter), sans-serif;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.oas-statements {
+  list-style: none;
+  display: grid;
+  gap: 2px;
+  margin-top: 8px;
+}
+
+.oas-statement-row {
+  display: grid;
+  grid-template-columns: 14px 1fr 14px;
+  gap: 10px;
+  align-items: start;
+  width: 100%;
+  padding: 9px 6px;
+  border: none;
+  border-radius: 12px;
+  background: none;
+  color: var(--text);
+  text-align: left;
+  font: 400 var(--lyric-size) / 1.55 var(--font-inter), sans-serif;
+}
+
+.oas-statement-btn {
+  cursor: pointer;
+}
+
+.oas-statement-btn:hover {
+  background: var(--inset);
+}
+
+.oas-box {
+  justify-self: center;
+  width: 7px;
+  height: 7px;
+  margin-top: 0.62em;
+  border-radius: 999px;
+  background: var(--app);
+}
+
+.oas-chevron {
+  justify-self: center;
+  width: 8px;
+  height: 8px;
+  margin-top: 0.5em;
+  border-right: 2px solid var(--muted);
+  border-bottom: 2px solid var(--muted);
+  transform: rotate(45deg);
+  transition: transform 0.15s ease;
+}
+
+.oas-statement-btn[aria-expanded='true'] .oas-chevron {
+  transform: translateY(3px) rotate(-135deg);
+}
+
+.oas-guidance {
+  margin: 0 6px 10px 30px;
+  padding: 12px 14px;
+  border-left: 3px solid var(--app);
+  border-radius: 0 12px 12px 0;
+  background: var(--inset);
+  font: 400 15px/1.6 var(--font-inter), sans-serif;
+  color: var(--text);
+}
+
+.oas-guidance p + p,
+.oas-guidance ul + p,
+.oas-guidance p + ul {
+  margin-top: 8px;
+}
+
+.oas-guidance ul {
+  padding-left: 18px;
+}
+
+.oas-guidance li + li {
+  margin-top: 3px;
+}
+
+.oas-see-also {
+  margin-top: 10px;
+  display: grid;
+  gap: 4px;
+}
+
+.oas-see-also a {
+  font: 600 13.5px/1.4 var(--font-inter), sans-serif;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.oas-see-also a:hover {
+  text-decoration: underline;
+}
+
+.oas-verify {
+  margin-top: 14px;
+  font: italic 400 var(--aside-size) / 1.55 var(--font-inter), sans-serif;
+  color: var(--muted);
+}
+
+.oas-list mark {
+  background: rgba(var(--app-rgb), 0.24);
+  color: inherit;
+  border-radius: 3px;
+}
+
+.oas-sb-link {
+  color: var(--sb-link);
+  font-weight: 600;
+}
+
+.print-only {
+  display: none;
+}
+
+/* Printing an OAS checklist: just the statements, a box to tick by each,
+   in black on white whatever the reading mode. */
+@media print {
+  @page {
+    margin: 14mm;
+  }
+
+  html[data-mode] {
+    --bg: #fff;
+    --surface: #fff;
+    --text: #111;
+    --text-strong: #000;
+    --muted: #444;
+    --border: #bbb;
+    --accent: #000;
+    --inset: #fff;
+    --lyric-size: 11.5pt;
+    --title-size: 15pt;
+  }
+
+  .print-only {
+    display: block;
+  }
+
+  .hero,
+  .intro,
+  .searchbar,
+  .footer,
+  .offline-note,
+  .oas-toolbar,
+  .oas-chevron,
+  .oas-see-also {
+    display: none !important;
+  }
+
+  .oas-print-head {
+    font: 400 9.5pt/1.5 var(--font-inter), sans-serif;
+    color: #444;
+  }
+
+  .oas-print-head strong {
+    font: 700 15pt/1.3 var(--font-poppins), sans-serif;
+    color: #000;
+  }
+
+  .list {
+    padding: 0;
+    gap: 14px;
+  }
+
+  .card {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .oas-stage + .oas-stage {
+    border-top: 1px solid #bbb;
+    padding-top: 12px;
+  }
+
+  .card h2 {
+    margin-top: 4px;
+  }
+
+  .oas-part {
+    margin-top: 8px;
+  }
+
+  .oas-statement-row {
+    padding: 3px 0;
+    break-inside: avoid;
+  }
+
+  .oas-box {
+    width: 11px;
+    height: 11px;
+    margin-top: 0.2em;
+    border: 1.5px solid #000;
+    border-radius: 2px;
+    background: none;
+  }
+
+  .oas-guidance {
+    margin: 0 0 6px 24px;
+    padding: 0 0 0 10px;
+    border-left: 1.5px solid #999;
+    border-radius: 0;
+    font-size: 9.5pt;
+  }
+
+  .oas-list mark {
+    background: none;
+    font-weight: 600;
+  }
 }
