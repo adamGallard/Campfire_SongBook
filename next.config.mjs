@@ -7,7 +7,7 @@ const book = ['pioneering', 'bushcraft', 'games', 'oas'].includes(process.env.NE
  * The OAS book reads Scouts Australia's templates rather than the database, so
  * it has no planner, submission form or admin. Their addresses go to the book.
  */
-const notInOas = ['/plan', '/export', '/submit', '/admin', '/admin/:path*', '/auth/:path*'];
+const notInOas = ['/plan', '/export', '/submit', '/admin', '/admin/:path*', '/auth/:path*', '/api/:path*'];
 
 /**
  * Each book's icons and offline notice live in their own folder, but every

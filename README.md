@@ -230,28 +230,29 @@ to tick by each statement, and the guidance if it is showing. Guidance that
 mentions knots or fires links to Pioneering or Bushcraft.
 
 It has no planner, submission form or admin: on this deploy `next.config.mjs`
-sends `/plan`, `/submit`, `/admin` and `/auth` to the book, and the footer leaves
-those links out.
+sends `/plan`, `/submit`, `/admin`, `/auth` and `/api` to the book, and the
+footer leaves those links out. It never touches the database, so its Vercel
+project needs only `NEXT_PUBLIC_BOOK=oas`.
 
 **Not before permission.** The statements and guidance are The Scout
 Association of Australia's. Its Policy and Rules lets members share extracts,
 but republishing a work whole needs written permission from National
-Headquarters, so the site does not go live until that permission is in writing.
-Until then `oas` is `listed: false` in `lib/brand.ts`, which keeps it out of the
-other books' footers. Then:
+Headquarters, so that permission is being sought. Until it is in writing, `oas`
+is `listed: false` in `lib/brand.ts`: the site can be opened and demonstrated,
+but no other book links to it and it asks search engines not to index it. Once
+permission is in writing:
 
 1. Set `listed: true` for `oas` in `lib/brand.ts`, so every book's footer links
-   to it, and add any attribution wording Scouts Australia ask for to the
-   footer and print heading in `components/OasBook.tsx`.
-2. In Vercel, add a fifth project from this repo with the same three variables
-   plus `NEXT_PUBLIC_BOOK=oas`, and the domain `oas.scoutbase.app`. The OAS
-   page does not read the database, but the planner page is still built and
-   does.
-3. In Cloudflare DNS, a `CNAME` named `oas` to the target Vercel shows, proxy
-   **off**.
-4. No Supabase redirect URL is needed: the OAS site has no sign-in.
-5. In ScoutBase, add it to `HANDBOOKS` in `src/constants/links.js`, with an
+   to it and search engines may index it, and add any attribution wording
+   Scouts Australia ask for to the footer and print heading in
+   `components/OasBook.tsx`.
+2. In ScoutBase, add it to `HANDBOOKS` in `src/constants/links.js`, with an
    `oas` mark in `SubBrandIcon.jsx` and `--sb-app-oas…` colours in `App.css`.
+
+The site itself is set up like the others: a Vercel project from this repo with
+`NEXT_PUBLIC_BOOK=oas` (and nothing else), the domain `oas.scoutbase.app`, and
+in Cloudflare DNS a `CNAME` named `oas` to the target Vercel shows, proxy
+**off**. No Supabase redirect URL is needed: the OAS site has no sign-in.
 
 The OAS colour (#4D7C0F) and its icon (two peaks, one snow-capped) are
 stand-ins drawn in the design system's style; swap in the design system's own

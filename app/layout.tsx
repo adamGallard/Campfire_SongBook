@@ -24,6 +24,8 @@ export const metadata: Metadata = {
   title: { default: appName, template: `%s · ${appName}` },
   description: brand.description,
   applicationName: appName,
+  // A book not launched yet can be shown to people, but stays out of search engines.
+  robots: brand.listed ? undefined : { index: false, follow: false },
   // Plain addresses: next.config.mjs sends each to this book's own files.
   icons: {
     icon: [

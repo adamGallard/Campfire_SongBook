@@ -1,6 +1,6 @@
 import { createPublicClient } from './supabase/public';
 import { sanitizeBlocks } from './blocks';
-import { BOOK } from './brand';
+import { BOOK, brand } from './brand';
 import type { Item, Kind, Tag } from './types';
 
 export interface BookData {
@@ -16,6 +16,10 @@ export interface BookData {
  * and everything in them, are left out of the page entirely.
  */
 export async function loadBook(): Promise<BookData | null> {
+  // The OAS book is read from Terrain (lib/oas.ts), not the database, so its
+  // deploy needs no Supabase keys; its planner only redirects to the book.
+  if (brand.source !== 'database') return { items: [], kinds: [], tags: [] };
+
   const supabase = createPublicClient();
 
   const [{ data: itemRows, error }, { data: kindRows }, { data: tagRows }] = await Promise.all([

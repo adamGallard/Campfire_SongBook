@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 import { Hero, Footer } from '@/components/SiteChrome';
 import { createPublicClient } from '@/lib/supabase/public';
 import { BOOK, brand } from '@/lib/brand';
@@ -15,6 +16,9 @@ export default async function SubmitPage({
 }: {
   searchParams: Promise<{ kind?: string }>;
 }) {
+  // The OAS book takes no submissions and has no database to send them to.
+  if (brand.source !== 'database') redirect('/');
+
   const supabase = createPublicClient();
   const [{ data: kindRows }, { data: tagRows }] = await Promise.all([
     supabase
