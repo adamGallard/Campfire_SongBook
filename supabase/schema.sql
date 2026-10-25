@@ -16,7 +16,8 @@
 --   20260915_add_yarns_section
 --   20260915_raise_submission_body_limit
 --   20260926_add_books, 20261006_add_watch_url, 20261006_add_bushcraft,
---   20261008_add_games, 20261009_add_item_filters, 20261013_admins_per_book
+--   20261008_add_games, 20261009_add_item_filters, 20261013_admins_per_book,
+--   20261025_harden_submit_song, 20261025_admin_setup_codes
 --   (supabase/migrations)
 
 -- Books ------------------------------------------------------------------
@@ -228,6 +229,10 @@ create table public.admins (
   email      text primary key,
   note       text,
   books      text[] constraint admins_books_not_empty check (books is null or cardinality(books) > 0),
+  -- The hash of the one-time code that lets this address create its account,
+  -- and how long it has to do so once the code is presented. See guard_new_user.
+  setup_hash       text,
+  setup_open_until timestamptz,
   created_at timestamptz not null default now()
 );
 
@@ -295,23 +300,55 @@ as $$
   select k.book from public.kinds k where k.slug = p_kind;
 $$;
 
--- The first-time sign-in checks the address is on the list before creating an
--- account, which anon cannot read directly.
-create or replace function public.admin_email_exists(p_email text)
+-- Accounts by setup code. Adding an admin issues a one-time code, kept only
+-- as a hash; "First time here?" presents it, and no account can be created
+-- for an address that has not just done so. Without this, with Confirm email
+-- off, anyone could make the account for an address before its owner did.
+-- Lets an address create its account for the next ten minutes, given the
+-- setup code it was issued. True when the code matched.
+create or replace function public.open_admin_setup(p_email text, p_code text)
 returns boolean
-language sql
-stable
+language plpgsql
 security definer
 set search_path = ''
 as $$
-  select exists (
-    select 1 from public.admins a
-    where lower(a.email) = lower(btrim(coalesce(p_email, '')))
-  );
+begin
+  update public.admins
+     set setup_open_until = now() + interval '10 minutes'
+   where lower(email) = lower(btrim(coalesce(p_email, '')))
+     and setup_hash is not null
+     and setup_hash = encode(sha256(convert_to(btrim(coalesce(p_code, '')), 'UTF8')), 'hex');
+  return found;
+end;
 $$;
 
-revoke all on function public.admin_email_exists(text) from public;
-grant execute on function public.admin_email_exists(text) to anon, authenticated;
+revoke all on function public.open_admin_setup(text, text) from public;
+grant execute on function public.open_admin_setup(text, text) to anon, authenticated;
+
+-- Every new account must be an admin address whose code was just presented.
+-- The code is used up as the account is made.
+create or replace function private.guard_new_user()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $$
+begin
+  update public.admins
+     set setup_hash = null, setup_open_until = null
+   where lower(email) = lower(coalesce(new.email, ''))
+     and setup_open_until > now();
+  if not found then
+    raise exception 'Accounts are by setup code only.';
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists guard_new_user on auth.users;
+create trigger guard_new_user
+  before insert on auth.users
+  for each row execute function private.guard_new_user();
 
 create or replace function public.touch_updated_at()
 returns trigger
@@ -413,6 +450,23 @@ begin
     raise exception 'invalid_body';
   end if;
 
+  -- The form's limits on the other fields too, so calling this directly
+  -- instead of going through the form gains nothing.
+  if char_length(coalesce(p_tune, '')) > 200
+     or char_length(coalesce(p_name, '')) > 80
+     or char_length(coalesce(p_email, '')) > 160
+     or char_length(coalesce(p_note, '')) > 1000 then
+    raise exception 'invalid_body';
+  end if;
+
+  -- The hash comes from the caller, so it cannot be the only limit: a missing
+  -- one never matches an earlier row, and a fresh one each time never repeats.
+  -- It is required, and there is a ceiling across everyone as well.
+  p_ip_hash := nullif(btrim(coalesce(p_ip_hash, '')), '');
+  if p_ip_hash is null then
+    raise exception 'rate_limited';
+  end if;
+
   -- Five an hour from one source is plenty for a leader typing up a set.
   select count(*) into v_recent
   from public.submissions
@@ -420,6 +474,15 @@ begin
     and created_at > now() - interval '1 hour';
 
   if v_recent >= 5 then
+    raise exception 'rate_limited';
+  end if;
+
+  -- Fifty an hour from everyone, across every book, is far beyond real use.
+  select count(*) into v_recent
+  from public.submissions
+  where created_at > now() - interval '1 hour';
+
+  if v_recent >= 50 then
     raise exception 'rate_limited';
   end if;
 
@@ -452,7 +515,7 @@ begin
     nullif(btrim(coalesce(p_name, '')), ''),
     nullif(btrim(coalesce(p_email, '')), ''),
     nullif(btrim(coalesce(p_note, '')), ''),
-    nullif(btrim(coalesce(p_ip_hash, '')), ''),
+    p_ip_hash,
     'pending'
   );
 end;
@@ -461,5 +524,9 @@ $$;
 revoke all on function public.submit_song(text, text, text, text, text, text, text, text, text, text) from public;
 grant execute on function public.submit_song(text, text, text, text, text, text, text, text, text, text) to anon, authenticated;
 
--- Seed the first administrator (change this address).
+-- Seed the first administrator (change this address). To create their account,
+-- give them a setup code only you know, then use "First time here?":
+--   update public.admins
+--      set setup_hash = encode(sha256(convert_to('<the code>', 'UTF8')), 'hex')
+--    where email = 'adam@thegallards.co.uk';
 insert into public.admins (email, note) values ('adam@thegallards.co.uk', 'Initial administrator');

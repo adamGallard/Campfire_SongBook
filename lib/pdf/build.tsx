@@ -69,8 +69,16 @@ export function planEntries(
 
 async function render(doc: ReactElement): Promise<Uint8Array> {
   // BookDocument renders a <Document>; pdf() just cannot see through it.
-  const blob = await pdf(doc as ReactElement<DocumentProps>).toBlob();
-  return new Uint8Array(await blob.arrayBuffer());
+  try {
+    const blob = await pdf(doc as ReactElement<DocumentProps>).toBlob();
+    return new Uint8Array(await blob.arrayBuffer());
+  } catch (e) {
+    // react-pdf keeps a failed font load and hands it back on every later
+    // try, so forget the fonts: the next export registers and fetches afresh.
+    Font.clear();
+    fontsFrom = null;
+    throw e;
+  }
 }
 
 export interface BuildInput {

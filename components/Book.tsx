@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Blocks } from './Blocks';
 import { Intro } from './Intro';
 import { FootBrand, Handbooks, Masthead } from './SiteChrome';
-import { blocksToPlainText } from '@/lib/blocks';
+import { blocksToPlainText, foldForSearch } from '@/lib/blocks';
 import { appName, brand } from '@/lib/brand';
 import { diagramsFor } from '@/lib/diagrams';
 import {
@@ -48,7 +48,7 @@ export function Book({
       new Map(
         items.map((i) => [
           i.id,
-          `${i.title} ${i.category_label ?? ''} ${i.tune ?? ''} ${blocksToPlainText(i.blocks)}`.toLowerCase(),
+          foldForSearch(`${i.title} ${i.category_label ?? ''} ${i.tune ?? ''} ${blocksToPlainText(i.blocks)}`),
         ]),
       ),
     [items],
@@ -65,7 +65,7 @@ export function Book({
   const available = useMemo(() => availableFilters(inKind), [inKind]);
 
   const visible = useMemo(() => {
-    const q = query.trim().toLowerCase();
+    const q = foldForSearch(query.trim());
     return inKind.filter((i) => {
       const matchTag = tag === 'all' || i.tag === tag;
       const matchQuery = !q || (haystacks.get(i.id) ?? '').includes(q);
@@ -237,7 +237,11 @@ export function Book({
             <article className="card" key={item.id} id={item.slug}>
               <div className="card-head">
                 <span className="num">{picked ? '★' : i + 1}</span>
-                <span className="pill">{item.category_label ?? item.tag}</span>
+                <span className="pill">
+                  {item.category_label ??
+                    kindTags.find((t) => t.slug === item.tag)?.label ??
+                    item.tag}
+                </span>
               </div>
               <h2>{item.title}</h2>
               {item.tune ? <p className="tune">{item.tune}</p> : null}

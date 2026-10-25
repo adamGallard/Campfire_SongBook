@@ -28,7 +28,9 @@ export async function getAdminRecord(): Promise<Admin | null> {
   const { data } = await supabase
     .from('admins')
     .select('email, books')
-    .ilike('email', user.email)
+    // Exact, not ilike: '_' and '%' are common enough in addresses to match
+    // someone else's row. Addresses are stored lowercased (see addAdmin).
+    .eq('email', user.email.toLowerCase())
     .maybeSingle();
   if (!data) return null;
 

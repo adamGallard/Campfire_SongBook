@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { ConfirmButton } from '@/components/ConfirmButton';
-import { blocksToPlainText } from '@/lib/blocks';
+import { blocksToPlainText, foldForSearch } from '@/lib/blocks';
 import type { Item } from '@/lib/types';
 import { deleteItem, moveItem, togglePublished } from '../actions';
 
@@ -24,13 +24,13 @@ export function ItemList({ items, singular, plural }: { items: Row[]; singular: 
       new Map(
         items.map((i) => [
           i.id,
-          `${i.title} ${i.category_label ?? ''} ${i.tag} ${i.tune ?? ''} ${blocksToPlainText(i.blocks)}`.toLowerCase(),
+          foldForSearch(`${i.title} ${i.category_label ?? ''} ${i.tag} ${i.tune ?? ''} ${blocksToPlainText(i.blocks)}`),
         ]),
       ),
     [items],
   );
 
-  const q = query.trim().toLowerCase();
+  const q = foldForSearch(query.trim());
   const visible = items.filter(
     (i) =>
       (show === 'all' || i.published === (show === 'shown')) &&

@@ -15,6 +15,7 @@ export function LoginForm({ notice }: { notice?: string }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
+  const [code, setCode] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(notice ?? null);
   const [sent, setSent] = useState(false);
@@ -29,6 +30,9 @@ export function LoginForm({ notice }: { notice?: string }) {
     }
     if (m.includes('already registered') || m.includes('already been registered')) {
       return 'That account already exists — sign in with your password, or use “Forgot password”.';
+    }
+    if (m.includes('database error saving new user')) {
+      return 'That account could not be created. Check the setup code, or ask for a new one.';
     }
     if (m.includes('rate limit') || m.includes('too many')) {
       return 'Too many attempts for the moment. Wait a little and try again.';
@@ -74,19 +78,23 @@ export function LoginForm({ notice }: { notice?: string }) {
     setBusy(true);
     const supabase = createClient();
 
-    // Only allowlisted leaders may create an account, so a stranger cannot
-    // register against the book at all.
-    const { data: allowed, error: checkError } = await supabase.rpc('admin_email_exists', {
+    // The setup code opens a few minutes for this address to make its account.
+    // The database refuses any account made without one (guard_new_user), so
+    // skipping this step gets a stranger nowhere.
+    const { data: opened, error: checkError } = await supabase.rpc('open_admin_setup', {
       p_email: email.trim(),
+      p_code: code.trim(),
     });
 
     if (checkError) {
-      setError('Could not check that address just now.');
+      setError('Could not check that setup code just now.');
       setBusy(false);
       return;
     }
-    if (!allowed) {
-      setError('That address is not on the admin list. Ask an existing admin to add it first.');
+    if (!opened) {
+      setError(
+        'That address and setup code do not match. Ask the admin who added you for the code.',
+      );
       setBusy(false);
       return;
     }
@@ -177,7 +185,7 @@ export function LoginForm({ notice }: { notice?: string }) {
 
       {mode === 'setup' ? (
         <p className="form-ok">
-          Setting a password for the first time. Your address must already be on the admin list.
+          Setting a password for the first time. Use the setup code from the admin who added you.
         </p>
       ) : null}
 
@@ -209,6 +217,21 @@ export function LoginForm({ notice }: { notice?: string }) {
           {mode === 'setup' ? (
             <span className="hint">At least {MIN_PASSWORD} characters.</span>
           ) : null}
+        </label>
+      ) : null}
+
+      {mode === 'setup' ? (
+        <label className="field">
+          <span className="field-label">Setup code</span>
+          <input
+            className="input"
+            required
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            autoComplete="one-time-code"
+            autoCapitalize="none"
+            spellCheck={false}
+          />
         </label>
       ) : null}
 

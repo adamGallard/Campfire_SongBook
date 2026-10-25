@@ -138,12 +138,14 @@ export default async function ReviewSubmissionPage({
                 Open the published item
               </Link>
             ) : null}
-            <form action={reopenSubmission}>
-              <input type="hidden" name="id" value={submission.id} />
-              <button className="small-btn" type="submit">
-                Move back to waiting
-              </button>
-            </form>
+            {submission.status === 'rejected' ? (
+              <form action={reopenSubmission}>
+                <input type="hidden" name="id" value={submission.id} />
+                <button className="small-btn" type="submit">
+                  Move back to waiting
+                </button>
+              </form>
+            ) : null}
             <Link href="/admin/submissions" className="linklike">
               Back to submissions
             </Link>

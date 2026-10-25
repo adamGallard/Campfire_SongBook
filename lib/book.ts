@@ -18,7 +18,11 @@ export interface BookData {
 export async function loadBook(): Promise<BookData | null> {
   const supabase = createPublicClient();
 
-  const [{ data: itemRows, error }, { data: kindRows }, { data: tagRows }] = await Promise.all([
+  const [
+    { data: itemRows, error: itemsError },
+    { data: kindRows, error: kindsError },
+    { data: tagRows, error: tagsError },
+  ] = await Promise.all([
     supabase
       .from('items')
       .select('id, slug, title, kind, tag, category_label, tune, blocks, watch_url, age, group_sizes, sort_order, published, created_at, updated_at')
@@ -32,10 +36,13 @@ export async function loadBook(): Promise<BookData | null> {
     supabase.from('tags').select('kind, slug, label, sort_order').order('sort_order'),
   ]);
 
+  // Any of the three failing counts: without kinds every item would be
+  // filtered out, and an empty book looks like a real one.
+  const error = itemsError ?? kindsError ?? tagsError;
   if (error) {
     // Log it: without this the page degrades silently and a misconfigured
     // deploy looks identical to an empty book.
-    console.error('[songbook] could not load items', {
+    console.error('[songbook] could not load the book', {
       message: error.message,
       code: error.code,
       details: error.details,

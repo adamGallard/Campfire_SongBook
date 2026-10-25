@@ -1,5 +1,4 @@
 import { Book } from '@/components/Book';
-import { Hero, Footer } from '@/components/SiteChrome';
 import { loadBook } from '@/lib/book';
 
 // Content changes rarely; revalidate so an admin edit appears without a deploy.
@@ -8,17 +7,10 @@ export const revalidate = 60;
 export default async function HomePage() {
   const book = await loadBook();
 
-  if (!book) {
-    return (
-      <>
-        <Hero title="Not just now" lede="The book could not be loaded just now." />
-        <main className="wrap list">
-          <p className="empty">Something went wrong reaching the book. Please try again in a moment.</p>
-        </main>
-        <Footer />
-      </>
-    );
-  }
+  // Throw rather than render an error page: a failed regeneration then keeps
+  // serving the last good book, and the error is not a 200 that the service
+  // worker would save over the offline copy.
+  if (!book) throw new Error('The book could not be loaded.');
 
   return <Book items={book.items} kinds={book.kinds} tags={book.tags} />;
 }
