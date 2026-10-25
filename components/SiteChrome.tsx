@@ -2,11 +2,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { ReadingToggles } from './ReadingPrefs';
-import { BOOK, allBrands, appName, brand } from '@/lib/brand';
+import { BOOK, appName, brand, footerBrands } from '@/lib/brand';
 import campfireIcon from '@/public/icons/campfire/icon-192.png';
 import pioneeringIcon from '@/public/icons/pioneering/icon-192.png';
 import bushcraftIcon from '@/public/icons/bushcraft/icon-192.png';
 import gamesIcon from '@/public/icons/games/icon-192.png';
+import oasIcon from '@/public/icons/oas/icon-192.png';
 import scoutbaseMark from '@/public/scout-mark.png';
 
 const ICONS = {
@@ -14,6 +15,7 @@ const ICONS = {
   pioneering: pioneeringIcon,
   bushcraft: bushcraftIcon,
   games: gamesIcon,
+  oas: oasIcon,
 };
 const icon = ICONS[BOOK];
 
@@ -42,16 +44,16 @@ export function FootBrand() {
 }
 
 /**
- * Every ScoutBase handbook, each under its own icon, with this one marked,
- * then a link to ScoutBase itself for anyone curious about the other tools.
- * The ScoutBase description is its own, from www.scoutbase.app.
+ * Every launched ScoutBase handbook, each under its own icon, with this one
+ * marked, then a link to ScoutBase itself for anyone curious about the other
+ * tools. The ScoutBase description is its own, from www.scoutbase.app.
  */
 export function Handbooks() {
   return (
     <nav className="sb-books" aria-label="ScoutBase handbooks">
       <p className="sb-more-title">The ScoutBase handbooks</p>
       <ul>
-        {allBrands.map((b) => {
+        {footerBrands.map((b) => {
           const inner = (
             <>
               <Image src={ICONS[b.slug]} alt="" width={34} height={34} className="brand-icon" />
@@ -133,12 +135,15 @@ export function Footer() {
           fullest.
         </p>
         <Handbooks />
-        <p className="footlinks">
-          <Link href="/">The book</Link>
-          <Link href="/plan">{brand.plan.label}</Link>
-          <Link href="/submit">Send one in</Link>
-          <Link href="/admin">Admin</Link>
-        </p>
+        {/* The OAS book reads Scouts Australia's templates: no planner, submissions or admin. */}
+        {brand.source === 'database' ? (
+          <p className="footlinks">
+            <Link href="/">The book</Link>
+            <Link href="/plan">{brand.plan.label}</Link>
+            <Link href="/submit">Send one in</Link>
+            <Link href="/admin">Admin</Link>
+          </p>
+        ) : null}
         <p className="footmeta">{appName}</p>
       </div>
     </footer>

@@ -1,7 +1,13 @@
 // Which book this deploy is; see lib/brand.ts.
-const book = ['pioneering', 'bushcraft', 'games'].includes(process.env.NEXT_PUBLIC_BOOK)
+const book = ['pioneering', 'bushcraft', 'games', 'oas'].includes(process.env.NEXT_PUBLIC_BOOK)
   ? process.env.NEXT_PUBLIC_BOOK
   : 'campfire';
+
+/**
+ * The OAS book reads Scouts Australia's templates rather than the database, so
+ * it has no planner, submission form or admin. Their addresses go to the book.
+ */
+const notInOas = ['/plan', '/export', '/submit', '/admin', '/admin/:path*', '/auth/:path*', '/api/:path*'];
 
 /**
  * Each book's icons and offline notice live in their own folder, but every
@@ -33,6 +39,9 @@ const nextConfig = {
   // URL, so the link lands on the home page, which ignores it. Send those on to
   // the callback (the query passes through) instead of silently dropping them.
   async redirects() {
+    if (book === 'oas') {
+      return notInOas.map((source) => ({ source, destination: '/', permanent: false }));
+    }
     return [
       ...['code', 'error_description'].map((key) => ({
         source: '/',
