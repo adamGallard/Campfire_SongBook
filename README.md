@@ -473,18 +473,21 @@ switched on from another book's site appears there within a minute.
 
 **Adding an admin**: sign in as an admin for every book, open **All books**,
 and add their address with the books they look after (or All books). Change
-their books later with **Change books**. They then use **First time here?** on
-the sign-in page to choose their own password — that flow refuses any address
-not already on the allowlist, so strangers cannot register. You cannot remove
-yourself or change your own books.
+their books later with **Change books**. Adding them shows a one-time **setup
+code**: send it to them yourself. They then use **First time here?** on the
+sign-in page, with that code, to choose their own password. The database
+refuses to create any account without a code just presented for that address
+(`guard_new_user`), so nobody else can claim the address first. The code is
+shown once; if it is lost, remove and re-add them. You cannot remove yourself
+or change your own books.
 
 **Changing your password**: **Account** in the admin bar. Uses the active
 session, so it sends no email and works even with the mail quota exhausted.
 
 **Forgot password** does send an email, so it is subject to that quota. For
 this to work without email at all, turn **Confirm email** off in
-*Supabase → Authentication → Providers → Email*: the allowlist, not email
-ownership, is what gates access here.
+*Supabase → Authentication → Providers → Email*: the allowlist and the setup
+code, not email ownership, are what gate access here.
 
 Worth enabling now that passwords are in play: **leaked password protection**
 in *Supabase → Authentication → Policies*, which checks new passwords against

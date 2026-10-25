@@ -54,7 +54,11 @@ self.addEventListener('install', (event) => {
       const assets = await caches.open(ASSETS);
       // One missing file must not stop the rest being saved.
       await Promise.allSettled(EXTRAS.map((path) => assets.add(path)));
-      await Promise.allSettled(SAVED.map((path) => savePage(path)));
+      // But the pages must all save, with everything they need: activate then
+      // deletes the previous caches, so a half-saved install would leave a
+      // phone with no working offline copy. Failing here keeps the old worker,
+      // and the browser tries again on a later visit.
+      await Promise.all(SAVED.map((path) => savePage(path)));
       await self.skipWaiting();
     })(),
   );
@@ -140,16 +144,19 @@ function isSaveable(response) {
   return response.ok && response.type === 'basic' && !response.redirected;
 }
 
-/** Save a page and everything it needs to work. */
+/**
+ * Save a page and everything it needs to work. The files go in first and the
+ * page only once they are all there: saved the other way round, a download cut
+ * short leaves a page that loads offline without its scripts, and the working
+ * copy it replaced is gone. Throws when the page could not be saved whole.
+ */
 async function savePage(path, response) {
   const res = response ?? (await fetch(path, { cache: 'no-cache' }));
-  if (!isSaveable(res)) return;
+  if (!isSaveable(res)) throw new Error(`Could not fetch ${path}`);
 
   const html = await res.clone().text();
-  await (await caches.open(PAGES)).put(path, res);
-
   const needed = assetsIn(html);
-  await saveAssets(needed);
+  if (!(await saveAssets(needed))) throw new Error(`Could not save what ${path} needs`);
 
   // Stylesheets pull in the web fonts, which the HTML itself never names.
   const assets = await caches.open(ASSETS);
@@ -161,7 +168,13 @@ async function savePage(path, response) {
   }
   await saveAssets(fonts);
 
-  await pruneAssets();
+  const pages = await caches.open(PAGES);
+  const before = await pages.match(path);
+  const changed = !before || (await before.text()) !== html;
+  await pages.put(path, res);
+
+  // Only a changed page can have stopped needing something.
+  if (changed) await pruneAssets();
 }
 
 /** Every build file and optimised image a page or stylesheet refers to. */
@@ -178,31 +191,58 @@ function assetsIn(text) {
   return found;
 }
 
+/**
+ * What a script or stylesheet loads in turn, which the page never names: the
+ * chunks a script loads on demand (the PDF code, from the planner) and the
+ * fonts a stylesheet points at. Both are written relative, not as /_next/...
+ */
+function filesLoadedBy(path, text) {
+  const found = assetsIn(text);
+  for (const m of text.matchAll(/["'](static\/(?:chunks|css|media)\/[\w\-.~%/]+\.(?:js|css|woff2?))["']/g)) {
+    found.add(`/_next/${m[1]}`);
+  }
+  for (const m of text.matchAll(/url\(\s*["']?(\.{1,2}\/[^"')\s]+)["']?\s*\)/g)) {
+    found.add(new URL(m[1], self.location.origin + path).pathname);
+  }
+  return found;
+}
+
+/** Save each file not saved already; true when every one of them is saved. */
 async function saveAssets(urls) {
   const assets = await caches.open(ASSETS);
-  await Promise.allSettled(
+  const results = await Promise.allSettled(
     [...urls].map(async (u) => {
-      if (await assets.match(u, { ignoreVary: true })) return;
+      if (await assets.match(u, { ignoreVary: true })) return true;
       const res = await fetch(u);
-      if (isSaveable(res)) await assets.put(u, res);
+      if (!isSaveable(res)) return false;
+      await assets.put(u, res);
+      return true;
     }),
   );
+  return results.every((r) => r.status === 'fulfilled' && r.value);
 }
 
 /**
  * Each deploy brings new hashed files, so old ones would pile up. Clear any
- * no saved page still refers to, once they are old enough that nothing open
- * could still want them.
+ * no saved page still needs, once they are old enough that nothing open could
+ * still want them. "Needs" follows the files the pages load in turn, so the
+ * PDF code and the fonts are kept for as long as the pages that load them.
  */
 async function pruneAssets() {
   const pages = await caches.open(PAGES);
+  const assets = await caches.open(ASSETS);
   const referenced = new Set();
   for (const req of await pages.keys()) {
     const res = await pages.match(req);
     if (res) assetsIn(await res.text()).forEach((u) => referenced.add(u));
   }
+  // A Set visits what is added while iterating, so this follows every level.
+  for (const u of referenced) {
+    if (!/\.(?:js|css)$/.test(u)) continue;
+    const hit = await assets.match(u, { ignoreVary: true });
+    if (hit) filesLoadedBy(u, await hit.text()).forEach((f) => referenced.add(f));
+  }
 
-  const assets = await caches.open(ASSETS);
   const now = Date.now();
   for (const req of await assets.keys()) {
     const { pathname, search } = new URL(req.url);

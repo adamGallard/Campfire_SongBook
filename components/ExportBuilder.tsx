@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState, type DragEvent } from 'react';
-import { blocksToPlainText, slugify } from '@/lib/blocks';
-import { appName, brand } from '@/lib/brand';
+import { blocksToPlainText, foldForSearch, slugify } from '@/lib/blocks';
+import { BOOK, appName, brand } from '@/lib/brand';
 import {
   type ExtraFilters,
   FilterPanel,
@@ -183,14 +183,17 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
   }
 
   /**
-   * Applying a filter takes any ticked game it hides out of the pick, so the
-   * running order only ever holds games that match. Clearing a filter ticks
-   * nothing back: it only widens what is showing.
+   * In the Games book, applying a filter takes any ticked game it hides out of
+   * the pick, so the running order only ever holds games that match. Clearing
+   * a filter ticks nothing back: it only widens what is showing. In the other
+   * books a filter only narrows what is showing: their chips come from tags
+   * that happen to share a label (Campfire's Quiet), not from where a plan is
+   * meant to be played.
    */
   function changeFilters(nextWhere: string, nextExtra: ExtraFilters) {
     setWhere(nextWhere);
     setExtra(nextExtra);
-    if (nextWhere === 'all' && activeCount(nextExtra) === 0) {
+    if (BOOK !== 'games' || (nextWhere === 'all' && activeCount(nextExtra) === 0)) {
       setFilterNote('');
       return;
     }
@@ -238,7 +241,7 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
       new Map(
         items.map((i) => [
           i.id,
-          `${i.title} ${i.category_label ?? ''} ${i.tune ?? ''} ${blocksToPlainText(i.blocks)}`.toLowerCase(),
+          foldForSearch(`${i.title} ${i.category_label ?? ''} ${i.tune ?? ''} ${blocksToPlainText(i.blocks)}`),
         ]),
       ),
     [items],
@@ -262,7 +265,7 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
   const filtering = where !== 'all' || activeCount(extra) > 0;
 
   const sections = useMemo(() => {
-    const q = query.trim().toLowerCase();
+    const q = foldForSearch(query.trim());
     return kinds.map((kind) => {
       const all = items.filter((i) => i.kind === kind.slug);
       const visible = all.filter(

@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState, useMemo, useState } from 'react';
+import { startTransition, useActionState, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { Blocks } from './Blocks';
 import { SubmitButton } from './ConfirmButton';
@@ -102,7 +102,7 @@ export function ItemForm({
   submitLabel?: string;
   extra?: React.ReactNode;
 }) {
-  const [state, formAction] = useActionState<ItemFormResult, FormData>(action, {});
+  const [state, formAction, pending] = useActionState<ItemFormResult, FormData>(action, {});
 
   const start = initial ?? {
     title: item?.title ?? '',
@@ -128,7 +128,17 @@ export function ItemForm({
   const words = WORDING[kind] ?? WORDING.song;
 
   return (
-    <form className="card form" action={formAction}>
+    <form
+      className="card form"
+      // Submitted by hand rather than through action=: React resets a form after
+      // every action, even one that returns an error, which would throw away the
+      // edits the error is about.
+      onSubmit={(event) => {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+        startTransition(() => formAction(data));
+      }}
+    >
       {item ? <input type="hidden" name="id" value={item.id} /> : null}
       {submissionId ? <input type="hidden" name="id" value={submissionId} /> : null}
 
@@ -325,7 +335,7 @@ export function ItemForm({
       </div>
 
       <div className="form-actions">
-        <SubmitButton>{submitLabel}</SubmitButton>
+        <SubmitButton pending={pending}>{submitLabel}</SubmitButton>
         <Link
           href={submissionId ? '/admin/submissions' : `/admin/items?kind=${start.kind}`}
           className="linklike"

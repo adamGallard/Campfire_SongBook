@@ -14,6 +14,8 @@ export const metadata: Metadata = {
 
 export default async function PlanPage() {
   const book = await loadBook();
+  // As on the book page: keep the last good planner rather than cache an error.
+  if (!book) throw new Error('The book could not be loaded.');
 
   return (
     <>
@@ -27,11 +29,7 @@ export default async function PlanPage() {
         }
       />
       <main className="wrap list export-page">
-        {book ? (
-          <ExportBuilder items={book.items} kinds={book.kinds} tags={book.tags} />
-        ) : (
-          <p className="empty">Something went wrong reaching the book. Please try again in a moment.</p>
-        )}
+        <ExportBuilder items={book.items} kinds={book.kinds} tags={book.tags} />
       </main>
       <Footer />
     </>

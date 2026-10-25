@@ -31,17 +31,24 @@ export function ConfirmButton({
   );
 }
 
-/** Plain submit button that disables itself while the action runs. */
+/**
+ * Plain submit button that disables itself while the action runs. A form that
+ * submits through onSubmit rather than action= passes `pending` itself, since
+ * useFormStatus only sees form actions.
+ */
 export function SubmitButton({
   children,
   className = 'primary-btn',
   pendingLabel = 'Saving…',
+  pending: pendingProp,
 }: {
   children: React.ReactNode;
   className?: string;
   pendingLabel?: string;
+  pending?: boolean;
 }) {
-  const { pending } = useFormStatus();
+  const status = useFormStatus();
+  const pending = pendingProp ?? status.pending;
 
   return (
     <button type="submit" className={className} disabled={pending}>

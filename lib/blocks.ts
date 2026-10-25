@@ -283,6 +283,20 @@ export function inlineRuns(text: string): InlineRun[] {
   return runs;
 }
 
+/**
+ * Text folded for search: lowercase, accents dropped, curly quotes made
+ * straight. So "frere jacques" finds Frère Jacques, and an iPhone's ’ matches
+ * the content's '.
+ */
+export function foldForSearch(text: string): string {
+  return text
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[\u2018\u2019]/g, "'")
+    .replace(/[\u201c\u201d]/g, '"')
+    .toLowerCase();
+}
+
 /** Plain text of an item, used for search. */
 export function blocksToPlainText(blocks: Block[]): string {
   return blocks
