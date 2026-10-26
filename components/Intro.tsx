@@ -62,6 +62,15 @@ export function Intro() {
             <strong>No signal at camp?</strong> Once you have opened the book on your phone it keeps
             working without a connection. Add it to your home screen to find it easily.
           </li>
+          {brand.slug === 'pioneering' ? (
+            <li>
+              <strong>Watch it tied</strong>: each knot and lashing links to its animation on{' '}
+              <a href="https://www.animatedknots.com/" target="_blank" rel="noopener noreferrer">
+                Animated Knots
+              </a>
+              , with thanks to them for letting us. Their site is online only.
+            </li>
+          ) : null}
           <li>
             <strong>{brand.plan.label}</strong>: {brand.intro.plan}
           </li>
