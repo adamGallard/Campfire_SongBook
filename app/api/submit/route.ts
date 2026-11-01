@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { createHash } from 'node:crypto';
 import { createClient } from '@supabase/supabase-js';
 import { BOOK } from '@/lib/brand';
+import { clientIpHash } from '@/lib/ip-hash';
 
 const LIMITS = {
   title: 120,
@@ -15,18 +15,6 @@ const LIMITS = {
 
 function str(value: unknown, max: number): string {
   return typeof value === 'string' ? value.trim().slice(0, max) : '';
-}
-
-/**
- * Salted hash of the caller's IP: enough to rate-limit, not an address on file.
- * The limit itself is enforced inside submit_song, so it holds even if someone
- * calls the database directly.
- */
-function clientIpHash(request: Request): string {
-  const fwd = request.headers.get('x-forwarded-for') ?? '';
-  const ip = fwd.split(',')[0].trim() || request.headers.get('x-real-ip') || 'unknown';
-  const salt = process.env.SUBMISSION_SALT ?? 'campfire';
-  return createHash('sha256').update(`${salt}:${ip}`).digest('hex');
 }
 
 export async function POST(request: Request) {

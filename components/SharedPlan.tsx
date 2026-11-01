@@ -8,20 +8,31 @@ import { WatchLink } from './Book';
 import { Footer, Hero } from './SiteChrome';
 import { brand } from '@/lib/brand';
 import { diagramsFor } from '@/lib/diagrams';
-import { readPlan } from '@/lib/share';
+import { readPlan, type SharedPlan as Plan } from '@/lib/share';
 import type { Item, Kind, Tag } from '@/lib/types';
 
 const capitalise = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
+interface Book {
+  items: Item[];
+  kinds: Kind[];
+  tags: Tag[];
+}
+
+/**
+ * A plan held in the address (lib/share.ts), the long link the planner falls
+ * back to. It is the same static page for every such link, so it works from the
+ * saved copy with no signal.
+ */
+export function SharedPlan(book: Book) {
+  return <SharedPlanView {...book} plan={readPlan(useSearchParams())} />;
+}
+
 /**
  * A plan someone shared, read-only: the pages in the order they were put in,
- * as they are in the book today. The plan lives in the address (lib/share.ts),
- * so this page is the same static page for every link and works from the saved
- * copy with no signal.
+ * as they are in the book today.
  */
-export function SharedPlan({ items, kinds, tags }: { items: Item[]; kinds: Kind[]; tags: Tag[] }) {
-  const plan = readPlan(useSearchParams());
-
+export function SharedPlanView({ items, kinds, tags, plan }: Book & { plan: Plan }) {
   const bySlug = useMemo(() => {
     const showing = new Set(kinds.map((k) => k.slug));
     return new Map(items.filter((i) => showing.has(i.kind)).map((i) => [i.slug, i]));

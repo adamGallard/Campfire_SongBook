@@ -16,7 +16,7 @@
  * Bump VERSION when this file's behaviour changes, or when a file in EXTRAS
  * changes under the same name (as the icons did); the old caches are cleared.
  */
-const VERSION = 'v5';
+const VERSION = 'v6';
 const PAGES = `campfire-pages-${VERSION}`;
 const ASSETS = `campfire-assets-${VERSION}`;
 
@@ -25,6 +25,12 @@ const ASSETS = `campfire-assets-${VERSION}`;
  * (the plan is in the address), so a link opens from this copy with no signal.
  */
 const SAVED = ['/', '/plan', '/plan/view'];
+
+/**
+ * A plan stored under a five-letter code (/p/KDRTM). Each is its own small
+ * page, saved the first time a phone opens it, so it opens again with no signal.
+ */
+const SHARED = /^\/p\/[A-Za-z]{5}$/;
 
 /** Old addresses, sent on to their new page even with no signal. */
 const MOVED = { '/export': '/plan' };
@@ -88,7 +94,7 @@ self.addEventListener('fetch', (event) => {
   if (url.origin !== self.location.origin) return;
 
   if (request.mode === 'navigate') {
-    if (SAVED.includes(url.pathname)) event.respondWith(savedPage(event, url));
+    if (SAVED.includes(url.pathname) || SHARED.test(url.pathname)) event.respondWith(savedPage(event, url));
     else if (MOVED[url.pathname]) {
       event.respondWith(fetch(request).catch(() => Response.redirect(MOVED[url.pathname], 302)));
     }

@@ -15,7 +15,7 @@ import {
 } from './FilterChips';
 import { countParts, inBookOrder, sectionsTogether } from '@/lib/kinds';
 import { qrSvg } from '@/lib/qr';
-import { planPath } from '@/lib/share';
+import { codePath, planPath, readCode } from '@/lib/share';
 import { type PlanLink, ShareDialog } from './ShareDialog';
 // Type-only: the PDF code itself is loaded on demand, so the page stays light.
 import type { PdfFormat } from '@/lib/pdf/book-document';
@@ -108,9 +108,10 @@ function Fold({
 
 /**
  * Pick items, put them in order and download them as a PDF, or share them as
- * a link and QR code. The PDF is laid out in the browser, so there is no server
- * endpoint doing heavy work on behalf of anyone who asks. A link holds the plan
- * in its own address (lib/share.ts), so nothing is stored anywhere either.
+ * a short link and QR code. The PDF is laid out in the browser, so there is no
+ * server endpoint doing heavy work on behalf of anyone who asks. A link stores
+ * the plan under a five-letter code, or holds it in its own address if it
+ * cannot (lib/share.ts).
  */
 export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Kind[]; tags: Tag[] }) {
   const [choices, setChoices] = useState<Choices>(DEFAULTS);
@@ -383,13 +384,34 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
     if (chosen.length === 0) return;
     setError(null);
 
-    const title = choices.title.trim() || defaultTitle;
-    const url =
-      window.location.origin +
-      planPath({ title, group: choices.group, slugs: chosen.map((i) => i.slug) });
+    const plan = {
+      title: choices.title.trim() || defaultTitle,
+      group: choices.group,
+      slugs: chosen.map((i) => i.slug),
+    };
+
+    // A short code if the plan can be stored. If it cannot (offline, over the
+    // rate limit, or the database not set up for it yet), the plan goes in the
+    // address instead: a longer link, but it always works.
+    let path = planPath(plan);
+    try {
+      const res = await fetch('/api/share', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(plan),
+        signal: AbortSignal.timeout(8000),
+      });
+      const body: unknown = res.ok ? await res.json() : null;
+      const code = readCode((body as { code?: unknown } | null)?.code?.toString() ?? '');
+      if (code) path = codePath(code);
+    } catch {
+      /* the long link it is */
+    }
+
+    const url = window.location.origin + path;
     // Too long for a QR code is not a failure: the link still works.
     const qr = await qrSvg(url).catch(() => null);
-    setLink({ url, title, count: chosen.length, qr });
+    setLink({ url, title: plan.title, count: plan.slugs.length, qr });
   }
 
   async function download() {

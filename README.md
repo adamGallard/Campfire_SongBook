@@ -52,8 +52,9 @@ in one page load, so switching section needs no signal.
 - **Plan a campfire** — `/plan` (tick any mix of songs, skits, yarns and cheers,
   put them in a running order, print A4 pages or an A5 booklet; each section,
   and the print options, fold away. `/export`, its old address, redirects here)
-- **A shared plan** — `/plan/view?…` (what a plan's **Create link** opens: the
-  chosen pages in order, read-only, on any phone)
+- **A shared plan** — `/p/KDRTM` (what a plan's **Create link** opens: the
+  chosen pages in order, read-only, on any phone; `/plan/view?…` is the long
+  fallback)
 - **Send one in** — `/submit?kind=song|skit|yarn|applause`
 - **Admin** — `/admin` (sign in with email and password)
 
@@ -396,20 +397,34 @@ a booklet, a back cover. The PDF uses the same inline markup parser as the page
 (`inlineRuns` in `lib/blocks.ts`).
 
 **Sharing a plan.** Beside **Download PDF**, **Create link** opens a dialog with
-a link and a QR code (which can be saved as a PNG) for the plan on screen, so a
-leader can put the programme on a slide or a poster and everyone scans it. The
-plan is not stored anywhere: the address holds the title, group and the item
-slugs in running order (`/plan/view?t=Friday+fire&i=campfires-burning.aussie-cheer`),
-so there is no table, no sign-in and nothing for anyone to abuse. `lib/share.ts`
-writes and reads it, trusting none of it (only slug-shaped words and short text
-survive), and `/plan/view` is one static page for every link that reads the plan
-in the browser and looks each slug up in the book as it is now. A page removed
-from the book since is left out with a note, and an edited one shows its new
-words. The QR generator (`qrcode-generator`, `lib/qr.ts`) is loaded only when
-someone presses the button. Around 15 items gives a code of about 85 modules
-across, easy to scan off a screen; at 30 it is 113 and wants a big, sharp display
-or print; beyond what a QR code can hold, the dialog gives the link alone.
-Printing the plan as a PDF is unchanged and does not include the link.
+a short link and a QR code (which can be saved as a PNG) for the plan on screen,
+so a leader can put the programme on a slide or a poster and everyone scans it.
+The plan is stored under a five-letter code and opens at `/p/KDRTM`. Codes are
+consonants only, so one can never spell a word and none is easily misread.
+
+Plans live in `shared_plans` (RLS on, no policy: the public cannot read or write
+it directly). `/api/share` calls `create_shared_plan`, which checks the plan,
+keeps only published items in this book, rate-limits (20 an hour per source, 200
+across everyone, as `submit_song` does) and returns a free code. `/p/[code]`
+calls `get_shared_plan` and sends the phone only that plan's pages, read from the
+book as it is now, so an edit shows up for everyone with the link and a page
+removed since is left out with a note. Nothing stored is anything the book does
+not already show, apart from the title and group a leader typed. Apply
+`supabase/migrations/20261101_add_shared_plans.sql` to the shared database; it
+can be applied before or after deploying the code.
+
+If a plan cannot be stored (offline, over the rate limit, or the migration not
+applied yet), the planner falls back to the long link instead: the plan held in
+the address of `/plan/view?t=Friday+fire&i=campfires-burning.aussie-cheer`
+(`lib/share.ts`), which stores nothing and always works. That page is also what
+keeps links made before the codes working. The service worker saves each `/p/`
+page the first time a phone opens it, so it opens again with no signal.
+
+The QR generator (`qrcode-generator`, `lib/qr.ts`) is loaded only when someone
+presses the button. A short link makes a small code (about 29 modules across),
+easy to scan from a slide or a printout. Printing the plan as a PDF is
+unchanged and does not include the link. Stored plans are not cleared out; add
+a scheduled delete of old rows if the table ever grows.
 
 **Running order.** Ticked items start in book order. Moving one (arrow
 buttons, or dragging with a mouse) switches the export to the leader's own
