@@ -16,12 +16,15 @@
  * Bump VERSION when this file's behaviour changes, or when a file in EXTRAS
  * changes under the same name (as the icons did); the old caches are cleared.
  */
-const VERSION = 'v4';
+const VERSION = 'v5';
 const PAGES = `campfire-pages-${VERSION}`;
 const ASSETS = `campfire-assets-${VERSION}`;
 
-/** Pages saved for reading offline. */
-const SAVED = ['/', '/plan'];
+/**
+ * Pages saved for reading offline. /plan/view is one page for every shared plan
+ * (the plan is in the address), so a link opens from this copy with no signal.
+ */
+const SAVED = ['/', '/plan', '/plan/view'];
 
 /** Old addresses, sent on to their new page even with no signal. */
 const MOVED = { '/export': '/plan' };

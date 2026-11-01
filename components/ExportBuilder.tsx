@@ -14,6 +14,9 @@ import {
   matchesFilters,
 } from './FilterChips';
 import { countParts, inBookOrder, sectionsTogether } from '@/lib/kinds';
+import { qrSvg } from '@/lib/qr';
+import { planPath } from '@/lib/share';
+import { type PlanLink, ShareDialog } from './ShareDialog';
 // Type-only: the PDF code itself is loaded on demand, so the page stays light.
 import type { PdfFormat } from '@/lib/pdf/book-document';
 import type { Item, Kind, Tag } from '@/lib/types';
@@ -104,9 +107,10 @@ function Fold({
 }
 
 /**
- * Pick items, put them in order and download them as a PDF. The PDF is laid
- * out in the browser, so there is no server endpoint doing heavy work on
- * behalf of anyone who asks, and the selection never leaves the device.
+ * Pick items, put them in order and download them as a PDF, or share them as
+ * a link and QR code. The PDF is laid out in the browser, so there is no server
+ * endpoint doing heavy work on behalf of anyone who asks. A link holds the plan
+ * in its own address (lib/share.ts), so nothing is stored anywhere either.
  */
 export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Kind[]; tags: Tag[] }) {
   const [choices, setChoices] = useState<Choices>(DEFAULTS);
@@ -116,6 +120,8 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
   const [moreOpen, setMoreOpen] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  /** The link just made, shown in a dialog until it is closed. */
+  const [link, setLink] = useState<PlanLink | null>(null);
   const [announcement, setAnnouncement] = useState('');
   const [filterNote, setFilterNote] = useState('');
   const [folded, setFolded] = useState<Set<string>>(() => new Set());
@@ -371,6 +377,19 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
     return sectionsTogether(chosen)
       ? 'In your own order. Anything else you tick goes on the end.'
       : `In your own order. Anything else you tick goes on the end. With sections mixed, each one prints marked as a ${either(chosenKinds.map((k) => k.singular))} instead of under a heading.`;
+  }
+
+  async function createLink() {
+    if (chosen.length === 0) return;
+    setError(null);
+
+    const title = choices.title.trim() || defaultTitle;
+    const url =
+      window.location.origin +
+      planPath({ title, group: choices.group, slugs: chosen.map((i) => i.slug) });
+    // Too long for a QR code is not a failure: the link still works.
+    const qr = await qrSvg(url).catch(() => null);
+    setLink({ url, title, count: chosen.length, qr });
   }
 
   async function download() {
@@ -790,16 +809,28 @@ export function ExportBuilder({ items, kinds, tags }: { items: Item[]; kinds: Ki
               Clear
             </button>
           ) : null}
-          <button
-            type="button"
-            className="primary-btn"
-            disabled={chosen.length === 0 || busy}
-            onClick={download}
-          >
-            {busy ? 'Making your PDF…' : 'Download PDF'}
-          </button>
+          <div className="export-actions">
+            <button
+              type="button"
+              className="secondary-btn"
+              disabled={chosen.length === 0}
+              onClick={createLink}
+            >
+              Create link
+            </button>
+            <button
+              type="button"
+              className="primary-btn"
+              disabled={chosen.length === 0 || busy}
+              onClick={download}
+            >
+              {busy ? 'Making your PDF…' : 'Download PDF'}
+            </button>
+          </div>
         </div>
       </div>
+
+      {link ? <ShareDialog link={link} onClose={() => setLink(null)} /> : null}
     </>
   );
 }

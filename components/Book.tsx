@@ -287,7 +287,7 @@ export function Book({
 }
 
 /** Opens the animation on the other site; online only, unlike the rest of the book. */
-function WatchLink({ href }: { href: string | null }) {
+export function WatchLink({ href }: { href: string | null }) {
   const link = watchLink(href);
   if (!link) return null;
   return (

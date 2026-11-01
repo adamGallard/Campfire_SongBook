@@ -52,6 +52,8 @@ in one page load, so switching section needs no signal.
 - **Plan a campfire** — `/plan` (tick any mix of songs, skits, yarns and cheers,
   put them in a running order, print A4 pages or an A5 booklet; each section,
   and the print options, fold away. `/export`, its old address, redirects here)
+- **A shared plan** — `/plan/view?…` (what a plan's **Create link** opens: the
+  chosen pages in order, read-only, on any phone)
 - **Send one in** — `/submit?kind=song|skit|yarn|applause`
 - **Admin** — `/admin` (sign in with email and password)
 
@@ -267,9 +269,12 @@ without a connection once it has been opened on a device.
 `components/OfflineSupport.tsx` in production builds only (development build
 files are not content-hashed, so a cache-first worker would serve stale code).
 
-- **The book (`/`) and the campfire planner (`/plan`)** are saved together with
+- **The book (`/`), the campfire planner (`/plan`) and the shared-plan page
+  (`/plan/view`)** are saved together with
   every script, stylesheet, web font and image they refer to, found by reading
-  the saved HTML and CSS. A saved page still searches, filters and switches
+  the saved HTML and CSS. A shared plan's address is not saved, only the page
+  itself, which reads the plan from whatever address opened it, so a link opens
+  with no signal once the planner has been visited. A saved page still searches, filters and switches
   section. With signal, pages come from the network and refresh the saved
   copy; if the network takes more than four seconds (one bar), the saved copy
   is shown and the fresh one saved when it arrives.
@@ -389,6 +394,22 @@ then for real, which also gives the contents page its page numbers.
 Items print numbered through, with a cover, a two-column contents page and, on
 a booklet, a back cover. The PDF uses the same inline markup parser as the page
 (`inlineRuns` in `lib/blocks.ts`).
+
+**Sharing a plan.** Beside **Download PDF**, **Create link** opens a dialog with
+a link and a QR code (which can be saved as a PNG) for the plan on screen, so a
+leader can put the programme on a slide or a poster and everyone scans it. The
+plan is not stored anywhere: the address holds the title, group and the item
+slugs in running order (`/plan/view?t=Friday+fire&i=campfires-burning.aussie-cheer`),
+so there is no table, no sign-in and nothing for anyone to abuse. `lib/share.ts`
+writes and reads it, trusting none of it (only slug-shaped words and short text
+survive), and `/plan/view` is one static page for every link that reads the plan
+in the browser and looks each slug up in the book as it is now. A page removed
+from the book since is left out with a note, and an edited one shows its new
+words. The QR generator (`qrcode-generator`, `lib/qr.ts`) is loaded only when
+someone presses the button. Around 15 items gives a code of about 85 modules
+across, easy to scan off a screen; at 30 it is 113 and wants a big, sharp display
+or print; beyond what a QR code can hold, the dialog gives the link alone.
+Printing the plan as a PDF is unchanged and does not include the link.
 
 **Running order.** Ticked items start in book order. Moving one (arrow
 buttons, or dragging with a mouse) switches the export to the leader's own
